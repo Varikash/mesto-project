@@ -1,0 +1,9 @@
+.places__cards-grid {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 282px);
+  gap: 17px;
+  justify-content: center;
+}

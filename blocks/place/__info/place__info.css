@@ -1,0 +1,11 @@
+.place__info {
+  box-sizing: border-box;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  column-gap: 20px;
+  align-items: center;
+  padding: 25px 21px 30px 21px;
+  max-height: 79px;
+  height: 100%;
+}

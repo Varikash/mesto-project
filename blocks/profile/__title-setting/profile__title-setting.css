@@ -1,0 +1,33 @@
+.profile__title-setting {
+  margin-top: 5px;
+  width: 24px;
+  height: 24px;
+  background-color: #000;
+  border: 1px solid #fff;
+  cursor: pointer;
+  background-image: url('../../../images/Vector.svg');
+  background-size: 10px 10px;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: .5s;
+}
+
+.profile__title-setting:hover {
+  opacity: .6;
+}
+
+@media screen and (max-width: 1023px) {
+  .profile__title-setting {
+    width: 21px;
+    height: 21px;
+    background-size: 8.5px 8.5px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .profile__title-setting {
+    width: 18px;
+    height: 18px;
+    background-size: 7.5px 7.5px;
+  }
+}

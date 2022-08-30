@@ -1,0 +1,11 @@
+.places {
+  box-sizing: border-box;
+  margin: 0 auto;
+  width: 68.75%;
+}
+
+@media screen and (max-width: 767px) {
+  .places {
+    width: 282px;
+  }
+}

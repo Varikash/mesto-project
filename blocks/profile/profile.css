@@ -1,0 +1,19 @@
+.profile {
+  box-sizing: border-box;
+  margin: 0 auto;
+  width: 68.75%;
+  padding-top: 40px;
+  padding-bottom: 50px;
+  display: flex;
+  column-gap: 29px;
+}
+
+@media screen and (max-width: 767px) {
+  .profile {
+    padding-top: 42px;
+    max-width: 282px;
+    min-height: 286px;
+    flex-direction: column;
+    row-gap: 26px;
+  }
+}

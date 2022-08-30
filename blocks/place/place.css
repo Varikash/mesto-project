@@ -1,0 +1,9 @@
+.place {
+  margin: 0;
+  box-sizing: border-box;
+  width: 282px;
+  height: 361px;
+  border-radius: 10px;
+  background-color: #fff;
+  overflow: hidden;
+}
