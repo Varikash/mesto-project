@@ -20,11 +20,11 @@
         <div class="profile__info">
           <div class="profile__header">
             <h1 class="profile__title">Жак-Ив Кусто</h1>
-            <button class="profile__title-setting" type="button"></button>
+            <button class="profile__title-setting" type="button" aria-label="настройки имени"></button>
           </div>
           <p class="profile__subtitle">Исследователь океана</p>
         </div>
-        <button class="profile__add-button" type="button"></button>
+        <button class="profile__add-button" type="button" aria-label="добавить фото"></button>
       </section>
       <section class="places">
         <ul class="places__cards-grid">
@@ -33,7 +33,7 @@
               <img src="./images/karachaesk.jpeg" alt="Карачаевск" class="place__image">
               <figcaption class="place__info">
                 <h2 class="place__title">Карачаевск</h2>
-                <button class="place__button" type="button"></button>
+                <button class="place__button" type="button" aria-label="лайк"></button>
               </figcaption>
             </figure>
           </li>
@@ -42,7 +42,7 @@
               <img src="./images/altai.jpeg" alt="Алтай" class="place__image">
               <figcaption class="place__info">
                 <h2 class="place__title">Алтай</h2>
-                <button class="place__button" type="button"></button>
+                <button class="place__button" type="button" aria-label="лайк"></button>
               </figcaption>
             </figure>
           </li>
@@ -51,7 +51,7 @@
               <img src="./images/dagestan.jpeg" alt="Дагестан" class="place__image">
               <figcaption class="place__info">
                 <h2 class="place__title">Чиркейская ГЭС</h2>
-                <button class="place__button" type="button"></button>
+                <button class="place__button" type="button" aria-label="лайк"></button>
               </figcaption>
             </figure>
           </li>
@@ -60,7 +60,7 @@
               <img src="./images/dombai.jpg" alt="Домбай" class="place__image">
               <figcaption class="place__info">
                 <h2 class="place__title">Домбай</h2>
-                <button class="place__button" type="button"></button>
+                <button class="place__button" type="button" aria-label="лайк"></button>
               </figcaption>
             </figure>
           </li>
@@ -69,7 +69,7 @@
               <img src="./images/elbrus.jpg" alt="Эльбрус" class="place__image">
               <figcaption class="place__info">
                 <h2 class="place__title">Эльбрус</h2>
-                <button class="place__button" type="button"></button>
+                <button class="place__button" type="button" aria-label="лайк"></button>
               </figcaption>
             </figure>
           </li>
@@ -78,7 +78,7 @@
               <img src="./images/kalmikia.jpeg" alt="Калмыкия" class="place__image">
               <figcaption class="place__info">
                 <h2 class="place__title">Элиста, Калмыкия</h2>
-                <button class="place__button" type="button"></button>
+                <button class="place__button" type="button" aria-label="лайк"></button>
               </figcaption>
             </figure>
           </li>
@@ -89,12 +89,12 @@
       <p class="footer__info">&copy; 2020 Mesto Russia</p>
     </footer>
   </div>
-  <form action="#" class="popup popup_opene">
+  <form action="#" class="popup popup_opene" name="profile">
     <div class="popup__container">
       <button class="popup__close-button"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <input type="text" class="popup__input" value="Жак-Ив Кусто">
-      <input type="text" class="popup__input" value="Исследователь океана">
+      <input type="text" class="popup__input" value="Жак-Ив Кусто" name="profile-name">
+      <input type="text" class="popup__input" value="Исследователь океана" name="profile-title">
       <button type="submit" class="popup__button">Сохранить</button>
     </div>
   </form>
