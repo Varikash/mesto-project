@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +10,7 @@
   <title>Место</title>
   <link rel="stylesheet" href="./pages/index.css">
 </head>
+
 <body class="root">
   <div class="page">
     <header class="header">
@@ -89,17 +91,29 @@
       <p class="footer__info">&copy; 2020 Mesto Russia</p>
     </footer>
   </div>
-  <div class="popup">
+  <div class="popup" id="profile">
     <div class="popup__container">
-      <button class="popup__close-button" type="button"></button>
+      <button class="popup__close-button" type="button" id="closeBtn-1"></button>
       <form action="#" name="profile">
-      <h2 class="popup__title">Редактировать профиль</h2>
-      <input type="text" class="popup__input" value="Жак-Ив Кусто" name="profile-name">
-      <input type="text" class="popup__input" value="Исследователь океана" name="profile-title">
-      <button type="submit" class="popup__button">Сохранить</button>
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <input type="text" class="popup__input" value="Жак-Ив Кусто" name="profile-name">
+        <input type="text" class="popup__input" value="Исследователь океана" name="profile-title">
+        <button type="submit" class="popup__button">Сохранить</button>
+      </form>
+    </div>
+  </div>
+  <div class="popup" id="new-place">
+    <div class="popup__container">
+      <button class="popup__close-button" type="button" id="closeBtn-2"></button>
+      <form action="#" name="places">
+        <h2 class="popup__title">Новое место</h2>
+        <input type="text" class="popup__input" placeholder="Название" name="place-name">
+        <input type="text" class="popup__input" placeholder="Ссылка на картинку" name="place-link">
+        <button type="submit" class="popup__button">Создать</button>
       </form>
     </div>
   </div>
   <script src="./script.js"></script>
 </body>
+
 </html>
