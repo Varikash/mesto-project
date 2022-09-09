@@ -1,0 +1,4 @@
+.place__button_active {
+  background-image: url('../../../../images/place__button_active.svg');
+  opacity: 1;
+}

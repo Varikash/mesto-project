@@ -53,3 +53,15 @@ placeButton.addEventListener('click', function () {
 popupCloseButtonSecond.addEventListener('click', function () {
   popupPlaces.classList.remove('popup_opened');
 })
+
+/*---------------------------------------------------------------------------------------*/
+
+/* Функция лайк */
+
+const likeButtons = document.querySelectorAll('.place__button');
+
+likeButtons.forEach(likeButton => likeButton.addEventListener('click', function () {
+  this.classList.toggle('place__button_active');
+}))
+
+/*---------------------------------------------------------------------------------------*/

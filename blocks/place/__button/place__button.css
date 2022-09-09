@@ -6,17 +6,12 @@
   height: 19px;
   border: none;
   cursor: pointer;
-  background-color: #fff;
-  background-image: url('../../../images/place__button.svg');
+  background-image: url('../../../../images/place__button.svg');
   background-position: center;
+  background-color: #fff;
   transition: .5s;
 }
 
 .place__button:hover {
   opacity: .5;
-}
-
-.place__button:active {
-  background-image: url('../../../images/place__button_active.svg');
-  opacity: 1;
 }
