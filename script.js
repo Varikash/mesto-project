@@ -1,39 +1,40 @@
 //Открытие-закрытие модального окна + редактирование имени
 
-const profileButton = document.querySelector('.profile__title-setting'); //кнопка редактирования профиля (открытие)
+let profileButton = document.querySelector('.profile__title-setting'); //кнопка редактирования профиля (открытие)
 
-const profileName = document.querySelector('.profile__title'); //Имя профиля на странице
-const profileTitle = document.querySelector('.profile__subtitle'); //Титул профиля на странице
+let profileName = document.querySelector('.profile__title'); //Имя профиля на странице
+let profileTitle = document.querySelector('.profile__subtitle'); //Титул профиля на странице
 
-const popupProfile = document.querySelector('#profile'); //модальное окно
-const popupCloseButtonFirst = popupProfile.querySelector('#closeBtn-1'); //кнопка закрытия модального окна
-const popupSaveButton = popupProfile.querySelector('.popup__button'); //кнопка сохранения
-const popupInputName = popupProfile.querySelector('.popup__input[name="profile-name"]'); //Инпут имени в модальном окне
-const popupInputTitle = popupProfile.querySelector('.popup__input[name="profile-title"]'); //Импут титула в модальном окне
+let popup = document.querySelector('.popup'); //модальное окно
+let popupCloseButton = popup.querySelector('.popup__close-button'); //кнопка закрытия модального окна
+let popupSaveButton = popup.querySelector('.popup__button'); //кнопка сохранения
+let popupInputName = popup.querySelector('.popup__input[name="profile-name"]'); //Инпут имени в модальном окне
+let popupInputTitle = popup.querySelector('.popup__input[name="profile-title"]'); //Импут титула в модальном окне
 
 //функция открытия модального окна
 
 profileButton.addEventListener('click', function () {
-  popupProfile.classList.add('popup_opened');
+  popup.classList.add('popup_opened');
 })
 
 //функция закрытия модального окна
 
-popupCloseButtonFirst.addEventListener('click', function () {
-  popupProfile.classList.remove('popup_opened');
+popupCloseButton.addEventListener('click', function () {
+  popup.classList.remove('popup_opened');
 })
 
 // функция присвоения значений инпутов имени и титулу профиля на сайте.
 
-popupSaveButton.addEventListener('click', function (evt) {
-  evt.preventDefault();
+popupSaveButton.addEventListener('click', function () {
   if (popupInputName.value.length > 0) {
     profileName.textContent = popupInputName.value;
   }
+
   if (popupInputTitle.value.length > 0) {
     profileTitle.textContent = popupInputTitle.value;
   }
 })
+<<<<<<< HEAD
 //----------------------------------------------------------------------------------------
 
 //Открытие-закрытие модального окна для добавления нового места
@@ -67,3 +68,6 @@ likeButtons.forEach(likeButton => likeButton.addEventListener('click', function 
 /*---------------------------------------------------------------------------------------*/
 
 //----/
+=======
+//--------------------------------------------------------------------------------------
+>>>>>>> 026b8b2435be58f85b75a981cd809cb5bb2450cd
