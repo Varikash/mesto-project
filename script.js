@@ -25,7 +25,9 @@ popupCloseButton.addEventListener('click', function () {
 
 // функция присвоения значений инпутов имени и титулу профиля на сайте.
 
-popupSaveButton.addEventListener('click', function () {
+popupSaveButton.addEventListener('click', function (e) {
+  e.preventDefault();
+
   if (popupInputName.value.length > 0) {
     profileName.textContent = popupInputName.value;
   }
@@ -66,4 +68,4 @@ likeButtons.forEach(likeButton => likeButton.addEventListener('click', function 
 
 /*---------------------------------------------------------------------------------------*/
 
-//----/
+
