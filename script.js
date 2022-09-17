@@ -102,6 +102,8 @@ for (let i = 0; i < initialCards.length; i++) {
   initialCardsAdd(initialCards[i].name, initialCards[i].link);
 }
 
+/* Функция удаления карточки*/
+
 
 
 /* Функция лайк */
