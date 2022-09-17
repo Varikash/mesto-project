@@ -10,6 +10,7 @@ let popupCloseButton = popup.querySelector('.popup__close-button'); //кнопк
 let popupSaveButton = popup.querySelector('.popup__button'); //кнопка сохранения
 let popupInputName = popup.querySelector('.popup__input[name="profile-name"]'); //Инпут имени в модальном окне
 let popupInputTitle = popup.querySelector('.popup__input[name="profile-title"]'); //Импут титула в модальном окне
+const places = document.querySelector('.places__cards-grid');
 
 //функция открытия модального окна
 
@@ -58,13 +59,61 @@ popupCloseButtonSecond.addEventListener('click', function () {
 
 /*---------------------------------------------------------------------------------------*/
 
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
+
+
+function initialCardsAdd(placeName, placeLink) {
+  const cardTemplate = document.querySelector('#place-card').content;
+  console.dir(cardTemplate.querySelector('.place'));
+  const placeCard = cardTemplate.querySelector('.place').cloneNode(true);
+
+
+
+  placeCard.querySelector('.place__image').src = placeLink;
+  placeCard.querySelector('.place__title').textContent = placeName;
+
+
+  places.prepend(cardTemplate);
+}
+
+for (let i = 0; i < initialCards.length; i++) {
+  initialCardsAdd(initialCards[i].name, initialCards[i].link);
+}
+
+
+
 /* Функция лайк */
 
-const likeButtons = document.querySelectorAll('.place__button');
+// const likeButtons = document.querySelectorAll('.place__button');
 
-likeButtons.forEach(likeButton => likeButton.addEventListener('click', function () {
-  this.classList.toggle('place__button_active');
-}))
+// likeButtons.forEach(likeButton => likeButton.addEventListener('click', function () {
+//   this.classList.toggle('place__button_active');
+// }))
 
 /*---------------------------------------------------------------------------------------*/
 

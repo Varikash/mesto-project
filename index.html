@@ -30,7 +30,7 @@
       </section>
       <section class="places">
         <ul class="places__cards-grid">
-          <li class="place">
+          <!-- <li class="place">
             <article class="place__card">
               <img src="./images/karachaesk.jpeg" alt="Карачаевск" class="place__image">
               <div class="place__info">
@@ -83,7 +83,7 @@
                 <button class="place__button" type="button" aria-label="лайк"></button>
               </div>
             </article>
-          </li>
+          </li> -->
         </ul>
       </section>
     </main>
@@ -114,11 +114,15 @@
     </div>
   </div>
   <template id="place-card">
-    <img class="place__image">
-    <div class="place__info">
-      <h2 class="place__title"></h2>
-      <button class="place__button" type="button" aria-label="лайк"></button>
-    </div>
+    <li class="place">
+      <article class="place__card">
+        <img class="place__image">
+        <div class="place__info">
+          <h2 class="place__title"></h2>
+          <button class="place__button" type="button" aria-label="лайк"></button>
+        </div>
+      </article>
+    </li>
   </template>
   <script src="./script.js"></script>
 </body>
