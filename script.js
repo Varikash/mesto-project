@@ -58,7 +58,7 @@ popupCloseButtonSecond.addEventListener('click', function () {
 })
 
 /*---------------------------------------------------------------------------------------*/
-
+/* Загрузка дефолтных карточек */
 const initialCards = [
   {
     name: 'Карачаевск',
@@ -89,30 +89,37 @@ const initialCards = [
 
 function initialCardsAdd(placeName, placeLink) {
   const cardTemplate = document.querySelector('#place-card').content;
-  console.log(cardTemplate.querySelector('.place'));
   const placeCard = cardTemplate.querySelector('.place').cloneNode(true);
 
   placeCard.querySelector('.place__image').src = placeLink;
   placeCard.querySelector('.place__title').textContent = placeName;
 
   places.append(placeCard);
+
+
 }
 
 for (let i = 0; i < initialCards.length; i++) {
   initialCardsAdd(initialCards[i].name, initialCards[i].link);
 }
-
+/*------------------------------------------------------------------------------*/
 /* Функция удаления карточки*/
 
+const deleteButtons = document.querySelectorAll('.place__delete');
 
+deleteButtons.forEach(deleteButton => deleteButton.addEventListener('click', function () {
+  const placeCard = deleteButton.closest('.place');
+  placeCard.remove();
+}))
 
+/* ------------------- */
 /* Функция лайк */
 
-// const likeButtons = document.querySelectorAll('.place__button');
+const likeButtons = document.querySelectorAll('.place__button');
 
-// likeButtons.forEach(likeButton => likeButton.addEventListener('click', function () {
-//   this.classList.toggle('place__button_active');
-// }))
+likeButtons.forEach(likeButton => likeButton.addEventListener('click', function () {
+  this.classList.toggle('place__button_active');
+}))
 
 /*---------------------------------------------------------------------------------------*/
 
