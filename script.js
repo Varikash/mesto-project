@@ -20,9 +20,11 @@ profileButton.addEventListener('click', function () {
 
 //функция закрытия модального окна
 
-popupCloseButton.addEventListener('click', function () {
+function closePopup() {
   popup.classList.remove('popup_opened');
-})
+}
+
+popupCloseButton.addEventListener('click', closePopup);
 
 // функция присвоения значений инпутов имени и титулу профиля на сайте.
 
@@ -36,6 +38,12 @@ popup.addEventListener('submit', function (e) {
   if (popupInputTitle.value.length > 0) {
     profileTitle.textContent = popupInputTitle.value;
   }
+
+  popupInputName.value = profileName.textContent;
+  popupInputTitle.value = profileTitle.textContent;
+
+  closePopup();
+
 })
 //----------------------------------------------------------------------------------------
 
@@ -65,8 +73,8 @@ popupCloseButtonSecond.addEventListener('click', function () {
 /* Загрузка дефолтных карточек */
 const initialCards = [
   {
-    name: 'Карачаевск',
-    link: './images/karachaesk.jpeg',
+    name: 'Элиста, Калмыкия',
+    link: './images/kalmikia.jpeg'
   },
   {
     name: 'Алтай',
@@ -85,8 +93,8 @@ const initialCards = [
     link: './images/elbrus.jpg'
   },
   {
-    name: 'Элиста, Калмыкия',
-    link: './images/kalmikia.jpeg'
+    name: 'Карачаевск',
+    link: './images/karachaesk.jpeg'
   }
 ];
 
@@ -98,11 +106,15 @@ function initialCardsAdd(placeName, placeLink) {
   placeCard.querySelector('.place__image').src = placeLink;
   placeCard.querySelector('.place__title').textContent = placeName;
 
-  placeCard.querySelector('.place__button').addEventListener('click', function(e) {
+  placeCard.querySelector('.place__button').addEventListener('click', function (e) {
     e.target.classList.toggle('place__button_active');
   })
 
-  places.append(placeCard);
+  placeCard.querySelector('.place__delete').addEventListener('click', function (e) {
+    e.target.closest('.place').remove();
+  })
+
+  places.prepend(placeCard);
 }
 
 for (let i = 0; i < initialCards.length; i++) {
@@ -111,17 +123,17 @@ for (let i = 0; i < initialCards.length; i++) {
 /*------------------------------------------------------------------------------*/
 /* Функция удаления карточки*/
 
-const deleteButtons = document.querySelectorAll('.place__delete');
+// const deleteButtons = document.querySelectorAll('.place__delete');
 
-deleteButtons.forEach(deleteButton => deleteButton.addEventListener('click', function () {
-  const placeCard = deleteButton.closest('.place');
-  placeCard.remove();
-}))
+// deleteButtons.forEach(deleteButton => deleteButton.addEventListener('click', function () {
+//   const placeCard = deleteButton.closest('.place');
+//   placeCard.remove();
+// }))
 
 /*---------------------------------------------------------------------------------------*/
 /* Функция добавления карточки */
 
-function addNewCard (e) {
+function addNewCard(e) {
   e.preventDefault();
 
   if (popupPlaceName.value.length > 0 && popupPlaceLink.value.length > 0) {
@@ -130,7 +142,7 @@ function addNewCard (e) {
     alert('Для добавления места необходимо заполнить все поля.')
     addNewCard();
   }
-  
+
   popupPlaceName.value = '';
   popupPlaceLink.value = '';
   popupPlaces.classList.remove('popup_opened');
