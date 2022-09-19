@@ -8,6 +8,7 @@
   background-image: url(../../../images/trash.svg);
   background-position: center;
   background-size: contain;
+  background-repeat: no-repeat;
   border: 0px;
   cursor: pointer;
   transition: .5s;
