@@ -44,6 +44,8 @@ popup.addEventListener('submit', function (e) {
 const popupPlaces = document.querySelector('#new-place'); //модальное окно для добавления места
 const placeButton = document.querySelector('.profile__add-button'); //кнопка открытия модального окна
 const popupCloseButtonSecond = popupPlaces.querySelector('#closeBtn-2'); //кнопка закрытия модального окна
+const popupPlaceName = popupPlaces.querySelector('.popup__input[name="place-name"]');
+const popupPlaceLink = popupPlaces.querySelector('.popup__input[name = "place-link"]');
 
 /* Функция открытия модального окна */
 
@@ -55,6 +57,8 @@ placeButton.addEventListener('click', function () {
 
 popupCloseButtonSecond.addEventListener('click', function () {
   popupPlaces.classList.remove('popup_opened');
+  popupPlaceName.value = '';
+  popupPlaceLink.value = '';
 })
 
 /*---------------------------------------------------------------------------------------*/
@@ -94,9 +98,11 @@ function initialCardsAdd(placeName, placeLink) {
   placeCard.querySelector('.place__image').src = placeLink;
   placeCard.querySelector('.place__title').textContent = placeName;
 
+  placeCard.querySelector('.place__button').addEventListener('click', function(e) {
+    e.target.classList.toggle('place__button_active');
+  })
+
   places.append(placeCard);
-
-
 }
 
 for (let i = 0; i < initialCards.length; i++) {
@@ -112,15 +118,23 @@ deleteButtons.forEach(deleteButton => deleteButton.addEventListener('click', fun
   placeCard.remove();
 }))
 
-/* ------------------- */
-/* Функция лайк */
-
-const likeButtons = document.querySelectorAll('.place__button');
-
-likeButtons.forEach(likeButton => likeButton.addEventListener('click', function () {
-  this.classList.toggle('place__button_active');
-}))
-
 /*---------------------------------------------------------------------------------------*/
+/* Функция добавления карточки */
 
+function addNewCard (e) {
+  e.preventDefault();
+
+  if (popupPlaceName.value.length > 0 && popupPlaceLink.value.length > 0) {
+    initialCardsAdd(popupPlaceName.value, popupPlaceLink.value);
+  } else {
+    alert('Для добавления места необходимо заполнить все поля.')
+    addNewCard();
+  }
+  
+  popupPlaceName.value = '';
+  popupPlaceLink.value = '';
+  popupPlaces.classList.remove('popup_opened');
+}
+
+popupPlaces.addEventListener('submit', addNewCard);
 
