@@ -70,7 +70,11 @@ popupCloseButtonSecond.addEventListener('click', function () {
 })
 
 /*---------------------------------------------------------------------------------------*/
-/* Загрузка дефолтных карточек */
+
+
+/**
+ * Дефолтный набор карточек
+ */
 const initialCards = [
   {
     name: 'Элиста, Калмыкия',
@@ -99,6 +103,39 @@ const initialCards = [
 ];
 
 
+
+
+/**
+ * добавляем новую карточку
+ */
+popupPlaces.addEventListener('submit', addNewCard);
+
+
+
+/****************************ФУНКЦИИ*************************************/
+
+/**
+ * @param {Event} e
+ * функция добавления новой карточки
+ */
+function addNewCard(e) {
+  e.preventDefault();
+
+  if (popupPlaceName.value.length > 0 && popupPlaceLink.value.length > 0) {
+    initialCardsAdd(popupPlaceName.value, popupPlaceLink.value);
+  } else {
+    alert('Для добавления места необходимо заполнить все поля.')
+    addNewCard();
+  }
+
+  popupPlaceName.value = '';
+  popupPlaceLink.value = '';
+  popupPlaces.classList.remove('popup_opened');
+}
+
+/**
+ * Добавление дефолтных карточек
+ */
 function initialCardsAdd(placeName, placeLink) {
   const cardTemplate = document.querySelector('#place-card').content;
   const placeCard = cardTemplate.querySelector('.place').cloneNode(true);
@@ -120,33 +157,3 @@ function initialCardsAdd(placeName, placeLink) {
 for (let i = 0; i < initialCards.length; i++) {
   initialCardsAdd(initialCards[i].name, initialCards[i].link);
 }
-/*------------------------------------------------------------------------------*/
-/* Функция удаления карточки*/
-
-// const deleteButtons = document.querySelectorAll('.place__delete');
-
-// deleteButtons.forEach(deleteButton => deleteButton.addEventListener('click', function () {
-//   const placeCard = deleteButton.closest('.place');
-//   placeCard.remove();
-// }))
-
-/*---------------------------------------------------------------------------------------*/
-/* Функция добавления карточки */
-
-function addNewCard(e) {
-  e.preventDefault();
-
-  if (popupPlaceName.value.length > 0 && popupPlaceLink.value.length > 0) {
-    initialCardsAdd(popupPlaceName.value, popupPlaceLink.value);
-  } else {
-    alert('Для добавления места необходимо заполнить все поля.')
-    addNewCard();
-  }
-
-  popupPlaceName.value = '';
-  popupPlaceLink.value = '';
-  popupPlaces.classList.remove('popup_opened');
-}
-
-popupPlaces.addEventListener('submit', addNewCard);
-
