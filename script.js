@@ -115,7 +115,8 @@ popupPlaces.addEventListener('submit', addNewCard);
 /****************************ФУНКЦИИ*************************************/
 
 /**
- * @param {Event} e
+ * @param {Event} e;
+ *
  * функция добавления новой карточки
  */
 function addNewCard(e) {
