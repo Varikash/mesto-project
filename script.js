@@ -9,20 +9,14 @@ let popup = document.querySelector('.popup'); //модальное окно
 let popupCloseButton = popup.querySelector('.popup__close-button'); //кнопка закрытия модального окна
 let popupSaveButton = popup.querySelector('.popup__button'); //кнопка сохранения
 let popupInputName = popup.querySelector('.popup__input[name="profile-name"]'); //Инпут имени в модальном окне
-let popupInputTitle = popup.querySelector('.popup__input[name="profile-title"]'); //Импут титула в модальном окне
+let popupInputTitle = popup.querySelector('.popup__input[name="profile-title"]'); //Инпут титула в модальном окне
 const places = document.querySelector('.places__cards-grid');
 
-//функция открытия модального окна
+//открываем модальное окно профиля
 
-profileButton.addEventListener('click', function () {
-  popup.classList.add('popup_opened');
-})
+profileButton.addEventListener('click', openPopup)
 
-//функция закрытия модального окна
-
-function closePopup() {
-  popup.classList.remove('popup_opened');
-}
+//Закрываем модальное окно профиля
 
 popupCloseButton.addEventListener('click', closePopup);
 
@@ -57,14 +51,12 @@ const popupPlaceLink = popupPlaces.querySelector('.popup__input[name = "place-li
 
 /* Функция открытия модального окна */
 
-placeButton.addEventListener('click', function () {
-  popupPlaces.classList.add('popup_opened');
-})
+placeButton.addEventListener('click', openPopup);
 
 /* Функция закрытия модального окна */
 
 popupCloseButtonSecond.addEventListener('click', function () {
-  popupPlaces.classList.remove('popup_opened');
+  closePopup();
   popupPlaceName.value = '';
   popupPlaceLink.value = '';
 })
@@ -115,6 +107,22 @@ popupPlaces.addEventListener('submit', addNewCard);
 /****************************ФУНКЦИИ*************************************/
 
 /**
+ * открытие popup
+ */
+function openPopup (evt) {
+  const eventTarget = evt.target;
+  eventTarget.classList.add('popup_opened');
+}
+
+/**
+ * закрытие popup
+ */
+function closePopup (evt) {
+  const eventTarget = evt.target;
+  eventTarget.classList.remove('popup_opened');
+}
+
+/**
  * @param {Event} e;
  *
  * функция добавления новой карточки
@@ -131,7 +139,7 @@ function addNewCard(e) {
 
   popupPlaceName.value = '';
   popupPlaceLink.value = '';
-  popupPlaces.classList.remove('popup_opened');
+  closePopup();
 }
 
 /**
@@ -158,3 +166,4 @@ function initialCardsAdd(placeName, placeLink) {
 initialCards.forEach(function(initialCard) {
   initialCardsAdd(initialCard.name, initialCard.link);
 })
+
