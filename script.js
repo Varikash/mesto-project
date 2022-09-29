@@ -14,11 +14,15 @@ const places = document.querySelector('.places__cards-grid');
 
 //открываем модальное окно профиля
 
-profileButton.addEventListener('click', openPopup)
+profileButton.addEventListener('click', function() {
+  openPopup(popup);
+})
 
 //Закрываем модальное окно профиля
 
-popupCloseButton.addEventListener('click', closePopup);
+popupCloseButton.addEventListener('click', function() {
+  closePopup(popup);
+});
 
 // функция присвоения значений инпутов имени и титулу профиля на сайте.
 
@@ -51,12 +55,14 @@ const popupPlaceLink = popupPlaces.querySelector('.popup__input[name = "place-li
 
 /* Функция открытия модального окна */
 
-placeButton.addEventListener('click', openPopup);
+placeButton.addEventListener('click', function() {
+  openPopup(popupPlaces);
+});
 
 /* Функция закрытия модального окна */
 
 popupCloseButtonSecond.addEventListener('click', function () {
-  closePopup();
+  closePopup(popupPlaces);
   popupPlaceName.value = '';
   popupPlaceLink.value = '';
 })
@@ -109,17 +115,15 @@ popupPlaces.addEventListener('submit', addNewCard);
 /**
  * открытие popup
  */
-function openPopup (evt) {
-  const eventTarget = evt.target;
-  eventTarget.classList.add('popup_opened');
+function openPopup (popupElement) {
+  popupElement.classList.add('popup_opened');
 }
 
 /**
  * закрытие popup
  */
-function closePopup (evt) {
-  const eventTarget = evt.target;
-  eventTarget.classList.remove('popup_opened');
+function closePopup (popupElement) {
+  popupElement.classList.remove('popup_opened');
 }
 
 /**
