@@ -53,10 +53,6 @@ popup.addEventListener('submit', (e) => {
   })
 //----------------------------------------------------------------------------------------
 
-//Открытие-закрытие модального окна для добавления нового места
-
-
-
 /* Функция открытия модального окна */
 
 placeButton.addEventListener('click', () => {
@@ -71,10 +67,7 @@ popupCloseButtonSecond.addEventListener('click', () => {
     popupPlaceLink.value = '';
   })
 
-
-
 /*---------------------------------------------------------------------------------------*/
-
 
 /**
  * Дефолтный набор карточек
@@ -106,15 +99,10 @@ const initialCards = [
   }
 ];
 
-
-
-
 /**
  * добавляем новую карточку
  */
 popupPlaces.addEventListener('submit', addNewCard);
-
-
 
 /****************************ФУНКЦИИ*************************************/
 
@@ -179,8 +167,6 @@ function initialCardsAdd(placeName, placeLink) {
           photoTitle.remove();
         });
     })
-
-
 
   placeCard.querySelector('.place__title').textContent = placeName;
 
