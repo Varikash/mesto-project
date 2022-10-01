@@ -1,34 +1,47 @@
-//Открытие-закрытие модального окна + редактирование имени
-
-let profileButton = document.querySelector('.profile__title-setting'); //кнопка редактирования профиля (открытие)
+/**
+ * Кнопка редактирования профиля
+ */
+let profileButton = document.querySelector('.profile__title-setting');
 
 let profileName = document.querySelector('.profile__title'); //Имя профиля на странице
 let profileTitle = document.querySelector('.profile__subtitle'); //Титул профиля на странице
 
-let popup = document.querySelector('.popup'); //модальное окно
+/**
+ * Модальное окно редактирования профиля
+ */
+let popup = document.querySelector('.popup');
+
+/**
+ * 
+ * Кнопка закрытия модального окна профиля
+ */
 let popupCloseButton = document.querySelector('.popup__close-button'); //кнопка закрытия модального окна
 let popupSaveButton = popup.querySelector('.popup__button'); //кнопка сохранения
 let popupInputName = popup.querySelector('.popup__input[name="profile-name"]'); //Инпут имени в модальном окне
 let popupInputTitle = popup.querySelector('.popup__input[name="profile-title"]'); //Инпут титула в модальном окне
-const popupPlaces = document.querySelector('#new-place'); //модальное окно для добавления места
+
+/**
+ * Модальное окно добавления нового места
+ */
+const popupPlaces = document.querySelector('#new-place');
 const placeButton = document.querySelector('.profile__add-button'); //кнопка открытия модального окна
 const popupCloseButtonSecond = popupPlaces.querySelector('#closeBtn-2'); //кнопка закрытия модального окна
 const popupPlaceName = popupPlaces.querySelector('.popup__input[name="place-name"]');
 const popupPlaceLink = popupPlaces.querySelector('.popup__input[name = "place-link"]');
 const places = document.querySelector('.places__cards-grid');
-const photoView = document.querySelector('#photo-view');
-const popupCloseButtonThird = document.querySelector('#closeBtn-3');
+const photoView = document.querySelector('#photo-view'); //модальное окно, при нажатии на изображение
+const popupCloseButtonThird = document.querySelector('#closeBtn-3'); //кнопка закрытия модального окна изображения
 const photoContainer = document.querySelector('.popup__photo-container');
 
 //открываем модальное окно профиля
 
-profileButton.addEventListener('click', () => {
+profileButton?.addEventListener('click', () => {
     openPopup(popup);
   })
 
 //Закрываем модальное окно профиля
 
-popupCloseButton.addEventListener('click', () => {
+popupCloseButton?.addEventListener('click', () => {
     closePopup(popup);
   });
 
@@ -49,9 +62,7 @@ popup.addEventListener('submit', (e) => {
     popupInputTitle.value = profileTitle.textContent;
 
     closePopup();
-
   })
-//----------------------------------------------------------------------------------------
 
 /* Функция открытия модального окна */
 
@@ -67,7 +78,6 @@ popupCloseButtonSecond.addEventListener('click', () => {
     popupPlaceLink.value = '';
   })
 
-/*---------------------------------------------------------------------------------------*/
 
 /**
  * Дефолтный набор карточек
