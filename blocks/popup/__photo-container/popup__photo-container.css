@@ -1,0 +1,4 @@
+.popup__photo-container {
+  box-sizing: border-box;
+  position: relative;
+}

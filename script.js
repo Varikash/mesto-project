@@ -6,11 +6,19 @@ let profileName = document.querySelector('.profile__title'); //Имя профи
 let profileTitle = document.querySelector('.profile__subtitle'); //Титул профиля на странице
 
 let popup = document.querySelector('.popup'); //модальное окно
-let popupCloseButton = popup.querySelector('.popup__close-button'); //кнопка закрытия модального окна
+let popupCloseButton = document.querySelector('.popup__close-button'); //кнопка закрытия модального окна
 let popupSaveButton = popup.querySelector('.popup__button'); //кнопка сохранения
 let popupInputName = popup.querySelector('.popup__input[name="profile-name"]'); //Инпут имени в модальном окне
 let popupInputTitle = popup.querySelector('.popup__input[name="profile-title"]'); //Инпут титула в модальном окне
+const popupPlaces = document.querySelector('#new-place'); //модальное окно для добавления места
+const placeButton = document.querySelector('.profile__add-button'); //кнопка открытия модального окна
+const popupCloseButtonSecond = popupPlaces.querySelector('#closeBtn-2'); //кнопка закрытия модального окна
+const popupPlaceName = popupPlaces.querySelector('.popup__input[name="place-name"]');
+const popupPlaceLink = popupPlaces.querySelector('.popup__input[name = "place-link"]');
 const places = document.querySelector('.places__cards-grid');
+const photoView = document.querySelector('#photo-view');
+const popupCloseButtonThird = document.querySelector('#closeBtn-3');
+const photoContainer = document.querySelector('.popup__photo-container');
 
 //открываем модальное окно профиля
 
@@ -47,11 +55,7 @@ popup.addEventListener('submit', function (e) {
 
 //Открытие-закрытие модального окна для добавления нового места
 
-const popupPlaces = document.querySelector('#new-place'); //модальное окно для добавления места
-const placeButton = document.querySelector('.profile__add-button'); //кнопка открытия модального окна
-const popupCloseButtonSecond = popupPlaces.querySelector('#closeBtn-2'); //кнопка закрытия модального окна
-const popupPlaceName = popupPlaces.querySelector('.popup__input[name="place-name"]');
-const popupPlaceLink = popupPlaces.querySelector('.popup__input[name = "place-link"]');
+
 
 /* Функция открытия модального окна */
 
@@ -61,11 +65,17 @@ placeButton.addEventListener('click', function() {
 
 /* Функция закрытия модального окна */
 
+<<<<<<< HEAD
 popupCloseButtonSecond.addEventListener('click', function () {
+=======
+popupCloseButtonSecond.addEventListener('click', function() {
+>>>>>>> feature/imagePopup
   closePopup(popupPlaces);
   popupPlaceName.value = '';
   popupPlaceLink.value = '';
 })
+
+
 
 /*---------------------------------------------------------------------------------------*/
 
@@ -152,8 +162,30 @@ function addNewCard(e) {
 function initialCardsAdd(placeName, placeLink) {
   const cardTemplate = document.querySelector('#place-card').content;
   const placeCard = cardTemplate.querySelector('.place').cloneNode(true);
+  const photoCard = placeCard.querySelector('.place__image');
 
-  placeCard.querySelector('.place__image').src = placeLink;
+  const popupTemplate = document.querySelector('#photo-popup').content
+  const photo = popupTemplate.querySelector('.photo').cloneNode(true);
+  const photoTitle = popupTemplate.querySelector('.photo-title').cloneNode(true);
+
+  photoCard.src = placeLink;
+
+  photoCard.addEventListener('click', function() {
+    openPopup(photoView);
+    photo.src = placeLink;
+    photoTitle.textContent = placeName;
+    photoContainer.append(photo);
+    photoContainer.append(photoTitle);
+
+    popupCloseButtonThird.addEventListener('click', function() {
+      closePopup(photoView);
+      photo.remove();
+      photoTitle.remove();
+    })
+  })
+
+
+
   placeCard.querySelector('.place__title').textContent = placeName;
 
   placeCard.querySelector('.place__button').addEventListener('click', function (e) {
@@ -170,4 +202,3 @@ function initialCardsAdd(placeName, placeLink) {
 initialCards.forEach(function(initialCard) {
   initialCardsAdd(initialCard.name, initialCard.link);
 })
-
