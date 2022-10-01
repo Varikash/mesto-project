@@ -65,11 +65,7 @@ placeButton.addEventListener('click', function() {
 
 /* Функция закрытия модального окна */
 
-<<<<<<< HEAD
-popupCloseButtonSecond.addEventListener('click', function () {
-=======
 popupCloseButtonSecond.addEventListener('click', function() {
->>>>>>> feature/imagePopup
   closePopup(popupPlaces);
   popupPlaceName.value = '';
   popupPlaceLink.value = '';
