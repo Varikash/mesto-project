@@ -22,35 +22,35 @@ const photoContainer = document.querySelector('.popup__photo-container');
 
 //открываем модальное окно профиля
 
-profileButton.addEventListener('click', function() {
-  openPopup(popup);
-})
+profileButton.addEventListener('click', () => {
+    openPopup(popup);
+  })
 
 //Закрываем модальное окно профиля
 
-popupCloseButton.addEventListener('click', function() {
-  closePopup(popup);
-});
+popupCloseButton.addEventListener('click', () => {
+    closePopup(popup);
+  });
 
 // функция присвоения значений инпутов имени и титулу профиля на сайте.
 
-popup.addEventListener('submit', function (e) {
-  e.preventDefault();
+popup.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-  if (popupInputName.value.length > 0) {
-    profileName.textContent = popupInputName.value;
-  }
+    if (popupInputName.value.length > 0) {
+      profileName.textContent = popupInputName.value;
+    }
 
-  if (popupInputTitle.value.length > 0) {
-    profileTitle.textContent = popupInputTitle.value;
-  }
+    if (popupInputTitle.value.length > 0) {
+      profileTitle.textContent = popupInputTitle.value;
+    }
 
-  popupInputName.value = profileName.textContent;
-  popupInputTitle.value = profileTitle.textContent;
+    popupInputName.value = profileName.textContent;
+    popupInputTitle.value = profileTitle.textContent;
 
-  closePopup();
+    closePopup();
 
-})
+  })
 //----------------------------------------------------------------------------------------
 
 //Открытие-закрытие модального окна для добавления нового места
@@ -59,17 +59,17 @@ popup.addEventListener('submit', function (e) {
 
 /* Функция открытия модального окна */
 
-placeButton.addEventListener('click', function() {
-  openPopup(popupPlaces);
-});
+placeButton.addEventListener('click', () => {
+    openPopup(popupPlaces);
+  });
 
 /* Функция закрытия модального окна */
 
-popupCloseButtonSecond.addEventListener('click', function() {
-  closePopup(popupPlaces);
-  popupPlaceName.value = '';
-  popupPlaceLink.value = '';
-})
+popupCloseButtonSecond.addEventListener('click', () => {
+    closePopup(popupPlaces);
+    popupPlaceName.value = '';
+    popupPlaceLink.value = '';
+  })
 
 
 
@@ -166,35 +166,35 @@ function initialCardsAdd(placeName, placeLink) {
 
   photoCard.src = placeLink;
 
-  photoCard.addEventListener('click', function() {
-    openPopup(photoView);
-    photo.src = placeLink;
-    photoTitle.textContent = placeName;
-    photoContainer.append(photo);
-    photoContainer.append(photoTitle);
+  photoCard.addEventListener('click', () => {
+      openPopup(photoView);
+      photo.src = placeLink;
+      photoTitle.textContent = placeName;
+      photoContainer.append(photo);
+      photoContainer.append(photoTitle);
 
-    popupCloseButtonThird.addEventListener('click', function() {
-      closePopup(photoView);
-      photo.remove();
-      photoTitle.remove();
+      popupCloseButtonThird.addEventListener('click', () => {
+          closePopup(photoView);
+          photo.remove();
+          photoTitle.remove();
+        });
     })
-  })
 
 
 
   placeCard.querySelector('.place__title').textContent = placeName;
 
-  placeCard.querySelector('.place__button').addEventListener('click', function (e) {
-    e.target.classList.toggle('place__button_active');
-  })
+  placeCard.querySelector('.place__button').addEventListener('click', (e) => {
+      e.target.classList.toggle('place__button_active');
+    })
 
-  placeCard.querySelector('.place__delete').addEventListener('click', function (e) {
-    e.target.closest('.place').remove();
-  })
+  placeCard.querySelector('.place__delete').addEventListener('click', (e) => {
+      e.target.closest('.place').remove();
+    })
 
   places.prepend(placeCard);
 }
 
-initialCards.forEach(function(initialCard) {
+initialCards.forEach((initialCard) => {
   initialCardsAdd(initialCard.name, initialCard.link);
 })
