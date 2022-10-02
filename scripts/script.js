@@ -9,16 +9,16 @@ const profileTitle = document.querySelector('.profile__subtitle'); //Титул 
 /**
  * Модальное окно редактирования профиля
  */
-const popup = document.querySelector('.popup');
+const popupProfile = document.querySelector('.popup');
 
 /**
  * 
  * Кнопка закрытия модального окна профиля
  */
-const popupCloseButton = document.querySelector('.popup__close-button'); //кнопка закрытия модального окна
-const popupSaveButton = popup.querySelector('.popup__button'); //кнопка сохранения
-const popupInputName = popup.querySelector('.popup__input[name="profile-name"]'); //Инпут имени в модальном окне
-const popupInputTitle = popup.querySelector('.popup__input[name="profile-title"]'); //Инпут титула в модальном окне
+const popupCloseButtonFirst = document.querySelector('#closeBtn-1'); //кнопка закрытия модального окна
+const popupSaveButton = popupProfile.querySelector('.popup__button'); //кнопка сохранения
+const popupInputName = popupProfile.querySelector('.popup__input[name="profile-name"]'); //Инпут имени в модальном окне
+const popupInputTitle = popupProfile.querySelector('.popup__input[name="profile-title"]'); //Инпут титула в модальном окне
 
 /**
  * Модальное окно добавления нового места
@@ -30,25 +30,27 @@ const popupPlaceName = popupPlaces.querySelector('.popup__input[name="place-name
 const popupPlaceLink = popupPlaces.querySelector('.popup__input[name = "place-link"]');
 const places = document.querySelector('.places__cards-grid');
 const photoView = document.querySelector('#photo-view'); //модальное окно, при нажатии на изображение
-const popupCloseButtonThird = document.querySelector('#closeBtn-3'); //кнопка закрытия модального окна изображения
 const photoContainer = document.querySelector('.popup__photo-container');
+const popupCloseButtonThird = document.querySelector('#closeBtn-3'); //кнопка закрытия модального окна изображения
+const photo = document.querySelector('.photo');
+const photoTitle = document.querySelector('.photo-title');
 
 //открываем модальное окно профиля
 
 profileButton?.addEventListener('click', () => {
-    openPopup(popup);
+    openPopup(popupProfile);
   })
 
 //Закрываем модальное окно профиля
 
-popupCloseButton?.addEventListener('click', () => {
-    closePopup(popup);
+popupCloseButtonFirst?.addEventListener('click', () => {
+    closePopup(popupProfile);
   });
 
 // функция присвоения значений инпутов имени и титулу профиля на сайте.
 
-popup.addEventListener('submit', (e) => {
-    e.preventDefault();
+popupProfile.addEventListener('submit', (evt) => {
+    evt.preventDefault();
 
     if (popupInputName.value.length > 0) {
       profileName.textContent = popupInputName.value;
@@ -61,23 +63,26 @@ popup.addEventListener('submit', (e) => {
     popupInputName.value = profileName.textContent;
     popupInputTitle.value = profileTitle.textContent;
 
-    closePopup(popup);
+    closePopup(popupProfile);
   })
 
 /* Функция открытия модального окна */
 
-placeButton.addEventListener('click', () => {
+placeButton?.addEventListener('click', () => {
     openPopup(popupPlaces);
   });
 
 /* Функция закрытия модального окна */
 
-popupCloseButtonSecond.addEventListener('click', () => {
+popupCloseButtonSecond?.addEventListener('click', () => {
     closePopup(popupPlaces);
     popupPlaceName.value = '';
     popupPlaceLink.value = '';
   })
 
+popupCloseButtonThird?.addEventListener('click', () => {
+  closePopup(photoView);
+})
 
 /**
  * Дефолтный набор карточек
@@ -136,10 +141,10 @@ function closePopup (popupElement) {
  * функция добавления новой карточки
  */
 function addNewCard(e) {
-  e.preventDefault();
+  e.preventDefault(); 
 
   if (popupPlaceName.value.length > 0 && popupPlaceLink.value.length > 0) {
-    initialCardsAdd(popupPlaceName.value, popupPlaceLink.value);
+    createCard(popupPlaceName.value, popupPlaceLink.value);
   } else {
     alert('Для добавления места необходимо заполнить все поля.')
     addNewCard();
@@ -153,32 +158,21 @@ function addNewCard(e) {
 /**
  * Функция добавления дефолтных карточек + удаление и лайки
  */
-function initialCardsAdd(placeName, placeLink) {
+function createCard(placeName, placeLink) {
   const cardTemplate = document.querySelector('#place-card').content;
   const placeCard = cardTemplate.querySelector('.place').cloneNode(true);
   const photoCard = placeCard.querySelector('.place__image');
 
-  const popupTemplate = document.querySelector('#photo-popup').content
-  const photo = popupTemplate.querySelector('.photo').cloneNode(true);
-  const photoTitle = popupTemplate.querySelector('.photo-title').cloneNode(true);
-
+  placeCard.querySelector('.place__title').textContent = placeName;
   photoCard.src = placeLink;
+  photoCard.alt = placeName;
 
   photoCard.addEventListener('click', () => {
-      openPopup(photoView);
-      photo.src = placeLink;
-      photoTitle.textContent = placeName;
-      photoContainer.append(photo);
-      photoContainer.append(photoTitle);
-
-      popupCloseButtonThird.addEventListener('click', () => {
-          closePopup(photoView);
-          photo.remove();
-          photoTitle.remove();
-        });
-    })
-
-  placeCard.querySelector('.place__title').textContent = placeName;
+    openPopup(photoView);
+    photo.src = placeLink;
+    photo.alt = placeName;
+    photoTitle.textContent = placeName;
+  })
 
   placeCard.querySelector('.place__button').addEventListener('click', (e) => {
       e.target.classList.toggle('place__button_active');
@@ -189,8 +183,9 @@ function initialCardsAdd(placeName, placeLink) {
     })
 
   places.prepend(placeCard);
+
 }
 
 initialCards.forEach((initialCard) => {
-  initialCardsAdd(initialCard.name, initialCard.link);
-})
+  createCard(initialCard.name, initialCard.link);
+});
