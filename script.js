@@ -61,7 +61,7 @@ popup.addEventListener('submit', (e) => {
     popupInputName.value = profileName.textContent;
     popupInputTitle.value = profileTitle.textContent;
 
-    closePopup();
+    closePopup(popup);
   })
 
 /* Функция открытия модального окна */
