@@ -2,21 +2,19 @@
  * Кнопка редактирования профиля
  */
 const profileButton = document.querySelector('.profile__title-setting');
-
 const profileName = document.querySelector('.profile__title'); //Имя профиля на странице
 const profileTitle = document.querySelector('.profile__subtitle'); //Титул профиля на странице
 
 /**
  * Модальное окно редактирования профиля
  */
-const popupProfile = document.querySelector('.popup');
+const popupProfile = document.querySelector('#profile');
 
 /**
  * 
  * Кнопка закрытия модального окна профиля
  */
-const popupCloseButtonFirst = document.querySelector('#closeBtn-1'); //кнопка закрытия модального окна
-const popupSaveButton = popupProfile.querySelector('.popup__button'); //кнопка сохранения
+
 const popupInputName = popupProfile.querySelector('.popup__input[name="profile-name"]'); //Инпут имени в модальном окне
 const popupInputTitle = popupProfile.querySelector('.popup__input[name="profile-title"]'); //Инпут титула в модальном окне
 
@@ -25,27 +23,22 @@ const popupInputTitle = popupProfile.querySelector('.popup__input[name="profile-
  */
 const popupPlaces = document.querySelector('#new-place');
 const placeButton = document.querySelector('.profile__add-button'); //кнопка открытия модального окна
-const popupCloseButtonSecond = popupPlaces.querySelector('#closeBtn-2'); //кнопка закрытия модального окна
 const popupPlaceName = popupPlaces.querySelector('.popup__input[name="place-name"]');
 const popupPlaceLink = popupPlaces.querySelector('.popup__input[name = "place-link"]');
 const places = document.querySelector('.places__cards-grid');
 const photoView = document.querySelector('#photo-view'); //модальное окно, при нажатии на изображение
 const photoContainer = document.querySelector('.popup__photo-container');
-const popupCloseButtonThird = document.querySelector('#closeBtn-3'); //кнопка закрытия модального окна изображения
 const photo = document.querySelector('.photo');
 const photoTitle = document.querySelector('.photo-title');
-
+const closeButtons = document.querySelectorAll('.popup__close-button')
+const formPlaceCards = document.querySelector('#place-cards');
 //открываем модальное окно профиля
 
 profileButton?.addEventListener('click', () => {
     openPopup(popupProfile);
+    popupInputName.value = profileName.textContent;
+    popupInputTitle.value = profileTitle.textContent;
   })
-
-//Закрываем модальное окно профиля
-
-popupCloseButtonFirst?.addEventListener('click', () => {
-    closePopup(popupProfile);
-  });
 
 // функция присвоения значений инпутов имени и титулу профиля на сайте.
 
@@ -60,9 +53,6 @@ popupProfile.addEventListener('submit', (evt) => {
       profileTitle.textContent = popupInputTitle.value;
     }
 
-    popupInputName.value = profileName.textContent;
-    popupInputTitle.value = profileTitle.textContent;
-
     closePopup(popupProfile);
   })
 
@@ -73,16 +63,6 @@ placeButton?.addEventListener('click', () => {
   });
 
 /* Функция закрытия модального окна */
-
-popupCloseButtonSecond?.addEventListener('click', () => {
-    closePopup(popupPlaces);
-    popupPlaceName.value = '';
-    popupPlaceLink.value = '';
-  })
-
-popupCloseButtonThird?.addEventListener('click', () => {
-  closePopup(photoView);
-})
 
 /**
  * Дефолтный набор карточек
@@ -135,6 +115,14 @@ function closePopup (popupElement) {
   popupElement.classList.remove('popup_opened');
 }
 
+closeButtons.forEach ((button) => {
+  const popup = button.closest('.popup');
+  button.addEventListener('click', () => {
+    closePopup(popup);
+  })
+})
+
+
 /**
  * @param {Event} e;
  *
@@ -145,13 +133,10 @@ function addNewCard(e) {
 
   if (popupPlaceName.value.length > 0 && popupPlaceLink.value.length > 0) {
     createCard(popupPlaceName.value, popupPlaceLink.value);
-  } else {
-    alert('Для добавления места необходимо заполнить все поля.')
-    addNewCard();
   }
 
-  popupPlaceName.value = '';
-  popupPlaceLink.value = '';
+  formPlaceCards.reset(); 
+  
   closePopup(popupPlaces);
 }
 
