@@ -1,24 +1,24 @@
 /**
  * Кнопка редактирования профиля
  */
-let profileButton = document.querySelector('.profile__title-setting');
+const profileButton = document.querySelector('.profile__title-setting');
 
-let profileName = document.querySelector('.profile__title'); //Имя профиля на странице
-let profileTitle = document.querySelector('.profile__subtitle'); //Титул профиля на странице
+const profileName = document.querySelector('.profile__title'); //Имя профиля на странице
+const profileTitle = document.querySelector('.profile__subtitle'); //Титул профиля на странице
 
 /**
  * Модальное окно редактирования профиля
  */
-let popup = document.querySelector('.popup');
+const popup = document.querySelector('.popup');
 
 /**
  * 
  * Кнопка закрытия модального окна профиля
  */
-let popupCloseButton = document.querySelector('.popup__close-button'); //кнопка закрытия модального окна
-let popupSaveButton = popup.querySelector('.popup__button'); //кнопка сохранения
-let popupInputName = popup.querySelector('.popup__input[name="profile-name"]'); //Инпут имени в модальном окне
-let popupInputTitle = popup.querySelector('.popup__input[name="profile-title"]'); //Инпут титула в модальном окне
+const popupCloseButton = document.querySelector('.popup__close-button'); //кнопка закрытия модального окна
+const popupSaveButton = popup.querySelector('.popup__button'); //кнопка сохранения
+const popupInputName = popup.querySelector('.popup__input[name="profile-name"]'); //Инпут имени в модальном окне
+const popupInputTitle = popup.querySelector('.popup__input[name="profile-title"]'); //Инпут титула в модальном окне
 
 /**
  * Модальное окно добавления нового места
@@ -147,7 +147,7 @@ function addNewCard(e) {
 
   popupPlaceName.value = '';
   popupPlaceLink.value = '';
-  closePopup();
+  closePopup(popupPlaces);
 }
 
 /**
