@@ -8,6 +8,7 @@
 * Картинки
 * Html
 * Css
+* Javascript
 
 **Figma**
 
