@@ -132,7 +132,7 @@ function addNewCard(e) {
   e.preventDefault(); 
 
   if (popupPlaceName.value.length > 0 && popupPlaceLink.value.length > 0) {
-    createCard(popupPlaceName.value, popupPlaceLink.value);
+    places.prepend(createCard(popupPlaceName.value, popupPlaceLink.value));
   }
 
   formPlaceCards.reset(); 
@@ -167,10 +167,15 @@ function createCard(placeName, placeLink) {
       e.target.closest('.place').remove();
     })
 
-  places.prepend(placeCard);
+  return placeCard;
 
 }
 
+function addInitialCards (placeName, placeLink) {
+  const initialPlaceCards = createCard(placeName, placeLink);
+  places.prepend(initialPlaceCards);
+}
+
 initialCards.forEach((initialCard) => {
-  createCard(initialCard.name, initialCard.link);
+  addInitialCards(initialCard.name, initialCard.link);
 });
