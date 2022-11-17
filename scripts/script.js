@@ -1,20 +1,21 @@
 
-//Кнопка редактирования профиля
-const profileButton = document.querySelector('.profile__title-setting');
+const avatar = document.querySelector('.profile__avatar');
+const avatarEditor = document.querySelector('.profile__avatar-overlay');
+const avatarPen = document.querySelector('.profile__avatar-button');
+
+const profileButton = document.querySelector('.profile__title-setting'); //Кнопка редактирования профиля
 const profileName = document.querySelector('.profile__title'); //Имя профиля на странице
 const profileTitle = document.querySelector('.profile__subtitle'); //Титул профиля на странице
 
-//Модальное окно редактирования профиля
-const popupProfile = document.querySelector('#profile');
+const popupProfile = document.querySelector('#profile'); //Модальное окно редактирования профиля
 
-//Кнопка закрытия модального окна профиля
 const popupInputName = popupProfile.querySelector('.popup__input[name="profile-name"]'); //Инпут имени в модальном окне
 const popupInputTitle = popupProfile.querySelector('.popup__input[name="profile-title"]'); //Инпут титула в модальном окне
 
-//Модальное окно добавления нового места
-const popupPlaces = document.querySelector('#new-place');
+
+const popupPlaces = document.querySelector('#new-place');//Модальное окно добавления нового места
 const placeButton = document.querySelector('.profile__add-button'); //кнопка открытия модального окна
-const popupPlaceName = popupPlaces.querySelector('.popup__input[name="place-name"]');
+const popupPlaceName = popupPlaces.querySelector('.popup__input[name = "place-name"]');
 const popupPlaceLink = popupPlaces.querySelector('.popup__input[name = "place-link"]');
 const places = document.querySelector('.places__cards-grid');
 const photoView = document.querySelector('#photo-view'); //модальное окно, при нажатии на изображение
@@ -23,13 +24,19 @@ const photo = document.querySelector('.photo');
 const photoTitle = document.querySelector('.photo-title');
 const closeButtons = document.querySelectorAll('.popup__close-button')
 const formPlaceCards = document.querySelector('#place-cards');
-const popups = [popupPlaces, popupProfile, photoView];
+const popupAvatar = document.querySelector('#avatar-edit');
+const avatarInput = document.querySelector('popup__input[name = "avatar-link"]');
+const popups = [popupPlaces, popupProfile, photoView, popupAvatar];
 
 //открываем модальное окно профиля
 profileButton?.addEventListener('click', () => {
     openPopup(popupProfile);
     popupInputName.value = profileName.textContent;
     popupInputTitle.value = profileTitle.textContent;
+  })
+
+  avatarPen?.addEventListener('click', () => {
+    openPopup(popupAvatar);
   })
 
 // функция присвоения значений инпутов имени и титулу профиля на сайте.
@@ -101,6 +108,16 @@ popups.forEach(element => {
       closePopup(element);
     }
   })
+})
+
+avatar.addEventListener('mouseover', () => {
+  avatarEditor.style.setProperty('visibility', 'visible');
+  avatarEditor.style.setProperty('opacity', 1);
+})
+
+avatar.addEventListener('mouseout', () => {
+  avatarEditor.style.setProperty('visibility', 'hidden');
+  avatarEditor.style.setProperty('opacity', 0);
 })
 
 /****************************ФУНКЦИИ*************************************/

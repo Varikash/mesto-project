@@ -1,0 +1,13 @@
+.profile__avatar-button {
+  background-image: url('../../../images/profile_pen.svg');
+  width: 26px;
+  height: 26px;
+  border: none;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.profile__avatar-button:hover {
+  opacity: .5;
+}
