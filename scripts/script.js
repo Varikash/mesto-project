@@ -4,7 +4,6 @@ const profileButton = document.querySelector('.profile__title-setting');
 const profileName = document.querySelector('.profile__title'); //Имя профиля на странице
 const profileTitle = document.querySelector('.profile__subtitle'); //Титул профиля на странице
 
-
 //Модальное окно редактирования профиля
 const popupProfile = document.querySelector('#profile');
 
@@ -24,8 +23,8 @@ const photo = document.querySelector('.photo');
 const photoTitle = document.querySelector('.photo-title');
 const closeButtons = document.querySelectorAll('.popup__close-button')
 const formPlaceCards = document.querySelector('#place-cards');
-//открываем модальное окно профиля
 
+//открываем модальное окно профиля
 profileButton?.addEventListener('click', () => {
     openPopup(popupProfile);
     popupInputName.value = profileName.textContent;
@@ -33,7 +32,6 @@ profileButton?.addEventListener('click', () => {
   })
 
 // функция присвоения значений инпутов имени и титулу профиля на сайте.
-
 popupProfile.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
@@ -48,13 +46,10 @@ popupProfile.addEventListener('submit', (evt) => {
     closePopup(popupProfile);
   })
 
-/* Функция открытия модального окна */
-
+// Функция открытия модального окна 
 placeButton?.addEventListener('click', () => {
     openPopup(popupPlaces);
   });
-
-/* Функция закрытия модального окна */
 
 /**
  * Дефолтный набор карточек
@@ -86,16 +81,22 @@ const initialCards = [
   }
 ];
 
-/**
- * добавляем новую карточку
- */
+// добавляем новую карточку
 popupPlaces.addEventListener('submit', addNewCard);
 
+// закрытие модальных окон по нажатию на esc
 window.addEventListener('keydown', (evt) => {
   if (popupPlaces.classList.contains('popup_opened') && evt.key === 'Escape') {
     closePopup(popupPlaces);
   }
 });
+
+//закрытие модального окна при нажатии не область вне модального окна
+popupPlaces.addEventListener('click', (evt) => {
+  if (evt.target.classList.contains('popup')) {
+    closePopup(popupPlaces);
+  }
+})
 
 /****************************ФУНКЦИИ*************************************/
 
