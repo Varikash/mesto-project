@@ -23,6 +23,7 @@ const photo = document.querySelector('.photo');
 const photoTitle = document.querySelector('.photo-title');
 const closeButtons = document.querySelectorAll('.popup__close-button')
 const formPlaceCards = document.querySelector('#place-cards');
+const popup = document.querySelectorAll('popup');
 
 //открываем модальное окно профиля
 profileButton?.addEventListener('click', () => {
@@ -95,6 +96,7 @@ window.addEventListener('keydown', (evt) => {
   }
 });
 
+
 //закрытие модального окна при нажатии не область вне модального окна
 popupPlaces.addEventListener('click', (evt) => {
   if (evt.target.classList.contains('popup')) {
@@ -108,6 +110,11 @@ popupProfile.addEventListener('click', (evt) => {
   }
 })
 
+photoView.addEventListener('click', (evt) => {
+  if (evt.target.classList.contains('popup')) {
+    closePopup(photoView);
+  }
+})
 
 /****************************ФУНКЦИИ*************************************/
 
