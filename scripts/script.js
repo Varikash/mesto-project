@@ -1,26 +1,18 @@
-/**
- * Кнопка редактирования профиля
- */
+
+//Кнопка редактирования профиля
 const profileButton = document.querySelector('.profile__title-setting');
 const profileName = document.querySelector('.profile__title'); //Имя профиля на странице
 const profileTitle = document.querySelector('.profile__subtitle'); //Титул профиля на странице
 
-/**
- * Модальное окно редактирования профиля
- */
+
+//Модальное окно редактирования профиля
 const popupProfile = document.querySelector('#profile');
 
-/**
- * 
- * Кнопка закрытия модального окна профиля
- */
-
+//Кнопка закрытия модального окна профиля
 const popupInputName = popupProfile.querySelector('.popup__input[name="profile-name"]'); //Инпут имени в модальном окне
 const popupInputTitle = popupProfile.querySelector('.popup__input[name="profile-title"]'); //Инпут титула в модальном окне
 
-/**
- * Модальное окно добавления нового места
- */
+//Модальное окно добавления нового места
 const popupPlaces = document.querySelector('#new-place');
 const placeButton = document.querySelector('.profile__add-button'); //кнопка открытия модального окна
 const popupPlaceName = popupPlaces.querySelector('.popup__input[name="place-name"]');
@@ -98,6 +90,12 @@ const initialCards = [
  * добавляем новую карточку
  */
 popupPlaces.addEventListener('submit', addNewCard);
+
+window.addEventListener('keydown', (evt) => {
+  if (popupPlaces.classList.contains('popup_opened') && evt.key === 'Escape') {
+    closePopup(popupPlaces);
+  }
+});
 
 /****************************ФУНКЦИИ*************************************/
 
