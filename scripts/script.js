@@ -88,6 +88,10 @@ popupPlaces.addEventListener('submit', addNewCard);
 window.addEventListener('keydown', (evt) => {
   if (popupPlaces.classList.contains('popup_opened') && evt.key === 'Escape') {
     closePopup(popupPlaces);
+  } else if (popupProfile.classList.contains('popup_opened') && evt.key === 'Escape') {
+    closePopup(popupProfile);
+  } else if (photoView.classList.contains('popup_opened') && evt.key === 'Escape') {
+    closePopup(photoView);
   }
 });
 
@@ -97,6 +101,13 @@ popupPlaces.addEventListener('click', (evt) => {
     closePopup(popupPlaces);
   }
 })
+
+popupProfile.addEventListener('click', (evt) => {
+  if (evt.target.classList.contains('popup')) {
+    closePopup(popupProfile);
+  }
+})
+
 
 /****************************ФУНКЦИИ*************************************/
 
