@@ -23,7 +23,7 @@ const photo = document.querySelector('.photo');
 const photoTitle = document.querySelector('.photo-title');
 const closeButtons = document.querySelectorAll('.popup__close-button')
 const formPlaceCards = document.querySelector('#place-cards');
-const popup = document.querySelectorAll('popup');
+const popups = [popupPlaces, popupProfile, photoView];
 
 //открываем модальное окно профиля
 profileButton?.addEventListener('click', () => {
@@ -87,33 +87,20 @@ popupPlaces.addEventListener('submit', addNewCard);
 
 // закрытие модальных окон по нажатию на esc
 window.addEventListener('keydown', (evt) => {
-  if (popupPlaces.classList.contains('popup_opened') && evt.key === 'Escape') {
-    closePopup(popupPlaces);
-  } else if (popupProfile.classList.contains('popup_opened') && evt.key === 'Escape') {
-    closePopup(popupProfile);
-  } else if (photoView.classList.contains('popup_opened') && evt.key === 'Escape') {
-    closePopup(photoView);
-  }
+  popups.forEach(element => {
+    if(element.classList.contains('popup_opened') && evt.key === 'Escape') {
+      closePopup(element);
+    }
+  })
 });
 
-
 //закрытие модального окна при нажатии не область вне модального окна
-popupPlaces.addEventListener('click', (evt) => {
-  if (evt.target.classList.contains('popup')) {
-    closePopup(popupPlaces);
-  }
-})
-
-popupProfile.addEventListener('click', (evt) => {
-  if (evt.target.classList.contains('popup')) {
-    closePopup(popupProfile);
-  }
-})
-
-photoView.addEventListener('click', (evt) => {
-  if (evt.target.classList.contains('popup')) {
-    closePopup(photoView);
-  }
+popups.forEach(element => {
+  element.addEventListener('click', (evt) => {
+    if (evt.target.classList.contains('popup')) {
+      closePopup(element);
+    }
+  })
 })
 
 /****************************ФУНКЦИИ*************************************/
