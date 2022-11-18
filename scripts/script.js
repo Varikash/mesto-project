@@ -1,11 +1,11 @@
 
 const avatar = document.querySelector('.profile__avatar');
-const avatarEditor = document.querySelector('.profile__avatar-overlay');
-const avatarPen = document.querySelector('.profile__avatar-button');
-const popupAvatar = document.querySelector('#avatar-edit');
-const formAvatar = document.forms.avatar;
-const avatarInput = formAvatar.elements.avatarLink;
-const profPicture = document.querySelector('.profile__picture');
+const avatarEditor = document.querySelector('.profile__avatar-overlay'); 
+const avatarPen = document.querySelector('.profile__avatar-button'); //кнопка вызова модального окна для смены аватарки
+const popupAvatar = document.querySelector('#avatar-edit'); //модальное окно смены аватарки
+const formAvatar = document.forms.avatar; //форма отправки данных для загрузки новой аватарки
+const avatarInput = formAvatar.elements.avatarLink; //input ввода ссылки для загрузки новой аватарки
+const profPicture = document.querySelector('.profile__picture'); //аватарка профиля
 
 const profileButton = document.querySelector('.profile__title-setting'); //Кнопка редактирования профиля
 const profileName = document.querySelector('.profile__title'); //Имя профиля на странице
@@ -114,16 +114,19 @@ popups.forEach(element => {
   })
 })
 
+//появление кнопки редактирования аватарки
 avatar.addEventListener('mouseover', () => {
   avatarEditor.style.setProperty('visibility', 'visible');
   avatarEditor.style.setProperty('opacity', 1);
 })
 
+//скрытие кнопки редактировния аватарки
 avatar.addEventListener('mouseout', () => {
   avatarEditor.style.setProperty('visibility', 'hidden');
   avatarEditor.style.setProperty('opacity', 0);
 })
 
+//функция смены аватарки
 formAvatar?.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
