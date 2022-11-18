@@ -2,6 +2,10 @@
 const avatar = document.querySelector('.profile__avatar');
 const avatarEditor = document.querySelector('.profile__avatar-overlay');
 const avatarPen = document.querySelector('.profile__avatar-button');
+const popupAvatar = document.querySelector('#avatar-edit');
+const formAvatar = document.forms.avatar;
+const avatarInput = formAvatar.elements.avatarLink;
+const profPicture = document.querySelector('.profile__picture');
 
 const profileButton = document.querySelector('.profile__title-setting'); //Кнопка редактирования профиля
 const profileName = document.querySelector('.profile__title'); //Имя профиля на странице
@@ -11,7 +15,6 @@ const popupProfile = document.querySelector('#profile'); //Модальное о
 
 const popupInputName = popupProfile.querySelector('.popup__input[name="profile-name"]'); //Инпут имени в модальном окне
 const popupInputTitle = popupProfile.querySelector('.popup__input[name="profile-title"]'); //Инпут титула в модальном окне
-
 
 const popupPlaces = document.querySelector('#new-place');//Модальное окно добавления нового места
 const placeButton = document.querySelector('.profile__add-button'); //кнопка открытия модального окна
@@ -24,9 +27,10 @@ const photo = document.querySelector('.photo');
 const photoTitle = document.querySelector('.photo-title');
 const closeButtons = document.querySelectorAll('.popup__close-button')
 const formPlaceCards = document.querySelector('#place-cards');
-const popupAvatar = document.querySelector('#avatar-edit');
-const avatarInput = document.querySelector('popup__input[name = "avatar-link"]');
+
+
 const popups = [popupPlaces, popupProfile, photoView, popupAvatar];
+
 
 //открываем модальное окно профиля
 profileButton?.addEventListener('click', () => {
@@ -120,6 +124,16 @@ avatar.addEventListener('mouseout', () => {
   avatarEditor.style.setProperty('opacity', 0);
 })
 
+formAvatar?.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+
+  if (avatarInput.value.length > 0) {
+    profPicture.src = avatarInput.value;
+  }
+  formAvatar.reset();
+  closePopup(popupAvatar);
+})
+
 /****************************ФУНКЦИИ*************************************/
 
 /**
@@ -189,7 +203,6 @@ function createCard(placeName, placeLink) {
     })
 
   return placeCard;
-
 }
 
 function addInitialCards (placeName, placeLink) {
