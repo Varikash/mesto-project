@@ -45,10 +45,12 @@
   <div class="popup" id="profile">
     <div class="popup__container">
       <button class="popup__close-button" type="button" id="closeBtn-1"></button>
-      <form action="#" name="profile">
+      <form action="#" class="popup__form" name="profile" novalidate>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <input type="text" class="popup__input" value="Жак-Ив Кусто" name="profile-name" autocomplete="off">
-        <input type="text" class="popup__input" value="Исследователь океана" name="profile-title" autocomplete="off">
+        <input type="text" id="name-input" class="popup__input" value="Жак-Ив Кусто" name="profile-name" autocomplete="off" required>
+        <span class="name-input-error popup__input-error"></span>
+        <input type="text" id="occupation-input" class="popup__input" value="Исследователь океана" name="profile-title" autocomplete="off" required>
+        <span class="occupation-input-error popup__input-error"></span>
         <button type="submit" class="popup__button">Сохранить</button>
       </form>
     </div>
@@ -56,10 +58,12 @@
   <div class="popup" id="new-place">
     <div class="popup__container">
       <button class="popup__close-button" type="button" id="closeBtn-2"></button>
-      <form action="#" name="places" id="place-cards">
+      <form action="#" class="popup__form" name="places" id="place-cards" novalidate>
         <h2 class="popup__title">Новое место</h2>
-        <input type="text" class="popup__input" placeholder="Название" name="place-name" autocomplete="off" required>
-        <input type="text" class="popup__input" placeholder="Ссылка на картинку" name="place-link" autocomplete="off" required>
+        <input type="text" id="place-name" class="popup__input" placeholder="Название" name="place-name" autocomplete="off" required>
+        <span class="place-name-error popup__input-error"></span>
+        <input type="url" id="place-url" class="popup__input" placeholder="Ссылка на картинку" name="place-link" autocomplete="off" required>
+        <span class="place-url-error popup__input-error"></span>
         <button type="submit" class="popup__button">Создать</button>
       </form>
     </div>
@@ -74,9 +78,10 @@
   <div class="popup" id="avatar-edit">
     <div class="popup__container">
       <button class="popup__close-button" type="button" id="closeBtn-4"></button>
-      <form action="#" name="avatar" id="avatat-input">
+      <form action="#" class="popup__form" name="avatar" id="avatat-input" novalidate>
         <h2 class="popup__title">Обновить аватар</h2>
-        <input type="url" class="popup__input" placeholder="https://somewebsite.com/someimage.jpg" name="avatarLink" autocomplete="off" required>
+        <input type="url" id="avatar-url" class="popup__input" placeholder="https://somewebsite.com/someimage.jpg" name="avatarLink" autocomplete="off" required>
+        <span class="avatar-url-error popup__input-error"></span>
         <button type="submit" class="popup__button">Сохранить</button>
       </form>
     </div>
