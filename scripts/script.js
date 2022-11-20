@@ -101,13 +101,6 @@ popupPlaces.addEventListener('submit', addNewCard);
 window.addEventListener('keydown', (evt) => {
   popups.forEach(element => {
     if (element.classList.contains('popup_opened') && evt.key === 'Escape') {
-      const form = element.querySelector('.popup__form');
-      const inputList = form.querySelectorAll('.popup__input');
-      inputList.forEach(formInput => {
-        if (formInput.value.length === 0) {
-          hideInputError(form, formInput);
-        }
-      })
       closePopup(element);
     }
   })
@@ -117,13 +110,6 @@ window.addEventListener('keydown', (evt) => {
 popups.forEach(element => {
   element.addEventListener('mousedown', (evt) => {
     if (evt.target.classList.contains('popup')) {
-      const form = element.querySelector('.popup__form');
-      const inputList = form.querySelectorAll('.popup__input');
-      inputList.forEach(formInput => {
-        if (formInput.value.length === 0) {
-          hideInputError(form, formInput);
-        }
-      })
       closePopup(element);
     }
   })
