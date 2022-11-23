@@ -1,3 +1,4 @@
+import '../pages/index.css'
 import { openPopup, closePopup } from "./functions.js";
 import { profileButton, popupProfile, popupInputName, popupInputTitle, profileName, profileTitle } from "./profileModal.js";
 import { avatar, avatarEditor, avatarPen, popupAvatar, formAvatar, avatarInput, profPicture } from "./avatarModal.js";
@@ -5,6 +6,7 @@ import { enableValidation } from "./validationFormFuncs.js";
 import { popupPlaces, placeButton} from "./placesModal.js";
 import { initialCards, addInitialCards} from "./initialCardsLoad.js"
 import { addNewCard } from "./addNewCard.js";
+
 
 const closeButtons = document.querySelectorAll('.popup__close-button')
 const popups = Array.from(document.querySelectorAll('.popup'));

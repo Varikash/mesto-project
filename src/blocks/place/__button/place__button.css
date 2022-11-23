@@ -6,7 +6,7 @@
   height: 19px;
   border: none;
   cursor: pointer;
-  background-image: url('../../../../images/place__button.svg');
+  background-image: url('../../../images/place__button.svg');
   background-position: center;
   background-color: #fff;
   transition: .5s;

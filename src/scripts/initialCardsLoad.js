@@ -2,33 +2,34 @@ import { openPopup } from "./functions.js";
 import { photoView, photo, photoTitle } from "./photoModal.js";
 import { places } from "./placesModal.js";
 
+
 /**
  * Дефолтный набор карточек
  */
 export const initialCards = [
   {
-    name: 'Элиста, Калмыкия',
-    link: './images/kalmikia.jpeg'
-  },
-  {
     name: 'Алтай',
-    link: './images/altai.jpeg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
   },
   {
-    name: 'Чиркейская ГЭС',
-    link: './images/dagestan.jpeg'
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
   },
   {
-    name: 'Домбай',
-    link: './images/dombai.jpg'
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
   },
   {
-    name: 'Эльбрус',
-    link: './images/elbrus.jpg'
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
   },
   {
-    name: 'Карачаевск',
-    link: './images/karachaesk.jpeg'
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
 
