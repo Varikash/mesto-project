@@ -1,17 +1,17 @@
 import '../pages/index.css'
 import { openPopup, closePopup } from "./functions.js";
 import { profileButton, popupProfile, popupInputName, popupInputTitle, profileName, profileTitle } from "./profileModal.js";
-import { avatar, avatarEditor, avatarPen, popupAvatar, formAvatar, avatarInput, profPicture } from "./avatarModal.js";
+import { avatar, avatarEditor, avatarPen, popupAvatar, formAvatar, avatarInput, profPicture, sizeCheck } from "./avatarModal.js";
 import { enableValidation } from "./validationFormFuncs.js";
-import { popupPlaces, placeButton} from "./placesModal.js";
-import { initialCards, addInitialCards} from "./initialCardsLoad.js"
+import { popupPlaces, placeButton } from "./placesModal.js";
+import { addInitialCards } from "./initialCardsLoad.js"
+import { initialCards, profileInfo } from './api';
 import { addNewCard } from "./addNewCard.js";
+
 
 
 const closeButtons = document.querySelectorAll('.popup__close-button')
 const popups = Array.from(document.querySelectorAll('.popup'));
-
-
 
 
 
@@ -82,9 +82,6 @@ popupPlaces.addEventListener('submit', addNewCard);
 
 
 
-
-
-
 // закрытие модальных окон по нажатию на esc
 window.addEventListener('keydown', (evt) => {
   popups.forEach(element => {
@@ -111,14 +108,26 @@ closeButtons.forEach((button) => {
   })
 })
 
-
-
-
-
-
-
-initialCards.forEach((initialCard) => {
-  addInitialCards(initialCard.name, initialCard.link);
-});
-
 enableValidation();
+
+initialCards()
+.then(objects => {
+  objects.forEach((object) => {
+    addInitialCards(object.name, object.link);
+  });
+})
+.catch((err) => {
+  console.log(err);
+}); 
+
+
+profileInfo()
+.then(object => {
+  profileName.textContent = object.name;
+  profileTitle.textContent = object.about;
+  profPicture.src = object.avatar;
+  sizeCheck();
+})
+.catch((err) => {
+  console.log(err);
+}); 
