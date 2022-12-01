@@ -7,16 +7,6 @@ const avatarInput = formAvatar.elements.avatarLink; //input ввода ссыл�
 const profPicture = document.querySelector('.profile__picture'); //аватарка профиля
 
 
-function sizeCheck () {
-  if (profPicture.naturalWidth > profPicture.naturalHeight) {
-    profPicture.style.width='auto';
-    profPicture.style.height='100%';
-  } else {
-    profPicture.style.width='100%';
-    profPicture.style.height='auto';
-  }
-}
-
 export {
   avatar,
   avatarEditor,
@@ -25,5 +15,4 @@ export {
   formAvatar,
   avatarInput,
   profPicture,
-  sizeCheck
 }

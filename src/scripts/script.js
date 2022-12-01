@@ -1,18 +1,15 @@
 import '../pages/index.css'
 import { openPopup, closePopup } from "./functions.js";
 import { profileButton, popupProfile, popupInputName, popupInputTitle, profileName, profileTitle } from "./profileModal.js";
-import { avatar, avatarEditor, avatarPen, popupAvatar, formAvatar, avatarInput, profPicture, sizeCheck } from "./avatarModal.js";
+import { avatar, avatarEditor, avatarPen, popupAvatar, formAvatar, avatarInput, profPicture } from "./avatarModal.js";
 import { enableValidation } from "./validationFormFuncs.js";
-import { popupPlaces, placeButton } from "./placesModal.js";
+import { popupPlaces, placeButton, popupPlaceName, popupPlaceLink } from "./placesModal.js";
 import { addInitialCards } from "./initialCardsLoad.js"
-import { initialCards, profileInfo } from './api';
-import { addNewCard } from "./addNewCard.js";
-
+import { initialCards, profileInfo, refreshProfInfo, refreshAvatar, pushCard } from './api';
 
 
 const closeButtons = document.querySelectorAll('.popup__close-button')
 const popups = Array.from(document.querySelectorAll('.popup'));
-
 
 
 //открываем модальное окно профиля
@@ -23,15 +20,13 @@ profileButton?.addEventListener('click', () => {
 })
 
 // функция присвоения значений инпутов имени и титулу профиля на сайте.
-popupProfile.addEventListener('submit', (evt) => {
+popupProfile?.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
-  if (popupInputName.value.length > 0) {
-    profileName.textContent = popupInputName.value;
-  }
-
-  if (popupInputTitle.value.length > 0) {
-    profileTitle.textContent = popupInputTitle.value;
+  try {
+    refreshProfInfo(popupInputName.value, popupInputTitle.value);
+  } catch (error) {
+    console.log(`Ошибка: ${error}`);
   }
 
   closePopup(popupProfile);
@@ -62,14 +57,15 @@ avatarPen?.addEventListener('click', () => {
 formAvatar?.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
-  if (avatarInput.value.length > 0) {
-    profPicture.src = avatarInput.value;
+  try {
+    refreshAvatar(avatarInput.value);
+  } catch (error) {
+    console.log(`Ошибка: ${error}`);
   }
+
   formAvatar.reset();
   closePopup(popupAvatar);
 })
-
-
 
 
 // Функция открытия модального окна загрузки новой карточки
@@ -78,7 +74,16 @@ placeButton?.addEventListener('click', () => {
 });
 
 // добавляем новую карточку
-popupPlaces.addEventListener('submit', addNewCard);
+popupPlaces.addEventListener('submit', (e) => {
+  e.preventDefault();
+  try {
+    pushCard(popupPlaceName.value, popupPlaceLink.value);
+  } catch (error) {
+    alert(error);
+  }
+  
+  closePopup(popupPlaces);
+});
 
 
 
@@ -112,9 +117,13 @@ enableValidation();
 
 initialCards()
 .then(objects => {
-  objects.forEach((object) => {
-    addInitialCards(object.name, object.link);
-  });
+  profileInfo()
+    .then(user => {
+      const userID = user._id
+      objects.forEach((object) => {
+        addInitialCards(object.name, object.link, userID, object.owner._id, object._id);
+      });
+    })
 })
 .catch((err) => {
   console.log(err);
@@ -126,7 +135,6 @@ profileInfo()
   profileName.textContent = object.name;
   profileTitle.textContent = object.about;
   profPicture.src = object.avatar;
-  sizeCheck();
 })
 .catch((err) => {
   console.log(err);

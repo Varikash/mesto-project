@@ -1,19 +1,25 @@
-import { openPopup } from "./functions.js";
+import { closePopup, openPopup } from "./functions.js";
 import { photoView, photo, photoTitle } from "./photoModal.js";
 import { places } from "./placesModal.js";
-
+import { deletePopup, formDelete } from "./deleteModal.js";
+import { deleteCard } from "./api.js";
 
 /**
  * Функция добавления дефолтных карточек + удаление и лайки
  */
-export function createCard(placeName, placeLink) {
+export function createCard(placeName, placeLink, userID, cardOwnerID, cardID) {
   const cardTemplate = document.querySelector('#place-card').content;
   const placeCard = cardTemplate.querySelector('.place').cloneNode(true);
   const photoCard = placeCard.querySelector('.place__image');
+  const deleteBtn = placeCard.querySelector('.place__delete');
 
   placeCard.querySelector('.place__title').textContent = placeName;
   photoCard.src = placeLink;
   photoCard.alt = placeName;
+
+  if (cardOwnerID !== userID ) {
+    deleteBtn.style.display = 'none';
+  }
 
   photoCard.addEventListener('click', () => {
     openPopup(photoView);
@@ -26,14 +32,20 @@ export function createCard(placeName, placeLink) {
     e.target.classList.toggle('place__button_active');
   })
 
-  placeCard.querySelector('.place__delete').addEventListener('click', (e) => {
-    e.target.closest('.place').remove();
+  deleteBtn.addEventListener('click', (e) => {
+    openPopup(deletePopup);
+    formDelete.addEventListener('submit', () => {
+      e.preventDefault();
+      deleteCard(cardID)
+      closePopup(deletePopup);
+    })
+    // e.target.closest('.place').remove();
   })
 
   return placeCard;
 }
 
-export function addInitialCards (placeName, placeLink) {
-  const initialPlaceCards = createCard(placeName, placeLink);
+export function addInitialCards (placeName, placeLink, userID, cardOwnerID, cardID) {
+  const initialPlaceCards = createCard(placeName, placeLink, userID, cardOwnerID, cardID);
   places.append(initialPlaceCards);
 }
