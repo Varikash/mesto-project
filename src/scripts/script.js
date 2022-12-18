@@ -33,9 +33,6 @@ popupProfile?.addEventListener('submit', (evt) => {
 })
 
 
-
-
-
 //появление кнопки редактирования аватарки
 avatar.addEventListener('mouseover', () => {
   avatarEditor.style.setProperty('visibility', 'visible');
@@ -115,19 +112,19 @@ closeButtons.forEach((button) => {
 
 enableValidation();
 
-initialCards()
-.then(objects => {
-  profileInfo()
-    .then(user => {
-      const userID = user._id
-      objects.forEach((object) => {
-        addInitialCards(object.name, object.link, userID, object.owner._id, object._id);
-      });
-    })
+
+Promise.all([initialCards(), profileInfo()])
+.then(([cards, user]) => {
+  const userID = user._id;
+  cards.forEach(card => {
+    console.log(card.likes.length);
+    addInitialCards(card.name, card.link, userID, card.owner._id, card._id);
+  })
 })
-.catch((err) => {
-  console.log(err);
-}); 
+.catch(err => {
+  console.log(`Ошибка: ${err}`)
+})
+
 
 
 profileInfo()

@@ -78,3 +78,19 @@ export const deleteCard = (cardID) => {
     headers: config.headers
   })
 }
+
+//отправляем на сервер лайк
+export const putLike = (cardID) => {
+  fetch(`${config.baseUrl}cards/likes/${cardID}`, {
+    method: config.put,
+    headers: config.headers
+  })
+}
+
+//удаляем лайк
+export const deleteLike = (cardID) => {
+  fetch(`${config.baseUrl}cards/likes/${cardID}`, {
+    method: config.delete,
+    headers: config.headers
+  })
+}

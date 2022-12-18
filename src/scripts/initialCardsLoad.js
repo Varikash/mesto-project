@@ -2,7 +2,7 @@ import { closePopup, openPopup } from "./functions.js";
 import { photoView, photo, photoTitle } from "./photoModal.js";
 import { places } from "./placesModal.js";
 import { deletePopup, formDelete } from "./deleteModal.js";
-import { deleteCard } from "./api.js";
+import { deleteCard, putLike, deleteLike } from "./api.js";
 
 /**
  * Функция добавления дефолтных карточек + удаление и лайки
@@ -28,7 +28,13 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID) {
     photoTitle.textContent = placeName;
   })
 
+  /////////////////////////////////////////////////////////////////////////////////////////////////////
   placeCard.querySelector('.place__button').addEventListener('click', (e) => {
+    if (!e.target.classList.contains('place__button_active')) {
+
+    } else {
+      
+    }
     e.target.classList.toggle('place__button_active');
   })
 
