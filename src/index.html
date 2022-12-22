@@ -8,28 +8,27 @@
   <meta name="author" content="Варикаш Николай">
   <meta name="description" content="Место - страница, куда можно добавлять и удалять фотографии, ставить лайки">
   <title>Место</title>
-  <link rel="stylesheet" href="./pages/index.css">
 </head>
 
 <body class="root">
   <div class="page">
     <header class="header">
-      <img src="./images/logo.svg" alt="Логотип" class="header__logo">
+      <img src="<%=require('./images/logo.svg')%>" alt="Логотип" class="header__logo">
     </header>
     <main>
       <section class="profile">
         <div class="profile__avatar">
-          <img src="./images/Avatar.jpg" alt="Аватар" class="profile__picture">
+          <img alt="Аватар" class="profile__picture">
           <div class="profile__avatar-overlay">
             <button class="profile__avatar-button"></button>
           </div>
         </div>
         <div class="profile__info">
           <div class="profile__header">
-            <h1 class="profile__title">Жак-Ив Кусто</h1>
+            <h1 class="profile__title"></h1>
             <button class="profile__title-setting" type="button" aria-label="настройки имени"></button>
           </div>
-          <p class="profile__subtitle">Исследователь океана</p>
+          <p class="profile__subtitle"></p>
         </div>
         <button class="profile__add-button" type="button" aria-label="добавить фото"></button>
       </section>
@@ -45,10 +44,12 @@
   <div class="popup" id="profile">
     <div class="popup__container">
       <button class="popup__close-button" type="button" id="closeBtn-1"></button>
-      <form action="#" name="profile">
+      <form action="#" class="popup__form" name="profile" novalidate>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <input type="text" class="popup__input" value="Жак-Ив Кусто" name="profile-name" autocomplete="off">
-        <input type="text" class="popup__input" value="Исследователь океана" name="profile-title" autocomplete="off">
+        <input type="text" id="name-input" class="popup__input" value="Жак-Ив Кусто" name="profile-name" autocomplete="off" minlength="2" maxlength="40" pattern="^[A-Za-zА-Яа-яЁё -]+$" required data-error-message="только латинские буквы, кириллические буквы, знаки дефиса и пробелы">
+        <span class="name-input-error popup__input-error"></span>
+        <input type="text" id="occupation-input" class="popup__input" value="Исследователь океана" name="profile-title" autocomplete="off" minlength="2" maxlength="200" pattern="^[A-Za-zА-Яа-яЁё -]+$" required data-error-message="только латинские буквы, кириллические буквы, знаки дефиса и пробелы">
+        <span class="occupation-input-error popup__input-error"></span>
         <button type="submit" class="popup__button">Сохранить</button>
       </form>
     </div>
@@ -56,10 +57,12 @@
   <div class="popup" id="new-place">
     <div class="popup__container">
       <button class="popup__close-button" type="button" id="closeBtn-2"></button>
-      <form action="#" name="places" id="place-cards">
+      <form action="#" class="popup__form" name="places" id="place-cards" novalidate>
         <h2 class="popup__title">Новое место</h2>
-        <input type="text" class="popup__input" placeholder="Название" name="place-name" autocomplete="off" required>
-        <input type="text" class="popup__input" placeholder="Ссылка на картинку" name="place-link" autocomplete="off" required>
+        <input type="text" id="place-name" class="popup__input" placeholder="Название" name="place-name" autocomplete="off" required pattern="^[A-Za-zА-Яа-яЁё -]+$" required data-error-message="только латинские буквы, кириллические буквы, знаки дефиса и пробелы">>
+        <span class="place-name-error popup__input-error"></span>
+        <input type="url" id="place-url" class="popup__input" placeholder="Ссылка на картинку" name="place-link" autocomplete="off" required>
+        <span class="place-url-error popup__input-error"></span>
         <button type="submit" class="popup__button">Создать</button>
       </form>
     </div>
@@ -74,10 +77,20 @@
   <div class="popup" id="avatar-edit">
     <div class="popup__container">
       <button class="popup__close-button" type="button" id="closeBtn-4"></button>
-      <form action="#" name="avatar" id="avatat-input">
+      <form action="#" class="popup__form" name="avatar" id="avatat-input" novalidate>
         <h2 class="popup__title">Обновить аватар</h2>
-        <input type="url" class="popup__input" placeholder="https://somewebsite.com/someimage.jpg" name="avatarLink" autocomplete="off" required>
+        <input type="url" id="avatar-url" class="popup__input" placeholder="https://somewebsite.com/someimage.jpg" name="avatarLink" autocomplete="off" required>
+        <span class="avatar-url-error popup__input-error"></span>
         <button type="submit" class="popup__button">Сохранить</button>
+      </form>
+    </div>
+  </div>
+  <div class="popup" id="delete">
+    <div class="popup__container">
+      <button class="popup__close-button" type="button" id="closeBtn-5"></button>
+      <form action="#" class="popup__form" name="delete" id="delete-agreement">
+        <h2 class="popup__delete-title">Вы уверены?</h2>
+        <button type="submit" class="popup__button">Да</button>
       </form>
     </div>
   </div>
@@ -93,6 +106,5 @@
       </article>
     </li>
   </template>
-  <script src="./scripts/script.js"></script>
 </body>
 </html>
