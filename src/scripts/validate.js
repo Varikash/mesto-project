@@ -13,6 +13,12 @@ function hideInputError(form, formInput) {
 }
 
 function isValid(form, formInput) {
+  if (formInput.validity.patternMismatch) {
+    formInput.setCustomValidity(formInput.dataset.errorMessage);
+  } else {
+    formInput.setCustomValidity("");
+  }
+  
   if (!formInput.validity.valid) {
     showInputError(form, formInput, formInput.validationMessage);
   } else {

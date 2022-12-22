@@ -1,4 +1,4 @@
-import { closePopup, openPopup } from "./functions.js";
+import { closePopup, openPopup } from "./utils.js";
 import { photoView, photo, photoTitle } from "./photoModal.js";
 import { places } from "./placesModal.js";
 import { deletePopup, formDelete } from "./deleteModal.js";

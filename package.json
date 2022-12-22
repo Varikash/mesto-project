@@ -2,7 +2,7 @@
   "name": "mesto-project",
   "version": "2.0.0",
   "description": "platform to share places that have been visited",
-  "main": "script.js",
+  "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
     "dev": "webpack serve"

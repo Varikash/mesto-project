@@ -1,10 +1,10 @@
 import '../pages/index.css'
-import { openPopup, closePopup } from "./functions.js";
+import { openPopup, closePopup } from "./utils.js";
 import { profileButton, popupProfile, popupInputName, popupInputTitle, profileName, profileTitle } from "./profileModal.js";
 import { avatar, avatarEditor, avatarPen, popupAvatar, formAvatar, avatarInput, profPicture } from "./avatarModal.js";
-import { enableValidation } from "./validationFormFuncs.js";
+import { enableValidation } from "./validate.js";
 import { popupPlaces, placeButton, popupPlaceName, popupPlaceLink } from "./placesModal.js";
-import { addInitialCards } from "./initialCardsLoad.js"
+import { addInitialCards } from "./cards.js"
 import { initialCards, profileInfo, refreshProfInfo, refreshAvatar, pushCard } from './api';
 
 
