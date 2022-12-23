@@ -38,6 +38,14 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID) {
     e.target.classList.toggle('place__button_active');
   })
 
+  const checkAgree = () => {
+    let isConfirmed = false;
+    const closeBtn = document.querySelector('#closeBtn-5');
+    openPopup(deletePopup);
+
+
+  }
+
   deleteBtn.addEventListener('click', (e) => {
     openPopup(deletePopup);
     formDelete.addEventListener('submit', () => {

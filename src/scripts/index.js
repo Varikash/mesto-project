@@ -29,6 +29,9 @@ popupProfile?.addEventListener('submit', (evt) => {
     console.log(`Ошибка: ${error}`);
   }
 
+  profileName.textContent = popupInputName.value;
+  profileTitle.textContent = popupInputTitle.value;
+
   closePopup(popupProfile);
 })
 
@@ -59,6 +62,8 @@ formAvatar?.addEventListener('submit', (evt) => {
   } catch (error) {
     console.log(`Ошибка: ${error}`);
   }
+
+  profPicture.src = avatarInput.value;
 
   formAvatar.reset();
   closePopup(popupAvatar);
