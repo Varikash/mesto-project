@@ -1,10 +1,29 @@
 import '../pages/index.css'
-import { openPopup, closePopup } from "./utils.js";
-import { profileButton, popupProfile, popupInputName, popupInputTitle, profileName, profileTitle } from "./profileModal.js";
-import { avatar, avatarEditor, avatarPen, popupAvatar, formAvatar, avatarInput, profPicture } from "./avatarModal.js";
+import { 
+  openPopup, 
+  closePopup, 
+  avatar, 
+  avatarEditor, 
+  avatarPen, 
+  popupAvatar, 
+  formAvatar, 
+  avatarInput, 
+  profPicture, 
+  popupPlaces, 
+  placeButton, 
+  popupPlaceName, 
+  popupPlaceLink, 
+  places, 
+  profileButton, 
+  popupProfile, 
+  popupInputName, 
+  popupInputTitle, 
+  profileName, 
+  profileTitle 
+} from "./modal.js";
+
 import { enableValidation } from "./validate.js";
-import { popupPlaces, placeButton, popupPlaceName, popupPlaceLink } from "./placesModal.js";
-import { addInitialCards } from "./cards.js"
+import { addInitialCards, createCard } from "./cards.js"
 import { initialCards, profileInfo, refreshProfInfo, refreshAvatar, pushCard } from './api';
 
 
@@ -80,6 +99,7 @@ popupPlaces.addEventListener('submit', (e) => {
   e.preventDefault();
   try {
     pushCard(popupPlaceName.value, popupPlaceLink.value);
+    places.prepend(createCard(popupPlaceName.value, popupPlaceLink.value)) ///////////////////////
   } catch (error) {
     alert(error);
   }
@@ -115,7 +135,14 @@ closeButtons.forEach((button) => {
   })
 })
 
-enableValidation();
+enableValidation({
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active',
+  inactiveButtonClass: 'popup__button_inactive',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  formSelector: '.popup__form',
+});
 
 
 Promise.all([initialCards(), profileInfo()])

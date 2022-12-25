@@ -1,7 +1,4 @@
-import { closePopup, openPopup } from "./utils.js";
-import { photoView, photo, photoTitle } from "./photoModal.js";
-import { places } from "./placesModal.js";
-import { deletePopup, formDelete } from "./deleteModal.js";
+import { openPopup, photoView, photo, photoTitle, places } from "./modal.js";
 import { deleteCard, putLike, deleteLike } from "./api.js";
 
 /**
@@ -38,23 +35,13 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID) {
     e.target.classList.toggle('place__button_active');
   })
 
-  const checkAgree = () => {
-    let isConfirmed = false;
-    const closeBtn = document.querySelector('#closeBtn-5');
-    openPopup(deletePopup);
-
-
-  }
-
-  deleteBtn.addEventListener('click', (e) => {
-    openPopup(deletePopup);
-    formDelete.addEventListener('submit', () => {
-      e.preventDefault();
-      deleteCard(cardID)
-      closePopup(deletePopup);
-    })
-    // e.target.closest('.place').remove();
-  })
+  
+  deleteBtn.addEventListener('click', async (e) => {
+      deleteCard(cardID);
+      e.target.closest('.place').remove();
+  });
+  
+  
 
   return placeCard;
 }
