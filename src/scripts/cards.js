@@ -1,5 +1,5 @@
 import { openPopup, photoView, photo, photoTitle, places } from "./modal.js";
-import { deleteCard, putLike, deleteLike } from "./api.js";
+import { deleteCard } from "./api.js";
 
 /**
  * Функция добавления дефолтных карточек + удаление и лайки
@@ -24,25 +24,12 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID) {
     photo.alt = placeName;
     photoTitle.textContent = placeName;
   })
-
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
-  placeCard.querySelector('.place__button').addEventListener('click', (e) => {
-    if (!e.target.classList.contains('place__button_active')) {
-
-    } else {
-      
-    }
-    e.target.classList.toggle('place__button_active');
-  })
-
   
   deleteBtn.addEventListener('click', async (e) => {
       deleteCard(cardID);
       e.target.closest('.place').remove();
   });
   
-  
-
   return placeCard;
 }
 

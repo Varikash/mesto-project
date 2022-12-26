@@ -19,16 +19,14 @@ import {
   popupInputName, 
   popupInputTitle, 
   profileName, 
-  profileTitle 
+  profileTitle,
+  popups,
+  closeButtons 
 } from "./modal.js";
 
 import { enableValidation } from "./validate.js";
 import { addInitialCards, createCard } from "./cards.js"
 import { initialCards, profileInfo, refreshProfInfo, refreshAvatar, pushCard } from './api';
-
-
-const closeButtons = document.querySelectorAll('.popup__close-button')
-const popups = Array.from(document.querySelectorAll('.popup'));
 
 
 //открываем модальное окно профиля

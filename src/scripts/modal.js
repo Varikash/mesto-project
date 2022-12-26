@@ -23,7 +23,20 @@ const popupInputTitle = popupProfile.querySelector('.popup__input[name="profile-
 const profileName = document.querySelector('.profile__title'); //Имя профиля на странице
 const profileTitle = document.querySelector('.profile__subtitle'); //Титул профиля на странице
 
+const closeButtons = document.querySelectorAll('.popup__close-button')
+const popups = Array.from(document.querySelectorAll('.popup'));
+
+function openPopup(popupElement) {
+  popupElement.classList.add('popup_opened');
+}
+
+function closePopup(popupElement) {
+  popupElement.classList.remove('popup_opened');
+}
+
 export {
+  popups,
+  closeButtons,
   profileButton, 
   popupProfile, 
   popupInputName, 
@@ -45,15 +58,7 @@ export {
   placeButton,
   popupPlaceName,
   popupPlaceLink,
-  places
+  places,
+  openPopup, 
+  closePopup
 };
-
-function openPopup(popupElement) {
-  popupElement.classList.add('popup_opened');
-}
-
-function closePopup(popupElement) {
-  popupElement.classList.remove('popup_opened');
-}
-
-export {openPopup, closePopup};
