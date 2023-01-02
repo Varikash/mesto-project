@@ -33,6 +33,14 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
       deleteCard(cardID);
       e.target.closest('.place').remove();
   });
+
+  placeCard.querySelector('.place__button').addEventListener('click', (e) => {
+    e.target.classList.toggle('place__button_active');
+  })
+
+placeCard.querySelector('.place__delete').addEventListener('click', (e) => {
+    e.target.closest('.place').remove();
+  })
   
   return placeCard;
 }
