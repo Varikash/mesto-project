@@ -1,5 +1,5 @@
 import { openPopup, photoView, photo, photoTitle, places } from "./modal.js";
-import { deleteCard } from "./api.js";
+import { deleteCard, putLike, deleteLike } from "./api.js";
 
 
 /**
@@ -42,6 +42,13 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
   });
 
   likeButton.addEventListener('click', (e) => {
+    if (e.target.classList.contains('place__button_active')) {
+      deleteLike(cardID);
+      likeNumber.textContent = likes - 1;
+    } else {
+      putLike(cardID);
+      likeNumber.textContent = likes + 1;
+    }
     e.target.classList.toggle('place__button_active');
   })
 
