@@ -1,15 +1,32 @@
 import '../pages/index.css'
-import { openPopup, closePopup } from "./utils.js";
-import { profileButton, popupProfile, popupInputName, popupInputTitle, profileName, profileTitle } from "./profileModal.js";
-import { avatar, avatarEditor, avatarPen, popupAvatar, formAvatar, avatarInput, profPicture } from "./avatarModal.js";
+import { 
+  openPopup, 
+  closePopup, 
+  avatar, 
+  avatarEditor, 
+  avatarPen, 
+  popupAvatar, 
+  formAvatar, 
+  avatarInput, 
+  profPicture, 
+  popupPlaces, 
+  placeButton, 
+  popupPlaceName, 
+  popupPlaceLink, 
+  places, 
+  profileButton, 
+  popupProfile, 
+  popupInputName, 
+  popupInputTitle, 
+  profileName, 
+  profileTitle,
+  popups,
+  closeButtons 
+} from "./modal.js";
+
 import { enableValidation } from "./validate.js";
-import { popupPlaces, placeButton, popupPlaceName, popupPlaceLink } from "./placesModal.js";
-import { addInitialCards } from "./cards.js"
+import { addInitialCards, createCard } from "./cards.js"
 import { initialCards, profileInfo, refreshProfInfo, refreshAvatar, pushCard } from './api';
-
-
-const closeButtons = document.querySelectorAll('.popup__close-button')
-const popups = Array.from(document.querySelectorAll('.popup'));
 
 
 //открываем модальное окно профиля
@@ -28,6 +45,9 @@ popupProfile?.addEventListener('submit', (evt) => {
   } catch (error) {
     console.log(`Ошибка: ${error}`);
   }
+
+  profileName.textContent = popupInputName.value;
+  profileTitle.textContent = popupInputTitle.value;
 
   closePopup(popupProfile);
 })
@@ -60,6 +80,8 @@ formAvatar?.addEventListener('submit', (evt) => {
     console.log(`Ошибка: ${error}`);
   }
 
+  profPicture.src = avatarInput.value;
+
   formAvatar.reset();
   closePopup(popupAvatar);
 })
@@ -75,6 +97,7 @@ popupPlaces.addEventListener('submit', (e) => {
   e.preventDefault();
   try {
     pushCard(popupPlaceName.value, popupPlaceLink.value);
+    places.prepend(createCard(popupPlaceName.value, popupPlaceLink.value)) ///////////////////////
   } catch (error) {
     alert(error);
   }
@@ -110,15 +133,21 @@ closeButtons.forEach((button) => {
   })
 })
 
-enableValidation();
+enableValidation({
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active',
+  inactiveButtonClass: 'popup__button_inactive',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  formSelector: '.popup__form',
+});
 
 
 Promise.all([initialCards(), profileInfo()])
 .then(([cards, user]) => {
   const userID = user._id;
   cards.forEach(card => {
-    console.log(card.likes.length);
-    addInitialCards(card.name, card.link, userID, card.owner._id, card._id);
+    addInitialCards(card.name, card.link, userID, card.owner._id, card._id, card.likes.length, card.likes);
   })
 })
 .catch(err => {

@@ -1,25 +1,33 @@
-import { closePopup, openPopup } from "./utils.js";
-import { photoView, photo, photoTitle } from "./photoModal.js";
-import { places } from "./placesModal.js";
-import { deletePopup, formDelete } from "./deleteModal.js";
+import { openPopup, photoView, photo, photoTitle, places } from "./modal.js";
 import { deleteCard, putLike, deleteLike } from "./api.js";
+
 
 /**
  * Функция добавления дефолтных карточек + удаление и лайки
  */
-export function createCard(placeName, placeLink, userID, cardOwnerID, cardID) {
+export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes) {
   const cardTemplate = document.querySelector('#place-card').content;
   const placeCard = cardTemplate.querySelector('.place').cloneNode(true);
   const photoCard = placeCard.querySelector('.place__image');
   const deleteBtn = placeCard.querySelector('.place__delete');
+  const likeNumber = placeCard.querySelector('.place__number');
+  const likeButton = placeCard.querySelector('.place__button');
 
   placeCard.querySelector('.place__title').textContent = placeName;
   photoCard.src = placeLink;
   photoCard.alt = placeName;
 
+  likeNumber.textContent = likes;
+
   if (cardOwnerID !== userID ) {
     deleteBtn.style.display = 'none';
   }
+
+  cardLikes.forEach(like => {
+    if (like._id == userID) {
+      likeButton.classList.add('place__button_active');
+    }
+  });
 
   photoCard.addEventListener('click', () => {
     openPopup(photoView);
@@ -27,31 +35,31 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID) {
     photo.alt = placeName;
     photoTitle.textContent = placeName;
   })
+  
+  deleteBtn.addEventListener('click', async (e) => {
+      deleteCard(cardID);
+      e.target.closest('.place').remove();
+  });
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
-  placeCard.querySelector('.place__button').addEventListener('click', (e) => {
-    if (!e.target.classList.contains('place__button_active')) {
-
+  likeButton.addEventListener('click', (e) => {
+    if (e.target.classList.contains('place__button_active')) {
+      deleteLike(cardID);
+      likeNumber.textContent = likes - 1;
     } else {
-      
+      putLike(cardID);
+      likeNumber.textContent = likes + 1;
     }
     e.target.classList.toggle('place__button_active');
   })
 
-  deleteBtn.addEventListener('click', (e) => {
-    openPopup(deletePopup);
-    formDelete.addEventListener('submit', () => {
-      e.preventDefault();
-      deleteCard(cardID)
-      closePopup(deletePopup);
-    })
-    // e.target.closest('.place').remove();
+placeCard.querySelector('.place__delete').addEventListener('click', (e) => {
+    e.target.closest('.place').remove();
   })
-
+  
   return placeCard;
 }
 
-export function addInitialCards (placeName, placeLink, userID, cardOwnerID, cardID) {
-  const initialPlaceCards = createCard(placeName, placeLink, userID, cardOwnerID, cardID);
+export function addInitialCards (placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes) {
+  const initialPlaceCards = createCard(placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes);
   places.append(initialPlaceCards);
 }

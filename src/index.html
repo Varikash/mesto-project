@@ -85,15 +85,6 @@
       </form>
     </div>
   </div>
-  <div class="popup" id="delete">
-    <div class="popup__container">
-      <button class="popup__close-button" type="button" id="closeBtn-5"></button>
-      <form action="#" class="popup__form" name="delete" id="delete-agreement">
-        <h2 class="popup__delete-title">Вы уверены?</h2>
-        <button type="submit" class="popup__button">Да</button>
-      </form>
-    </div>
-  </div>
   <template id="place-card">
     <li class="place">
       <article class="place__card">
@@ -101,7 +92,10 @@
         <img class="place__image">
         <div class="place__info">
           <h2 class="place__title"></h2>
-          <button class="place__button" type="button" aria-label="лайк"></button>
+          <div class="place__like">
+            <button class="place__button" type="button" aria-label="лайк"></button>
+            <p class="place__number">0</p>
+          </div>
         </div>
       </article>
     </li>
