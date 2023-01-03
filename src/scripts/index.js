@@ -147,7 +147,7 @@ Promise.all([initialCards(), profileInfo()])
 .then(([cards, user]) => {
   const userID = user._id;
   cards.forEach(card => {
-    addInitialCards(card.name, card.link, userID, card.owner._id, card._id, card.likes.length);
+    addInitialCards(card.name, card.link, userID, card.owner._id, card._id, card.likes.length, card.likes);
   })
 })
 .catch(err => {
