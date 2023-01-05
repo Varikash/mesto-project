@@ -105,17 +105,6 @@ popupPlaces.addEventListener('submit', (e) => {
   closePopup(popupPlaces);
 });
 
-
-
-// закрытие модальных окон по нажатию на esc
-window.addEventListener('keydown', (evt) => {
-  popups.forEach(element => {
-    if (element.classList.contains('popup_opened') && evt.key === 'Escape') {
-      closePopup(element);
-    }
-  })
-});
-
 //закрытие модального окна при нажатии не область вне модального окна
 popups.forEach(element => {
   element.addEventListener('mousedown', (evt) => {
