@@ -46,10 +46,12 @@
       <button class="popup__close-button" type="button" id="closeBtn-1"></button>
       <form action="#" class="popup__form" name="profile" novalidate>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <input type="text" id="name-input" class="popup__input" value="Жак-Ив Кусто" name="profile-name" autocomplete="off" minlength="2" maxlength="40" pattern="^[A-Za-zА-Яа-яЁё -]+$" required data-error-message="только латинские буквы, кириллические буквы, знаки дефиса и пробелы">
-        <span class="name-input-error popup__input-error"></span>
-        <input type="text" id="occupation-input" class="popup__input" value="Исследователь океана" name="profile-title" autocomplete="off" minlength="2" maxlength="200" pattern="^[A-Za-zА-Яа-яЁё -]+$" required data-error-message="только латинские буквы, кириллические буквы, знаки дефиса и пробелы">
-        <span class="occupation-input-error popup__input-error"></span>
+        <fieldset class="popup__input-container">
+          <input type="text" id="name-input" class="popup__input" value="Жак-Ив Кусто" name="profile-name" autocomplete="off" minlength="2" maxlength="40" pattern="^[A-Za-zА-Яа-яЁё -]+$" required data-error-message="только латинские буквы, кириллические буквы, знаки дефиса и пробелы">
+          <span class="name-input-error popup__input-error"></span>
+          <input type="text" id="occupation-input" class="popup__input" value="Исследователь океана" name="profile-title" autocomplete="off" minlength="2" maxlength="200" pattern="^[A-Za-zА-Яа-яЁё -]+$" required data-error-message="только латинские буквы, кириллические буквы, знаки дефиса и пробелы">
+          <span class="occupation-input-error popup__input-error"></span>
+        </fieldset>
         <button type="submit" class="popup__button">Сохранить</button>
       </form>
     </div>
@@ -59,10 +61,12 @@
       <button class="popup__close-button" type="button" id="closeBtn-2"></button>
       <form action="#" class="popup__form" name="places" id="place-cards" novalidate>
         <h2 class="popup__title">Новое место</h2>
-        <input type="text" id="place-name" class="popup__input" placeholder="Название" name="place-name" autocomplete="off" required pattern="^[A-Za-zА-Яа-яЁё -]+$" required data-error-message="только латинские буквы, кириллические буквы, знаки дефиса и пробелы" minlength="2">
-        <span class="place-name-error popup__input-error"></span>
-        <input type="url" id="place-url" class="popup__input" placeholder="Ссылка на картинку" name="place-link" autocomplete="off" required>
-        <span class="place-url-error popup__input-error"></span>
+        <fieldset class="popup__input-container">
+          <input type="text" id="place-name" class="popup__input" placeholder="Название" name="place-name" autocomplete="off" required pattern="^[A-Za-zА-Яа-яЁё -]+$" required data-error-message="только латинские буквы, кириллические буквы, знаки дефиса и пробелы" minlength="2">
+          <span class="place-name-error popup__input-error"></span>
+          <input type="url" id="place-url" class="popup__input" placeholder="Ссылка на картинку" name="place-link" autocomplete="off" required>
+          <span class="place-url-error popup__input-error"></span>
+        </fieldset>
         <button type="submit" class="popup__button">Создать</button>
       </form>
     </div>
@@ -79,8 +83,10 @@
       <button class="popup__close-button" type="button" id="closeBtn-4"></button>
       <form action="#" class="popup__form" name="avatar" id="avatat-input" novalidate>
         <h2 class="popup__title">Обновить аватар</h2>
-        <input type="url" id="avatar-url" class="popup__input" placeholder="https://somewebsite.com/someimage.jpg" name="avatarLink" autocomplete="off" required>
-        <span class="avatar-url-error popup__input-error"></span>
+        <fieldset class="popup__input-container">
+          <input type="url" id="avatar-url" class="popup__input" placeholder="https://somewebsite.com/someimage.jpg" name="avatarLink" autocomplete="off" required>
+          <span class="avatar-url-error popup__input-error"></span>
+        </fieldset>
         <button type="submit" class="popup__button">Сохранить</button>
       </form>
     </div>
