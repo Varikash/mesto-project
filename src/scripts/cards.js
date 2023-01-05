@@ -16,18 +16,26 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
   placeCard.querySelector('.place__title').textContent = placeName;
   photoCard.src = placeLink;
   photoCard.alt = placeName;
+  
+  let digit = likes;
 
-  likeNumber.textContent = likes;
+  likeNumber.textContent = digit;
 
   if (cardOwnerID !== userID ) {
     deleteBtn.style.display = 'none';
   }
 
-  cardLikes.forEach(like => {
-    if (like._id == userID) {
-      likeButton.classList.add('place__button_active');
-    }
-  });
+  if (cardLikes) {
+    cardLikes.forEach(like => {
+      if (like._id == userID) {
+        likeButton.classList.add('place__button_active');
+      }
+    })
+  } else {
+    likeNumber.textContent = 0;
+    digit = 0;
+  }
+  
 
   photoCard.addEventListener('click', () => {
     openPopup(photoView);
@@ -44,10 +52,12 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
   likeButton.addEventListener('click', (e) => {
     if (e.target.classList.contains('place__button_active')) {
       deleteLike(cardID);
-      likeNumber.textContent = likes - 1;
+      likeNumber.textContent = digit - 1;
+      digit = digit - 1;
     } else {
       putLike(cardID);
-      likeNumber.textContent = likes + 1;
+      likeNumber.textContent = digit + 1;
+      digit = digit + 1;
     }
     e.target.classList.toggle('place__button_active');
   })

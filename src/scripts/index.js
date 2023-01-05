@@ -97,9 +97,9 @@ popupPlaces.addEventListener('submit', (e) => {
   e.preventDefault();
   try {
     pushCard(popupPlaceName.value, popupPlaceLink.value);
-    places.prepend(createCard(popupPlaceName.value, popupPlaceLink.value)) ///////////////////////
+    places.prepend(createCard(popupPlaceName.value, popupPlaceLink.value))/////////////////////////////
   } catch (error) {
-    alert(error);
+    alert(`Проблема в создании новой карточки. 100 строка: ${error}`);
   }
   
   closePopup(popupPlaces);
@@ -165,3 +165,5 @@ profileInfo()
 .catch((err) => {
   console.log(err);
 }); 
+
+
