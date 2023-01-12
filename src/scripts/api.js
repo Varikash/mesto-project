@@ -10,58 +10,51 @@ const config = {
   delete: 'DELETE'
 }
 
+
 //запрос дефолтных карточек
 export const initialCards = () => {
   return fetch(`${config.baseUrl}cards`, {
     headers: config.headers
   })
-  .then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status, res.ok}`);
-  })
+  .then(res => getResponseData(res))
 }
 
 //запрос информации о профиле
-export const profileInfo = () => {
+export const fetchProfileInfo = () => {
   return fetch(`${config.baseUrl}users/me`, {
     headers: config.headers
   })
-  .then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status, res.ok}`);
-  })
+  .then((res) => getResponseData(res))
 }
 
 //обновляем информацию в профиле
 export const refreshProfInfo = (name, about) => {
-  fetch(`${config.baseUrl}users/me`, {
+  return fetch(`${config.baseUrl}users/me`, {
   method: config.patch,
   headers: config.headers,
   body: JSON.stringify({
     name: name,
     about: about
   })
-}); 
+})
+.then(res => getResponseData(res))
 }
 
 //обновляем аватарку
 export const refreshAvatar = (url) => {
-  fetch(`${config.baseUrl}users/me/avatar`, {
+  return fetch(`${config.baseUrl}users/me/avatar`, {
     method: config.patch,
     headers: config.headers,
     body: JSON.stringify({
       avatar: url
     })
-  }); 
+  })
+  .then(res => getResponseData(res))
 }
 
 //добавляем новую карточку
 export const pushCard = (name, link) => {
-  fetch(`${config.baseUrl}cards`, {
+  return fetch(`${config.baseUrl}cards`, {
     method: config.post,
     headers: config.headers,
     body: JSON.stringify({
@@ -69,6 +62,7 @@ export const pushCard = (name, link) => {
       link: link
     })
   })
+  .then((res) => getResponseData(res))
 }
 
 //удаляем карточку с сервера
@@ -94,3 +88,17 @@ export const deleteLike = (cardID) => {
     headers: config.headers
   })
 }
+
+
+/**
+ * Универсальная функция обработки ответа от сервера
+ * @param {Response} response 
+ * @returns data
+ */
+function getResponseData(response) {
+  if (response.ok) {
+    return response.json();
+  }
+  return Promise.reject(`Ошибка: ${response.status, response.ok}`);
+}
+

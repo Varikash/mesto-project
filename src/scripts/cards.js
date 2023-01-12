@@ -1,19 +1,20 @@
 import { openPopup, photoView, photo, photoTitle, places } from "./modal.js";
 import { deleteCard, putLike, deleteLike } from "./api.js";
 
+const cardTemplate = document.querySelector('#place-card').content;
 
 /**
  * Функция добавления дефолтных карточек + удаление и лайки
  */
 export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes) {
-  const cardTemplate = document.querySelector('#place-card').content;
   const placeCard = cardTemplate.querySelector('.place').cloneNode(true);
   const photoCard = placeCard.querySelector('.place__image');
   const deleteBtn = placeCard.querySelector('.place__delete');
   const likeNumber = placeCard.querySelector('.place__number');
   const likeButton = placeCard.querySelector('.place__button');
+  const placeTitle = placeCard.querySelector('.place__title');
 
-  placeCard.querySelector('.place__title').textContent = placeName;
+  placeTitle.textContent = placeName;
   photoCard.src = placeLink;
   photoCard.alt = placeName;
   
@@ -22,7 +23,7 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
   likeNumber.textContent = digit;
 
   if (cardOwnerID !== userID ) {
-    deleteBtn.style.display = 'none';
+    deleteBtn.classList.add('place__delete_disable');
   }
 
   if (cardLikes) {
@@ -45,25 +46,33 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
   })
   
   deleteBtn.addEventListener('click', async (e) => {
-      deleteCard(cardID);
+    try {
+      await deleteCard(cardID);
       e.target.closest('.place').remove();
+    } catch (err) {
+      console.log(`Некорректно работает функция удаления карточки в модуле cards. Ошибка: ${err}`);
+    }
   });
 
-  likeButton.addEventListener('click', (e) => {
+  likeButton.addEventListener('click', async (e) => {
     if (e.target.classList.contains('place__button_active')) {
-      deleteLike(cardID);
-      likeNumber.textContent = digit - 1;
-      digit = digit - 1;
+      try {
+        await deleteLike(cardID);
+        likeNumber.textContent = digit - 1;
+        digit = digit - 1;
+      } catch (err) {
+        console.log(`Некорректно работает функция лайка карточки в модуле cards. Ошибка: ${err}`)
+      }
     } else {
-      putLike(cardID);
-      likeNumber.textContent = digit + 1;
-      digit = digit + 1;
+      try {
+        await putLike(cardID);
+        likeNumber.textContent = digit + 1;
+        digit = digit + 1;
+      } catch (err) {
+        console.log(`Некорректно работает функция лайка карточки в модуле cards. Ошибка: ${err}`)
+      }
     }
     e.target.classList.toggle('place__button_active');
-  })
-
-placeCard.querySelector('.place__delete').addEventListener('click', (e) => {
-    e.target.closest('.place').remove();
   })
   
   return placeCard;

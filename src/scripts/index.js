@@ -21,12 +21,13 @@ import {
   profileName, 
   profileTitle,
   popups,
-  closeButtons 
+  closeButtons, 
+  formPlace
 } from "./modal.js";
 
 import { enableValidation } from "./validate.js";
 import { addInitialCards, createCard } from "./cards.js"
-import { initialCards, profileInfo, refreshProfInfo, refreshAvatar, pushCard } from './api';
+import { initialCards, fetchProfileInfo, refreshProfInfo, refreshAvatar, pushCard } from './api';
 
 
 //открываем модальное окно профиля
@@ -40,29 +41,26 @@ profileButton?.addEventListener('click', () => {
 popupProfile?.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
-  try {
-    refreshProfInfo(popupInputName.value, popupInputTitle.value);
-  } catch (error) {
-    console.log(`Ошибка: ${error}`);
-  }
-
-  profileName.textContent = popupInputName.value;
-  profileTitle.textContent = popupInputTitle.value;
-
-  closePopup(popupProfile);
+    refreshProfInfo(popupInputName.value, popupInputTitle.value)
+    .then(data => {
+      profileName.textContent = data.name;
+      profileTitle.textContent = data.about;
+      closePopup(popupProfile);
+    })
+    .catch (err => {
+      console.log(err);
+    }) 
 })
 
 
 //появление кнопки редактирования аватарки
 avatar.addEventListener('mouseover', () => {
-  avatarEditor.style.setProperty('visibility', 'visible');
-  avatarEditor.style.setProperty('opacity', 1);
+  avatarEditor.classList.add('profile__avatar-overlay_enable');
 })
 
 //скрытие кнопки редактировния аватарки
 avatar.addEventListener('mouseout', () => {
-  avatarEditor.style.setProperty('visibility', 'hidden');
-  avatarEditor.style.setProperty('opacity', 0);
+  avatarEditor.classList.remove('profile__avatar-overlay_enable');
 })
 
 //открываем модальное окно загрузки аватарки
@@ -73,17 +71,14 @@ avatarPen?.addEventListener('click', () => {
 //функция смены аватарки
 formAvatar?.addEventListener('submit', (evt) => {
   evt.preventDefault();
-
-  try {
-    refreshAvatar(avatarInput.value);
-  } catch (error) {
-    console.log(`Ошибка: ${error}`);
-  }
-
-  profPicture.src = avatarInput.value;
-
-  formAvatar.reset();
-  closePopup(popupAvatar);
+  
+  refreshAvatar(avatarInput.value)
+  .then(data => {
+    profPicture.src = data.avatar;
+    formAvatar.reset();
+    closePopup(popupAvatar);
+  })
+  .catch(err => console.log(err));
 })
 
 
@@ -95,14 +90,16 @@ placeButton?.addEventListener('click', () => {
 // добавляем новую карточку
 popupPlaces.addEventListener('submit', (e) => {
   e.preventDefault();
-  try {
-    pushCard(popupPlaceName.value, popupPlaceLink.value);
-    places.prepend(createCard(popupPlaceName.value, popupPlaceLink.value))/////////////////////////////
-  } catch (error) {
-    alert(`Проблема в создании новой карточки. 100 строка: ${error}`);
-  }
-  
-  closePopup(popupPlaces);
+    
+    pushCard(popupPlaceName.value, popupPlaceLink.value)
+    .then(data => {
+      places.prepend(createCard(popupPlaceName.value, popupPlaceLink.value, data.owner._id, data.owner._id, data._id, data.likes.length, data.likes));
+      closePopup(popupPlaces);
+      formPlace.reset();
+    })
+    .catch(err => {
+      console.error(`Error creating new card in index module: ${err}`);
+    });
 });
 
 //закрытие модального окна при нажатии не область вне модального окна
@@ -132,27 +129,16 @@ enableValidation({
 });
 
 
-Promise.all([initialCards(), profileInfo()])
+Promise.all([initialCards(), fetchProfileInfo()])
 .then(([cards, user]) => {
   const userID = user._id;
   cards.forEach(card => {
     addInitialCards(card.name, card.link, userID, card.owner._id, card._id, card.likes.length, card.likes);
   })
+  profileName.textContent = user.name;
+  profileTitle.textContent = user.about;
+  profPicture.src = user.avatar;
 })
 .catch(err => {
   console.log(`Ошибка: ${err}`)
 })
-
-
-
-profileInfo()
-.then(object => {
-  profileName.textContent = object.name;
-  profileTitle.textContent = object.about;
-  profPicture.src = object.avatar;
-})
-.catch((err) => {
-  console.log(err);
-}); 
-
-
