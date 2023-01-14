@@ -19,10 +19,7 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
   photoCard.src = placeLink;
   photoCard.alt = placeName;
   
-  let digit = likes;
-  //console.log(cardLikes)
-
-  likeNumber.textContent = digit;
+  likeNumber.textContent = likes;
 
   if (cardOwnerID !== userID ) {
     deleteBtn.classList.add('place__delete_disable');
@@ -36,7 +33,6 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
     })
   } else {
     likeNumber.textContent = 0;
-    digit = 0;
   }
   
 

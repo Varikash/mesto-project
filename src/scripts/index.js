@@ -83,11 +83,11 @@ formAvatar?.addEventListener('submit', (evt) => {
     profPicture.src = data.avatar;
     formAvatar.reset();
     closePopup(popupAvatar);
+    disableButton(avatarFormButton);
   })
   .catch(err => console.log(err))
   .finally(() => {
     avatarFormButton.textContent = 'Сохранить';
-    disableButton(avatarFormButton);
   })
 })
 
@@ -106,13 +106,13 @@ popupPlaces.addEventListener('submit', (e) => {
       places.prepend(createCard(popupPlaceName.value, popupPlaceLink.value, data.owner._id, data.owner._id, data._id, data.likes.length, data.likes));
       closePopup(popupPlaces);
       formPlace.reset();
+      disableButton(placeFormButton);
     })
     .catch(err => {
       console.error(`Error creating new card in index module: ${err}`);
     })
     .finally(() => {
       placeFormButton.textContent = 'Создать';
-      disableButton(placeFormButton);
     })
 });
 
