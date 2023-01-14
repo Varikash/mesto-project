@@ -67,26 +67,29 @@ export const pushCard = (name, link) => {
 
 //удаляем карточку с сервера
 export const deleteCard = (cardID) => {
-  fetch(`${config.baseUrl}cards/${cardID}`, {
+  return fetch(`${config.baseUrl}cards/${cardID}`, {
     method: config.delete,
     headers: config.headers
   })
+  .then(res => getResponseData(res))
 }
 
 //отправляем на сервер лайк
 export const putLike = (cardID) => {
-  fetch(`${config.baseUrl}cards/likes/${cardID}`, {
+  return fetch(`${config.baseUrl}cards/likes/${cardID}`, {
     method: config.put,
     headers: config.headers
   })
+  .then(res => getResponseData(res))
 }
 
 //удаляем лайк
 export const deleteLike = (cardID) => {
-  fetch(`${config.baseUrl}cards/likes/${cardID}`, {
+  return fetch(`${config.baseUrl}cards/likes/${cardID}`, {
     method: config.delete,
     headers: config.headers
   })
+  .then(res => getResponseData(res))
 }
 
 

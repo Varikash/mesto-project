@@ -1,4 +1,5 @@
-import { openPopup, photoView, photo, photoTitle, places } from "./modal.js";
+import { photoView, photo, photoTitle, places } from "./utils.js";
+import { openPopup } from "./modal.js";
 import { deleteCard, putLike, deleteLike } from "./api.js";
 
 const cardTemplate = document.querySelector('#place-card').content;
@@ -45,34 +46,38 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
     photoTitle.textContent = placeName;
   })
   
-  deleteBtn.addEventListener('click', async (e) => {
-    try {
-      await deleteCard(cardID);
-      e.target.closest('.place').remove();
-    } catch (err) {
-      console.log(`Некорректно работает функция удаления карточки в модуле cards. Ошибка: ${err}`);
-    }
+  deleteBtn.addEventListener('click', (e) => {
+    deleteCard(cardID)
+    .then(() => {
+      e.target.closest('.place').remove()
+    })
+    .catch (err => {
+      console.log(`Ошибка удаления карточки в модуле cards: ${err}`)
+    })
   });
 
-  likeButton.addEventListener('click', async (e) => {
+  likeButton.addEventListener('click', (e) => {
     if (e.target.classList.contains('place__button_active')) {
-      try {
-        await deleteLike(cardID);
+      deleteLike(cardID)
+      .then(() => {
         likeNumber.textContent = digit - 1;
         digit = digit - 1;
-      } catch (err) {
-        console.log(`Некорректно работает функция лайка карточки в модуле cards. Ошибка: ${err}`)
-      }
+        e.target.classList.toggle('place__button_active');
+      })
+      .catch(err => {
+        console.log(`Ошибка с удалением лайка в модуле cards: ${err}`)
+      })
     } else {
-      try {
-        await putLike(cardID);
+      putLike(cardID)
+      .then(() => {
         likeNumber.textContent = digit + 1;
         digit = digit + 1;
-      } catch (err) {
-        console.log(`Некорректно работает функция лайка карточки в модуле cards. Ошибка: ${err}`)
-      }
+        e.target.classList.toggle('place__button_active');
+      })
+      .catch(err => {
+        console.log(`Ошибка с постановкой лайка в модуле cards: ${err}`)
+      })
     }
-    e.target.classList.toggle('place__button_active');
   })
   
   return placeCard;

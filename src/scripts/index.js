@@ -1,7 +1,5 @@
 import '../pages/index.css'
 import { 
-  openPopup, 
-  closePopup, 
   avatar, 
   avatarEditor, 
   avatarPen, 
@@ -23,8 +21,9 @@ import {
   popups,
   closeButtons, 
   formPlace
-} from "./modal.js";
+} from "./utils";
 
+import { closePopup, openPopup } from './modal';
 import { enableValidation } from "./validate.js";
 import { addInitialCards, createCard } from "./cards.js"
 import { initialCards, fetchProfileInfo, refreshProfInfo, refreshAvatar, pushCard } from './api';
