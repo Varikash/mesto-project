@@ -20,7 +20,10 @@ import {
   profileTitle,
   popups,
   closeButtons, 
-  formPlace
+  formPlace,
+  profileFormButton,
+  placeFormButton,
+  avatarFormButton
 } from "./utils";
 
 import { closePopup, openPopup } from './modal';
@@ -39,7 +42,7 @@ profileButton?.addEventListener('click', () => {
 // функция присвоения значений инпутов имени и титулу профиля на сайте.
 popupProfile?.addEventListener('submit', (evt) => {
   evt.preventDefault();
-
+  profileFormButton.textContent = 'Сохранение...'
     refreshProfInfo(popupInputName.value, popupInputTitle.value)
     .then(data => {
       profileName.textContent = data.name;
@@ -48,6 +51,9 @@ popupProfile?.addEventListener('submit', (evt) => {
     })
     .catch (err => {
       console.log(err);
+    })
+    .finally(() => {
+      profileFormButton.textContent = 'Сохранить'
     }) 
 })
 
@@ -70,14 +76,17 @@ avatarPen?.addEventListener('click', () => {
 //функция смены аватарки
 formAvatar?.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  
+  avatarFormButton.textContent = 'Сохранение...'
   refreshAvatar(avatarInput.value)
   .then(data => {
     profPicture.src = data.avatar;
     formAvatar.reset();
     closePopup(popupAvatar);
   })
-  .catch(err => console.log(err));
+  .catch(err => console.log(err))
+  .finally(() => {
+    avatarFormButton.textContent = 'Сохранить'
+  })
 })
 
 
@@ -89,7 +98,7 @@ placeButton?.addEventListener('click', () => {
 // добавляем новую карточку
 popupPlaces.addEventListener('submit', (e) => {
   e.preventDefault();
-    
+    placeFormButton.textContent = 'Сохранение...'
     pushCard(popupPlaceName.value, popupPlaceLink.value)
     .then(data => {
       places.prepend(createCard(popupPlaceName.value, popupPlaceLink.value, data.owner._id, data.owner._id, data._id, data.likes.length, data.likes));
@@ -98,7 +107,10 @@ popupPlaces.addEventListener('submit', (e) => {
     })
     .catch(err => {
       console.error(`Error creating new card in index module: ${err}`);
-    });
+    })
+    .finally(() => {
+      placeFormButton.textContent = 'Создать'
+    })
 });
 
 //закрытие модального окна при нажатии не область вне модального окна

@@ -20,6 +20,9 @@ const profileTitle = document.querySelector('.profile__subtitle'); //Титул 
 const closeButtons = document.querySelectorAll('.popup__close-button')
 const popups = Array.from(document.querySelectorAll('.popup'));
 const photoContainer = document.querySelector('.popup__photo-container');
+const profileFormButton = document.querySelector('#profileFormButton');
+const placeFormButton = document.querySelector('#placeFormButton');
+const avatarFormButton = document.querySelector('#avatarFormButton');
 
 //для модуля cards
 const photoView = document.querySelector('#photo-view'); //модальное окно, при нажатии на изображение
@@ -54,5 +57,8 @@ export {
   placeButton,
   popupPlaceName,
   popupPlaceLink,
-  places
+  places,
+  profileFormButton,
+  placeFormButton,
+  avatarFormButton
 }
