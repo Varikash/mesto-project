@@ -20,6 +20,7 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
   photoCard.alt = placeName;
   
   let digit = likes;
+  //console.log(cardLikes)
 
   likeNumber.textContent = digit;
 
@@ -59,9 +60,8 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
   likeButton.addEventListener('click', (e) => {
     if (e.target.classList.contains('place__button_active')) {
       deleteLike(cardID)
-      .then(() => {
-        likeNumber.textContent = digit - 1;
-        digit = digit - 1;
+      .then((data) => {
+        likeNumber.textContent = data.likes.length
         e.target.classList.toggle('place__button_active');
       })
       .catch(err => {
@@ -69,9 +69,8 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
       })
     } else {
       putLike(cardID)
-      .then(() => {
-        likeNumber.textContent = digit + 1;
-        digit = digit + 1;
+      .then((data) => {
+        likeNumber.textContent = data.likes.length;
         e.target.classList.toggle('place__button_active');
       })
       .catch(err => {

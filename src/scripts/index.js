@@ -23,7 +23,8 @@ import {
   formPlace,
   profileFormButton,
   placeFormButton,
-  avatarFormButton
+  avatarFormButton,
+  disableButton
 } from "./utils";
 
 import { closePopup, openPopup } from './modal';
@@ -85,7 +86,8 @@ formAvatar?.addEventListener('submit', (evt) => {
   })
   .catch(err => console.log(err))
   .finally(() => {
-    avatarFormButton.textContent = 'Сохранить'
+    avatarFormButton.textContent = 'Сохранить';
+    disableButton(avatarFormButton);
   })
 })
 
@@ -109,7 +111,8 @@ popupPlaces.addEventListener('submit', (e) => {
       console.error(`Error creating new card in index module: ${err}`);
     })
     .finally(() => {
-      placeFormButton.textContent = 'Создать'
+      placeFormButton.textContent = 'Создать';
+      disableButton(placeFormButton);
     })
 });
 

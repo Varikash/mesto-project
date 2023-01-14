@@ -32,6 +32,12 @@ const photoTitle = document.querySelector('.photo-title');
 //index, cards
 const places = document.querySelector('.places__cards-grid');
 
+function disableButton (button) {
+  button.disabled = true;
+  button.classList.add('popup__button_inactive');
+}
+
+
 export {
   popups,
   closeButtons,
@@ -60,5 +66,6 @@ export {
   places,
   profileFormButton,
   placeFormButton,
-  avatarFormButton
+  avatarFormButton,
+  disableButton
 }
