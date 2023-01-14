@@ -79,8 +79,7 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
       })
     }
   })
-  
-  return placeCard;
+    return placeCard;
 }
 
 export function addInitialCards (placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes) {
