@@ -1,21 +1,18 @@
 
 function openPopup(popupElement) {
   popupElement.classList.add('popup_opened');
-  document.addEventListener('keydown', function(event) {
-    closeModalOnEscape(event, popupElement)
-  })
+  document.addEventListener('keydown', closeModalOnEscape)
 }
 
 function closePopup(popupElement) {
   popupElement.classList.remove('popup_opened');
-  document.removeEventListener('keydown', function(event){
-    closeModalOnEscape(event, popupElement)
-  })
+  document.removeEventListener('keydown', closeModalOnEscape)
 }
 
-function closeModalOnEscape (event, popupElement) {
+function closeModalOnEscape (event) {
   if (event.key === 'Escape') {
-    closePopup(popupElement);
+    const openedPopup = document.querySelector('.popup_opened')
+    closePopup(openedPopup);
   }
 }
 
