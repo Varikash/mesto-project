@@ -159,5 +159,12 @@ Promise.all([initialCards(), fetchProfileInfo()])
 
 function deleteCardFunction (cardID) {
   deleteCard(cardID)
-  .then
+  .then(() => {
+    e.target.closest('.place').remove()
+  })
+  .catch (err => {
+    console.log(`Ошибка удаления карточки в модуле index: ${err}`)
+  })
 }
+
+function deleteLikeFunction ()
