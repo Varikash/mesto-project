@@ -1,13 +1,13 @@
 import { photoView, photo, photoTitle, places } from "./utils.js";
 import { openPopup } from "./modal.js";
-import { deleteCard, putLike, deleteLike } from "./api.js";
+
 
 const cardTemplate = document.querySelector('#place-card').content;
 
 /**
  * Функция добавления дефолтных карточек + удаление и лайки
  */
-export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes) {
+export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes, deleteCardFunction, deleteLikeFunction, putLikeFunction) {
   const placeCard = cardTemplate.querySelector('.place').cloneNode(true);
   const photoCard = placeCard.querySelector('.place__image');
   const deleteBtn = placeCard.querySelector('.place__delete');
@@ -44,34 +44,27 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
   })
   
   deleteBtn.addEventListener('click', (e) => {
-    deleteCard(cardID)
-    .then(() => {
-      e.target.closest('.place').remove()
-    })
-    .catch (err => {
+    try {
+      deleteCardFunction(cardID)
+    } catch (err) {
       console.log(`Ошибка удаления карточки в модуле cards: ${err}`)
-    })
+    }
+    
   });
 
   likeButton.addEventListener('click', (e) => {
     if (e.target.classList.contains('place__button_active')) {
-      deleteLike(cardID)
-      .then((data) => {
-        likeNumber.textContent = data.likes.length
-        e.target.classList.toggle('place__button_active');
-      })
-      .catch(err => {
-        console.log(`Ошибка с удалением лайка в модуле cards: ${err}`)
-      })
+      try {
+        deleteLikeFunction(cardID)
+      } catch (err) {
+        console.log(`Ошибка удаления лайка в модуле cards: ${err}`)
+      }
     } else {
-      putLike(cardID)
-      .then((data) => {
-        likeNumber.textContent = data.likes.length;
-        e.target.classList.toggle('place__button_active');
-      })
-      .catch(err => {
-        console.log(`Ошибка с постановкой лайка в модуле cards: ${err}`)
-      })
+      try {
+        putLikeFunction(cardID)
+      } catch (err) {
+        console.log(`Ошибка постановки лайка в модуле cards: ${err}`)
+      }
     }
   })
     return placeCard;
