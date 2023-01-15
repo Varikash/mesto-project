@@ -102,7 +102,7 @@ popupPlaces.addEventListener('submit', (e) => {
     placeFormButton.textContent = 'Сохранение...'
     pushCard(popupPlaceName.value, popupPlaceLink.value)
     .then(data => {
-      places.prepend(createCard(popupPlaceName.value, popupPlaceLink.value, data.owner._id, data.owner._id, data._id, data.likes.length, data.likes));
+      places.prepend(createCard(popupPlaceName.value, popupPlaceLink.value, data.owner._id, data.owner._id, data._id, data.likes.length, data.likes, deleteCardFunction, deleteLikeFunction, putLikeFunction));
       closePopup(popupPlaces);
       formPlace.reset();
       disableButton(placeFormButton);
@@ -146,7 +146,7 @@ Promise.all([initialCards(), fetchProfileInfo()])
 .then(([cards, user]) => {
   const userID = user._id;
   cards.forEach(card => {
-    addInitialCards(card.name, card.link, userID, card.owner._id, card._id, card.likes.length, card.likes);
+    addInitialCards(card.name, card.link, userID, card.owner._id, card._id, card.likes.length, card.likes, deleteCardFunction, deleteLikeFunction, putLikeFunction);
   })
   profileName.textContent = user.name;
   profileTitle.textContent = user.about;
