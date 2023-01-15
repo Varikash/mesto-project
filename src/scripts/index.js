@@ -102,7 +102,7 @@ popupPlaces.addEventListener('submit', (e) => {
     placeFormButton.textContent = 'Сохранение...'
     pushCard(popupPlaceName.value, popupPlaceLink.value)
     .then(data => {
-      places.prepend(createCard(popupPlaceName.value, popupPlaceLink.value, data.owner._id, data.owner._id, data._id, data.likes.length, data.likes, deleteCardFunction, deleteLikeFunction, putLikeFunction));
+      places.prepend(createCard(popupPlaceName.value, popupPlaceLink.value, data.owner._id, data.owner._id, data._id, data.likes.length, data.likes, cardActions));
       closePopup(popupPlaces);
       formPlace.reset();
       disableButton(placeFormButton);
@@ -146,7 +146,7 @@ Promise.all([initialCards(), fetchProfileInfo()])
 .then(([cards, user]) => {
   const userID = user._id;
   cards.forEach(card => {
-    addInitialCards(card.name, card.link, userID, card.owner._id, card._id, card.likes.length, card.likes, deleteCardFunction, deleteLikeFunction, putLikeFunction);
+    addInitialCards(card.name, card.link, userID, card.owner._id, card._id, card.likes.length, card.likes, cardActions);
   })
   profileName.textContent = user.name;
   profileTitle.textContent = user.about;
@@ -156,19 +156,18 @@ Promise.all([initialCards(), fetchProfileInfo()])
   console.log(`Ошибка: ${err}`)
 })
 
-
-function deleteCardFunction (cardID) {
-  deleteCard(cardID)
-  .then(() => {
-    e.target.closest('.place').remove()
-  })
-  .catch (err => {
-    console.log(`Ошибка удаления карточки в модуле index: ${err}`)
-  })
-}
-
-function deleteLikeFunction (cardID) {
-  deleteLike(cardID)
+const cardActions = {
+  deleteCardFunction: function (e, cardID) {
+    deleteCard(cardID)
+      .then(() => {
+        e.target.closest('.place').remove()
+      })
+      .catch (err => {
+        console.log(`Ошибка удаления карточки в модуле index: ${err}`)
+      })
+  },
+  deleteLikeFunction: function (e, cardID, likeNumber) {
+    deleteLike(cardID)
       .then((data) => {
         likeNumber.textContent = data.likes.length
         e.target.classList.toggle('place__button_active');
@@ -176,10 +175,9 @@ function deleteLikeFunction (cardID) {
       .catch(err => {
         console.log(`Ошибка с удалением лайка в модуле index: ${err}`)
       })
-}
-
-function putLikeFunction (cardID) {
-  putLike(cardID)
+  },
+  putLikeFunction: function (e, cardID, likeNumber) {
+    putLike(cardID)
       .then((data) => {
         likeNumber.textContent = data.likes.length;
         e.target.classList.toggle('place__button_active');
@@ -187,4 +185,5 @@ function putLikeFunction (cardID) {
       .catch(err => {
         console.log(`Ошибка с постановкой лайка в модуле index: ${err}`)
       })
+  }
 }
