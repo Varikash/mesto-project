@@ -30,8 +30,7 @@ import {
 import { closePopup, openPopup } from './modal';
 import { enableValidation } from "./validate.js";
 import { addInitialCards, createCard } from "./cards.js"
-import { initialCards, fetchProfileInfo, refreshProfInfo, refreshAvatar, pushCard } from './api';
-
+import { initialCards, fetchProfileInfo, refreshProfInfo, refreshAvatar, pushCard, deleteCard, deleteLike, putLike } from './api';
 
 //открываем модальное окно профиля
 profileButton?.addEventListener('click', () => {
@@ -156,3 +155,9 @@ Promise.all([initialCards(), fetchProfileInfo()])
 .catch(err => {
   console.log(`Ошибка: ${err}`)
 })
+
+
+function deleteCardFunction (cardID) {
+  deleteCard(cardID)
+  .then
+}
