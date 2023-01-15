@@ -7,7 +7,7 @@ const cardTemplate = document.querySelector('#place-card').content;
 /**
  * Функция добавления дефолтных карточек + удаление и лайки
  */
-export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes, deleteCardFunction, deleteLikeFunction, putLikeFunction) {
+export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes, cardActions) {
   const placeCard = cardTemplate.querySelector('.place').cloneNode(true);
   const photoCard = placeCard.querySelector('.place__image');
   const deleteBtn = placeCard.querySelector('.place__delete');
@@ -45,7 +45,7 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
   
   deleteBtn.addEventListener('click', (e) => {
     try {
-      deleteCardFunction(cardID)
+      cardActions.deleteCardFunction(e, cardID)
     } catch (err) {
       console.log(`Ошибка удаления карточки в модуле cards: ${err}`)
     }
@@ -55,13 +55,13 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
   likeButton.addEventListener('click', (e) => {
     if (e.target.classList.contains('place__button_active')) {
       try {
-        deleteLikeFunction(cardID)
+        cardActions.deleteLikeFunction(e, cardID, likeNumber)
       } catch (err) {
         console.log(`Ошибка удаления лайка в модуле cards: ${err}`)
       }
     } else {
       try {
-        putLikeFunction(cardID)
+        cardActions.putLikeFunction(e, cardID, likeNumber)
       } catch (err) {
         console.log(`Ошибка постановки лайка в модуле cards: ${err}`)
       }
@@ -70,7 +70,7 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
     return placeCard;
 }
 
-export function addInitialCards (placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes, deleteCardFunction, deleteLikeFunction, putLikeFunction) {
-  const initialPlaceCards = createCard(placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes, deleteCardFunction, deleteLikeFunction, putLikeFunction);
+export function addInitialCards (placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes, cardActions) {
+  const initialPlaceCards = createCard(placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes, cardActions);
   places.append(initialPlaceCards);
 }
