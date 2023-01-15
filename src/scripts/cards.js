@@ -70,7 +70,7 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
     return placeCard;
 }
 
-export function addInitialCards (placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes) {
-  const initialPlaceCards = createCard(placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes);
+export function addInitialCards (placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes, deleteCardFunction, deleteLikeFunction, putLikeFunction) {
+  const initialPlaceCards = createCard(placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes, deleteCardFunction, deleteLikeFunction, putLikeFunction);
   places.append(initialPlaceCards);
 }
