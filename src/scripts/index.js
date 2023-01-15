@@ -167,4 +167,15 @@ function deleteCardFunction (cardID) {
   })
 }
 
-function deleteLikeFunction ()
+function deleteLikeFunction (cardID) {
+  deleteLike(cardID)
+      .then((data) => {
+        likeNumber.textContent = data.likes.length
+        e.target.classList.toggle('place__button_active');
+      })
+      .catch(err => {
+        console.log(`Ошибка с удалением лайка в модуле cards: ${err}`)
+      })
+}
+
+function putLikeFunction (cardID)
