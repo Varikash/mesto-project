@@ -174,8 +174,17 @@ function deleteLikeFunction (cardID) {
         e.target.classList.toggle('place__button_active');
       })
       .catch(err => {
-        console.log(`Ошибка с удалением лайка в модуле cards: ${err}`)
+        console.log(`Ошибка с удалением лайка в модуле index: ${err}`)
       })
 }
 
-function putLikeFunction (cardID)
+function putLikeFunction (cardID) {
+  putLike(cardID)
+      .then((data) => {
+        likeNumber.textContent = data.likes.length;
+        e.target.classList.toggle('place__button_active');
+      })
+      .catch(err => {
+        console.log(`Ошибка с постановкой лайка в модуле index: ${err}`)
+      })
+}
