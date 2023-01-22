@@ -7,7 +7,7 @@ const cardTemplate = document.querySelector('#place-card').content;
 /**
  * Функция добавления дефолтных карточек + удаление и лайки
  */
-export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes, cardActions) {
+export function createCard(card, user, cardActions) {
   const placeCard = cardTemplate.querySelector('.place').cloneNode(true);
   const photoCard = placeCard.querySelector('.place__image');
   const deleteBtn = placeCard.querySelector('.place__delete');
@@ -15,19 +15,19 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
   const likeButton = placeCard.querySelector('.place__button');
   const placeTitle = placeCard.querySelector('.place__title');
 
-  placeTitle.textContent = placeName;
-  photoCard.src = placeLink;
-  photoCard.alt = placeName;
+  placeTitle.textContent = card.name;
+  photoCard.src = card.link;
+  photoCard.alt = card.name;
   
-  likeNumber.textContent = likes;
+  likeNumber.textContent = card.likes.length;
 
-  if (cardOwnerID !== userID ) {
+  if (card.owner._id !== user._id ) {
     deleteBtn.classList.add('place__delete_disable');
   }
 
-  if (cardLikes) {
-    cardLikes.forEach(like => {
-      if (like._id == userID) {
+  if (card.likes) {
+    card.likes.forEach(like => {
+      if (like._id == user._id) {
         likeButton.classList.add('place__button_active');
       }
     })
@@ -38,14 +38,14 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
 
   photoCard.addEventListener('click', () => {
     openPopup(photoView);
-    photo.src = placeLink;
-    photo.alt = placeName;
-    photoTitle.textContent = placeName;
+    photo.src = card.link;
+    photo.alt = card.name;
+    photoTitle.textContent = card.name;
   })
   
   deleteBtn.addEventListener('click', (e) => {
     try {
-      cardActions.deleteCardFunction(e, cardID)
+      cardActions.deleteCardFunction(e, card._id)
     } catch (err) {
       console.log(`Ошибка удаления карточки в модуле cards: ${err}`)
     }
@@ -55,13 +55,13 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
   likeButton.addEventListener('click', (e) => {
     if (e.target.classList.contains('place__button_active')) {
       try {
-        cardActions.deleteLikeFunction(e, cardID, likeNumber)
+        cardActions.deleteLikeFunction(e, card._id, likeNumber)
       } catch (err) {
         console.log(`Ошибка удаления лайка в модуле cards: ${err}`)
       }
     } else {
       try {
-        cardActions.putLikeFunction(e, cardID, likeNumber)
+        cardActions.putLikeFunction(e, card._id, likeNumber)
       } catch (err) {
         console.log(`Ошибка постановки лайка в модуле cards: ${err}`)
       }
@@ -70,7 +70,7 @@ export function createCard(placeName, placeLink, userID, cardOwnerID, cardID, li
     return placeCard;
 }
 
-export function addInitialCards (placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes, cardActions) {
-  const initialPlaceCards = createCard(placeName, placeLink, userID, cardOwnerID, cardID, likes, cardLikes, cardActions);
+export function addInitialCards (card, user, cardActions) {
+  const initialPlaceCards = createCard(card, user, cardActions);
   places.append(initialPlaceCards);
 }
