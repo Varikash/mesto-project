@@ -1,5 +1,5 @@
-import { photoView, photo, photoTitle, places } from "./utils.js";
-import { openPopup } from "./modal.js";
+import { photoView, photo, photoTitle, places } from "../utils/constants.js";
+import { closePopup, openPopup } from "./modal.js";
 
 
 const cardTemplate = document.querySelector('#place-card').content;

@@ -1,4 +1,3 @@
-//для модуля index
 const avatar = document.querySelector('.profile__avatar');
 const avatarEditor = document.querySelector('.profile__avatar-overlay');
 const avatarPen = document.querySelector('.profile__avatar-button'); //кнопка вызова модального окна для смены аватарки
@@ -32,11 +31,13 @@ const photoTitle = document.querySelector('.photo-title');
 //index, cards
 const places = document.querySelector('.places__cards-grid');
 
-function disableButton (button) {
-  button.disabled = true;
-  button.classList.add('popup__button_inactive');
+const config = {
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-17/',
+  headers: {
+    authorization: '4473f1fa-06d0-4bf8-9c17-4612fabec6aa',
+    'Content-Type': 'application/json'
+  }
 }
-
 
 export {
   popups,
@@ -67,5 +68,5 @@ export {
   profileFormButton,
   placeFormButton,
   avatarFormButton,
-  disableButton
+  config
 }

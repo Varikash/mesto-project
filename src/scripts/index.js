@@ -24,13 +24,16 @@ import {
   profileFormButton,
   placeFormButton,
   avatarFormButton,
-  disableButton
-} from "./utils";
+  config
+} from "../utils/constants.js";
 
 import { closePopup, openPopup } from './modal';
 import { enableValidation } from "./validate.js";
 import { addInitialCards, createCard } from "./cards.js"
-import { initialCards, fetchProfileInfo, refreshProfInfo, refreshAvatar, pushCard, deleteCard, deleteLike, putLike } from './api';
+import { disableButton } from "../utils/utils.js"
+import Api from "../components/Api.js"
+
+const api = new Api(config);
 
 //открываем модальное окно профиля
 profileButton?.addEventListener('click', () => {
@@ -43,7 +46,7 @@ profileButton?.addEventListener('click', () => {
 popupProfile?.addEventListener('submit', (evt) => {
   evt.preventDefault();
   profileFormButton.textContent = 'Сохранение...'
-    refreshProfInfo(popupInputName.value, popupInputTitle.value)
+    api.refreshProfileInfo(popupInputName.value, popupInputTitle.value)
     .then(data => {
       profileName.textContent = data.name;
       profileTitle.textContent = data.about;
@@ -77,7 +80,7 @@ avatarPen?.addEventListener('click', () => {
 formAvatar?.addEventListener('submit', (evt) => {
   evt.preventDefault();
   avatarFormButton.textContent = 'Сохранение...'
-  refreshAvatar(avatarInput.value)
+  api.refreshAvatar(avatarInput.value)
   .then(data => {
     profPicture.src = data.avatar;
     formAvatar.reset();
@@ -100,7 +103,7 @@ placeButton?.addEventListener('click', () => {
 popupPlaces.addEventListener('submit', (e) => {
   e.preventDefault();
     placeFormButton.textContent = 'Сохранение...'
-    pushCard(popupPlaceName.value, popupPlaceLink.value)
+    api.pushCard(popupPlaceName.value, popupPlaceLink.value)
     .then(data => {
       places.prepend(createCard(data, data.owner, cardActions));
       closePopup(popupPlaces);
@@ -142,7 +145,7 @@ enableValidation({
 });
 
 
-Promise.all([initialCards(), fetchProfileInfo()])
+Promise.all([api.getInitialCards(), api.getProfileInfo()])
 .then(([cards, user]) => {
   const userID = user._id;
   cards.forEach(card => {
@@ -158,7 +161,7 @@ Promise.all([initialCards(), fetchProfileInfo()])
 
 const cardActions = {
   deleteCardFunction: function (e, cardID) {
-    deleteCard(cardID)
+    api.deleteCard(cardID)
       .then(() => {
         e.target.closest('.place').remove()
       })
@@ -167,7 +170,7 @@ const cardActions = {
       })
   },
   deleteLikeFunction: function (e, cardID, likeNumber) {
-    deleteLike(cardID)
+    api.deleteLike(cardID)
       .then((data) => {
         likeNumber.textContent = data.likes.length
         e.target.classList.toggle('place__button_active');
@@ -177,7 +180,7 @@ const cardActions = {
       })
   },
   putLikeFunction: function (e, cardID, likeNumber) {
-    putLike(cardID)
+    api.putLike(cardID)
       .then((data) => {
         likeNumber.textContent = data.likes.length;
         e.target.classList.toggle('place__button_active');
