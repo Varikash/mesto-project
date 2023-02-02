@@ -24,29 +24,39 @@ import {
   profileFormButton,
   placeFormButton,
   avatarFormButton,
+  photoView,
   config,
   settings
 } from "../utils/constants.js";
 
 import { closePopup, openPopup } from './modal';
-//import { enableValidation } from "./validate.js";
 import { addInitialCards, createCard } from "./cards.js"
 import { disableButton } from "../utils/utils.js"
 import Api from "../components/Api.js"
 import FormValidator from '../components/FormValidator.js'
+import Popup from '../components/Popup.js'
 
 const api = new Api(config);
 const profileForm = new FormValidator(settings, document.querySelector('#profile-form'));
 const placeCardForm = new FormValidator(settings, document.querySelector('#place-cards'));
 const avatarForm = new FormValidator(settings, document.querySelector('#avatar-input'));
+const profilePopup = new Popup(popupProfile);
+const newPlacePopup = new Popup(popupPlaces);
+const photoViewPopup = new Popup(photoView);
+const avatarPopup = new Popup(popupAvatar);
+
 
 profileForm.enableValidation();
 placeCardForm.enableValidation();
 avatarForm.enableValidation();
+profilePopup.setEventListeners();
+newPlacePopup.setEventListeners();
+photoViewPopup.setEventListeners();
+avatarPopup.setEventListeners();
 
 //открываем модальное окно профиля
 profileButton?.addEventListener('click', () => {
-  openPopup(popupProfile);
+  profilePopup.open();
   popupInputName.value = profileName.textContent;
   popupInputTitle.value = profileTitle.textContent;
 })
@@ -59,7 +69,7 @@ popupProfile?.addEventListener('submit', (evt) => {
     .then(data => {
       profileName.textContent = data.name;
       profileTitle.textContent = data.about;
-      closePopup(popupProfile);
+      profilePopup.close();
     })
     .catch (err => {
       console.log(err);
@@ -82,7 +92,7 @@ avatar.addEventListener('mouseout', () => {
 
 //открываем модальное окно загрузки аватарки
 avatarPen?.addEventListener('click', () => {
-  openPopup(popupAvatar);
+  avatarPopup.open();
 })
 
 //функция смены аватарки
@@ -93,7 +103,7 @@ formAvatar?.addEventListener('submit', (evt) => {
   .then(data => {
     profPicture.src = data.avatar;
     formAvatar.reset();
-    closePopup(popupAvatar);
+    avatarPopup.close();
     disableButton(avatarFormButton);
   })
   .catch(err => console.log(err))
@@ -105,7 +115,7 @@ formAvatar?.addEventListener('submit', (evt) => {
 
 // Функция открытия модального окна загрузки новой карточки
 placeButton?.addEventListener('click', () => {
-  openPopup(popupPlaces);
+  newPlacePopup.open();
 });
 
 // добавляем новую карточку
@@ -115,7 +125,7 @@ popupPlaces.addEventListener('submit', (e) => {
     api.pushCard(popupPlaceName.value, popupPlaceLink.value)
     .then(data => {
       places.prepend(createCard(data, data.owner, cardActions));
-      closePopup(popupPlaces);
+      newPlacePopup.close()
       formPlace.reset();
       disableButton(placeFormButton);
     })
@@ -127,32 +137,22 @@ popupPlaces.addEventListener('submit', (e) => {
     })
 });
 
-//закрытие модального окна при нажатии не область вне модального окна
-popups.forEach(element => {
-  element.addEventListener('mousedown', (evt) => {
-    if (evt.target.classList.contains('popup')) {
-      closePopup(element);
-    }
-  })
-})
+// //закрытие модального окна при нажатии не область вне модального окна
+// popups.forEach(element => {
+//   element.addEventListener('mousedown', (evt) => {
+//     if (evt.target.classList.contains('popup')) {
+//       closePopup(element);
+//     }
+//   })
+// })
 
-//закрытие модальных окон на крестик
-closeButtons.forEach((button) => {
-  const popup = button.closest('.popup');
-  button.addEventListener('click', () => {
-    closePopup(popup);
-  })
-})
-
-// enableValidation({
-//   inputErrorClass: 'popup__input_type_error',
-//   errorClass: 'popup__input-error_active',
-//   inactiveButtonClass: 'popup__button_inactive',
-//   inputSelector: '.popup__input',
-//   submitButtonSelector: '.popup__button',
-//   formSelector: '.popup__form',
-// });
-
+// //закрытие модальных окон на крестик
+// closeButtons.forEach((button) => {
+//   const popup = button.closest('.popup');
+//   button.addEventListener('click', () => {
+//     closePopup(popup);
+//   })
+// })
 
 Promise.all([api.getInitialCards(), api.getProfileInfo()])
 .then(([cards, user]) => {

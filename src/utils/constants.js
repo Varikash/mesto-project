@@ -22,7 +22,6 @@ const photoContainer = document.querySelector('.popup__photo-container');
 const profileFormButton = document.querySelector('#profileFormButton');
 const placeFormButton = document.querySelector('#placeFormButton');
 const avatarFormButton = document.querySelector('#avatarFormButton');
-
 //для модуля cards
 const photoView = document.querySelector('#photo-view'); //модальное окно, при нажатии на изображение
 const photo = document.querySelector('.photo');
