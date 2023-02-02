@@ -136,22 +136,6 @@ popupPlaces.addEventListener('submit', (e) => {
     })
 });
 
-// //закрытие модального окна при нажатии не область вне модального окна
-// popups.forEach(element => {
-//   element.addEventListener('mousedown', (evt) => {
-//     if (evt.target.classList.contains('popup')) {
-//       closePopup(element);
-//     }
-//   })
-// })
-
-// //закрытие модальных окон на крестик
-// closeButtons.forEach((button) => {
-//   const popup = button.closest('.popup');
-//   button.addEventListener('click', () => {
-//     closePopup(popup);
-//   })
-// })
 
 Promise.all([api.getInitialCards(), api.getProfileInfo()])
 .then(([cards, user]) => {
