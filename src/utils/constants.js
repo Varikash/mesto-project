@@ -39,6 +39,14 @@ const config = {
   }
 }
 
+const settings = {
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active',
+  inactiveButtonClass: 'popup__button_inactive',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+};
+
 export {
   popups,
   closeButtons,
@@ -68,5 +76,6 @@ export {
   profileFormButton,
   placeFormButton,
   avatarFormButton,
-  config
+  config,
+  settings,
 }

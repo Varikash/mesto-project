@@ -24,16 +24,25 @@ import {
   profileFormButton,
   placeFormButton,
   avatarFormButton,
-  config
+  config,
+  settings
 } from "../utils/constants.js";
 
 import { closePopup, openPopup } from './modal';
-import { enableValidation } from "./validate.js";
+//import { enableValidation } from "./validate.js";
 import { addInitialCards, createCard } from "./cards.js"
 import { disableButton } from "../utils/utils.js"
 import Api from "../components/Api.js"
+import FormValidator from '../components/FormValidator.js'
 
 const api = new Api(config);
+const profileForm = new FormValidator(settings, document.querySelector('#profile-form'));
+const placeCardForm = new FormValidator(settings, document.querySelector('#place-cards'));
+const avatarForm = new FormValidator(settings, document.querySelector('#avatar-input'));
+
+profileForm.enableValidation();
+placeCardForm.enableValidation();
+avatarForm.enableValidation();
 
 //открываем модальное окно профиля
 profileButton?.addEventListener('click', () => {
@@ -135,14 +144,14 @@ closeButtons.forEach((button) => {
   })
 })
 
-enableValidation({
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__input-error_active',
-  inactiveButtonClass: 'popup__button_inactive',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  formSelector: '.popup__form',
-});
+// enableValidation({
+//   inputErrorClass: 'popup__input_type_error',
+//   errorClass: 'popup__input-error_active',
+//   inactiveButtonClass: 'popup__button_inactive',
+//   inputSelector: '.popup__input',
+//   submitButtonSelector: '.popup__button',
+//   formSelector: '.popup__form',
+// });
 
 
 Promise.all([api.getInitialCards(), api.getProfileInfo()])
