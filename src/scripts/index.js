@@ -34,6 +34,7 @@ import { disableButton } from "../utils/utils.js"
 import Api from "../components/Api.js"
 import FormValidator from '../components/FormValidator.js'
 import Popup from '../components/Popup.js'
+import PopupWithImage from '../components/PopupWithImage.js';
 
 const api = new Api(config);
 const profileForm = new FormValidator(settings, document.querySelector('#profile-form'));
@@ -41,7 +42,7 @@ const placeCardForm = new FormValidator(settings, document.querySelector('#place
 const avatarForm = new FormValidator(settings, document.querySelector('#avatar-input'));
 const profilePopup = new Popup(popupProfile);
 const newPlacePopup = new Popup(popupPlaces);
-const photoViewPopup = new Popup(photoView);
+const photoViewPopup = new PopupWithImage(photoView);
 const avatarPopup = new Popup(popupAvatar);
 
 
