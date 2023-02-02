@@ -29,7 +29,6 @@ import {
   settings
 } from "../utils/constants.js";
 
-import { closePopup, openPopup } from './modal';
 import { addInitialCards, createCard } from "./cards.js"
 import { disableButton } from "../utils/utils.js"
 import Api from "../components/Api.js"
