@@ -81,25 +81,6 @@ profileButton?.addEventListener('click', () => {
   popupInputTitle.value = profileTitle.textContent;
 })
 
-// функция присвоения значений инпутов имени и титулу профиля на сайте.
-popupProfile?.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  profileFormButton.textContent = 'Сохранение...'
-    api.refreshProfileInfo(popupInputName.value, popupInputTitle.value)
-    .then(data => {
-      profileName.textContent = data.name;
-      profileTitle.textContent = data.about;
-      profilePopup.close();
-    })
-    .catch (err => {
-      console.log(err);
-    })
-    .finally(() => {
-      profileFormButton.textContent = 'Сохранить'
-    }) 
-})
-
-
 //появление кнопки редактирования аватарки
 avatar.addEventListener('mouseover', () => {
   avatarEditor.classList.add('profile__avatar-overlay_enable');
