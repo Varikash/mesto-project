@@ -132,47 +132,10 @@ avatarPen?.addEventListener('click', () => {
   avatarPopup.open();
 })
 
-// //функция смены аватарки
-// formAvatar?.addEventListener('submit', (evt) => {
-//   evt.preventDefault();
-//   avatarFormButton.textContent = 'Сохранение...'
-//   api.refreshAvatar(avatarInput.value)
-//   .then(data => {
-//     profPicture.src = data.avatar;
-//     formAvatar.reset();
-//     avatarPopup.close();
-//     disableButton(avatarFormButton);
-//   })
-//   .catch(err => console.log(err))
-//   .finally(() => {
-//     avatarFormButton.textContent = 'Сохранить';
-//   })
-// })
-
-
 // Функция открытия модального окна загрузки новой карточки
 placeButton?.addEventListener('click', () => {
   newPlacePopup.open();
 });
-
-// добавляем новую карточку
-// popupPlaces.addEventListener('submit', (e) => {
-//   e.preventDefault();
-//     placeFormButton.textContent = 'Сохранение...'
-//     api.pushCard(popupPlaceName.value, popupPlaceLink.value)
-//     .then(data => {
-//       places.prepend(createCard(data, data.owner, cardActions));
-//       newPlacePopup.close()
-//       formPlace.reset();
-//       disableButton(placeFormButton);
-//     })
-//     .catch(err => {
-//       console.error(`Error creating new card in index module: ${err}`);
-//     })
-//     .finally(() => {
-//       placeFormButton.textContent = 'Создать';
-//     })
-// });
 
 Promise.all([api.getInitialCards(), api.getProfileInfo()])
 .then(([cards, user]) => {
