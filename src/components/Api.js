@@ -38,8 +38,8 @@ export default class Api {
       headers: this._headers,
       method: 'PATCH',
       body: JSON.stringify({
-        name: `${data[Object.keys(data)[0]]}`,
-        about: `${data[Object.keys(data)[1]]}`,
+        name: data[Object.keys(data)[0]],
+        about: data[Object.keys(data)[1]],
       })
     })
     .then(res => this._getResponseData(res))
@@ -50,12 +50,12 @@ export default class Api {
    * @param {string} url 
    * @returns 
    */
-  refreshAvatar(url) {
+  refreshAvatar(data) {
     return fetch(`${this._baseUrl}users/me/avatar`, {
       headers: this._headers,
       method: 'PATCH',
       body: JSON.stringify({
-        avatar: url
+        avatar: data[Object.keys(data)[0]]
       })
     })
     .then(res => this._getResponseData(res))
@@ -67,13 +67,13 @@ export default class Api {
    * @param {string} link 
    * @returns 
    */
-  pushCard(name, link) {
+  pushCard(data) {
     return fetch(`${this._baseUrl}cards`, {
       headers: this._headers,
       method: 'POST',
       body: JSON.stringify({
-        name: name,
-        link: link
+        name: data[Object.keys(data)[0]],
+        link: data[Object.keys(data)[1]]
       })
     })
     .then(res => this._getResponseData(res))

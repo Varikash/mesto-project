@@ -61,8 +61,44 @@ const profilePopup = new PopupWithForm({
   }
 });
 
-const newPlacePopup = new Popup(popupPlaces);
-const avatarPopup = new Popup(popupAvatar);
+const avatarPopup = new PopupWithForm({
+  popup: popupAvatar,
+  callback: (formData) => {
+    avatarFormButton.textContent = 'Сохранение...'
+    api.refreshAvatar(formData)
+  .then(data => {
+    profPicture.src = data.avatar;
+    avatarPopup.close();
+    disableButton(avatarFormButton);
+  })
+  .catch(err => console.log(err))
+  .finally(() => {
+    avatarFormButton.textContent = 'Сохранить';
+  })
+  }
+});
+
+
+const newPlacePopup = new PopupWithForm({
+  popup: popupPlaces,
+  callback: (formData) => {
+    placeFormButton.textContent = 'Сохранение...'
+    api.pushCard(formData)
+    .then(data => {
+      places.prepend(createCard(data, data.owner, cardActions));
+      newPlacePopup.close()
+      disableButton(placeFormButton);
+    })
+    .catch(err => {
+      console.error(`Error creating new card in index module: ${err}`);
+    })
+    .finally(() => {
+      placeFormButton.textContent = 'Создать';
+    })
+  }
+});
+
+
 const photoViewPopup = new PopupWithImage(photoView);
 
 profileForm.enableValidation();
@@ -96,22 +132,22 @@ avatarPen?.addEventListener('click', () => {
   avatarPopup.open();
 })
 
-//функция смены аватарки
-formAvatar?.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  avatarFormButton.textContent = 'Сохранение...'
-  api.refreshAvatar(avatarInput.value)
-  .then(data => {
-    profPicture.src = data.avatar;
-    formAvatar.reset();
-    avatarPopup.close();
-    disableButton(avatarFormButton);
-  })
-  .catch(err => console.log(err))
-  .finally(() => {
-    avatarFormButton.textContent = 'Сохранить';
-  })
-})
+// //функция смены аватарки
+// formAvatar?.addEventListener('submit', (evt) => {
+//   evt.preventDefault();
+//   avatarFormButton.textContent = 'Сохранение...'
+//   api.refreshAvatar(avatarInput.value)
+//   .then(data => {
+//     profPicture.src = data.avatar;
+//     formAvatar.reset();
+//     avatarPopup.close();
+//     disableButton(avatarFormButton);
+//   })
+//   .catch(err => console.log(err))
+//   .finally(() => {
+//     avatarFormButton.textContent = 'Сохранить';
+//   })
+// })
 
 
 // Функция открытия модального окна загрузки новой карточки
@@ -120,24 +156,23 @@ placeButton?.addEventListener('click', () => {
 });
 
 // добавляем новую карточку
-popupPlaces.addEventListener('submit', (e) => {
-  e.preventDefault();
-    placeFormButton.textContent = 'Сохранение...'
-    api.pushCard(popupPlaceName.value, popupPlaceLink.value)
-    .then(data => {
-      places.prepend(createCard(data, data.owner, cardActions));
-      newPlacePopup.close()
-      formPlace.reset();
-      disableButton(placeFormButton);
-    })
-    .catch(err => {
-      console.error(`Error creating new card in index module: ${err}`);
-    })
-    .finally(() => {
-      placeFormButton.textContent = 'Создать';
-    })
-});
-
+// popupPlaces.addEventListener('submit', (e) => {
+//   e.preventDefault();
+//     placeFormButton.textContent = 'Сохранение...'
+//     api.pushCard(popupPlaceName.value, popupPlaceLink.value)
+//     .then(data => {
+//       places.prepend(createCard(data, data.owner, cardActions));
+//       newPlacePopup.close()
+//       formPlace.reset();
+//       disableButton(placeFormButton);
+//     })
+//     .catch(err => {
+//       console.error(`Error creating new card in index module: ${err}`);
+//     })
+//     .finally(() => {
+//       placeFormButton.textContent = 'Создать';
+//     })
+// });
 
 Promise.all([api.getInitialCards(), api.getProfileInfo()])
 .then(([cards, user]) => {
