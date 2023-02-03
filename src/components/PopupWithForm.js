@@ -14,3 +14,28 @@
 Для каждого попапа создавайте свой экземпляр класса PopupWithForm.
 
 */
+
+import Popup from "./Popup.js"
+
+class PopupWithForm extends Popup {
+  constructor(popup, submitForm) {
+    super(popup);
+    this._submitForm = submitForm;
+  }
+
+  _getInputValues() {
+
+  }
+
+  close() {
+    super.close()
+    this._popup.querySelector('.popup__form').reset();
+  }
+
+  setEventListeners() {
+    super.setEventListeners()
+    this._popup.addEventListener('submit', (evt) => {
+      evt.preventDefault()
+    })
+  }
+}
