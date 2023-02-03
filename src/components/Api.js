@@ -31,17 +31,15 @@ export default class Api {
 
   /**
    * метод обновления информации о профиле
-   * @param {string} name 
-   * @param {string} about 
    * @returns 
    */
-  refreshProfileInfo(name, about) {
+  refreshProfileInfo(data) {
     return fetch(`${this._baseUrl}users/me`, {
       headers: this._headers,
       method: 'PATCH',
       body: JSON.stringify({
-        name: name,
-        about: about
+        name: `${data[Object.keys(data)[0]]}`,
+        about: `${data[Object.keys(data)[1]]}`,
       })
     })
     .then(res => this._getResponseData(res))

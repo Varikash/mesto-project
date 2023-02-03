@@ -35,20 +35,40 @@ import Api from "../components/Api.js"
 import FormValidator from '../components/FormValidator.js'
 import Popup from '../components/Popup.js'
 import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
 
 const api = new Api(config);
 const profileForm = new FormValidator(settings, document.querySelector('#profile-form'));
 const placeCardForm = new FormValidator(settings, document.querySelector('#place-cards'));
 const avatarForm = new FormValidator(settings, document.querySelector('#avatar-input'));
-const profilePopup = new Popup(popupProfile);
-const newPlacePopup = new Popup(popupPlaces);
-const photoViewPopup = new PopupWithImage(photoView);
-const avatarPopup = new Popup(popupAvatar);
 
+const profilePopup = new PopupWithForm({
+  popup: popupProfile,
+  callback: (formData) => {
+    profileFormButton.textContent = 'Сохранение...';
+    api.refreshProfileInfo(formData)
+    .then(data => {
+      profileName.textContent = data.name;
+      profileTitle.textContent = data.about;
+      profilePopup.close();
+    })
+    .catch (err => {
+      console.log(err.message);
+    })
+    .finally(() => {
+      profileFormButton.textContent = 'Сохранить'
+    }) 
+  }
+});
+
+const newPlacePopup = new Popup(popupPlaces);
+const avatarPopup = new Popup(popupAvatar);
+const photoViewPopup = new PopupWithImage(photoView);
 
 profileForm.enableValidation();
 placeCardForm.enableValidation();
 avatarForm.enableValidation();
+
 profilePopup.setEventListeners();
 newPlacePopup.setEventListeners();
 photoViewPopup.setEventListeners();
