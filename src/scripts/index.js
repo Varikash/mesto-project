@@ -4,13 +4,9 @@ import {
   avatarEditor, 
   avatarPen, 
   popupAvatar, 
-  formAvatar, 
-  avatarInput, 
   profPicture, 
   popupPlaces, 
-  placeButton, 
-  popupPlaceName, 
-  popupPlaceLink, 
+  placeButton,  
   places, 
   profileButton, 
   popupProfile, 
@@ -18,9 +14,6 @@ import {
   popupInputTitle, 
   profileName, 
   profileTitle,
-  popups,
-  closeButtons, 
-  formPlace,
   profileFormButton,
   placeFormButton,
   avatarFormButton,
@@ -33,11 +26,12 @@ import { addInitialCards, createCard } from "./cards.js"
 import { disableButton } from "../utils/utils.js"
 import Api from "../components/Api.js"
 import FormValidator from '../components/FormValidator.js'
-import Popup from '../components/Popup.js'
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
 
 const api = new Api(config);
+
 const profileForm = new FormValidator(settings, document.querySelector('#profile-form'));
 const placeCardForm = new FormValidator(settings, document.querySelector('#place-cards'));
 const avatarForm = new FormValidator(settings, document.querySelector('#avatar-input'));
@@ -48,8 +42,7 @@ const profilePopup = new PopupWithForm({
     profileFormButton.textContent = 'Сохранение...';
     api.refreshProfileInfo(formData)
     .then(data => {
-      profileName.textContent = data.name;
-      profileTitle.textContent = data.about;
+      userInfo.setUserInfo(data);
       profilePopup.close();
     })
     .catch (err => {
@@ -67,7 +60,7 @@ const avatarPopup = new PopupWithForm({
     avatarFormButton.textContent = 'Сохранение...'
     api.refreshAvatar(formData)
   .then(data => {
-    profPicture.src = data.avatar;
+    userInfo.setUserInfo(data);
     avatarPopup.close();
     disableButton(avatarFormButton);
   })
@@ -77,7 +70,6 @@ const avatarPopup = new PopupWithForm({
   })
   }
 });
-
 
 const newPlacePopup = new PopupWithForm({
   popup: popupPlaces,
@@ -98,8 +90,8 @@ const newPlacePopup = new PopupWithForm({
   }
 });
 
-
 const photoViewPopup = new PopupWithImage(photoView);
+const userInfo = new UserInfo(profileName, profileTitle, profPicture);
 
 profileForm.enableValidation();
 placeCardForm.enableValidation();
@@ -113,8 +105,9 @@ avatarPopup.setEventListeners();
 //открываем модальное окно профиля
 profileButton?.addEventListener('click', () => {
   profilePopup.open();
-  popupInputName.value = profileName.textContent;
-  popupInputTitle.value = profileTitle.textContent;
+  const userData = userInfo.getUserInfo();
+  popupInputName.value = userData.name;
+  popupInputTitle.value = userData.about;
 })
 
 //появление кнопки редактирования аватарки
@@ -139,17 +132,17 @@ placeButton?.addEventListener('click', () => {
 
 Promise.all([api.getInitialCards(), api.getProfileInfo()])
 .then(([cards, user]) => {
-  const userID = user._id;
   cards.forEach(card => {
     addInitialCards(card, user, cardActions);
   })
-  profileName.textContent = user.name;
-  profileTitle.textContent = user.about;
-  profPicture.src = user.avatar;
+  userInfo.setUserInfo(user);
 })
 .catch(err => {
   console.log(`Ошибка: ${err}`)
 })
+
+
+
 
 const cardActions = {
   deleteCardFunction: function (e, cardID) {
