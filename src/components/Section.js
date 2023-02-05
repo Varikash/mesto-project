@@ -23,19 +23,19 @@ items и renderer. Свойство items — это массив данных, 
 */
 
 export default class Section {
-  constructor({items, render}, containerSelector) {
+  constructor({items, renderer}, containerSelector) {
     this._items = items;
-    this._render = render;
+    this._renderer = renderer;
     this._container = document.querySelector(containerSelector);
   }
 
   renderItems() {
     this._items.forEach(item => {
-      this._render(item);
+      this._renderer(item);
     })
   }
 
   setItem(element) {
-    this.#container.append(element);
+    this._container.append(element);
   }
 }

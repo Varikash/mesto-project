@@ -29,6 +29,7 @@ const photoTitle = document.querySelector('.photo-title');
 
 //index, cards
 const places = document.querySelector('.places__cards-grid');
+const cardTemplate = document.querySelector('#place-card').content;
 
 const config = {
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-17/',
@@ -72,6 +73,7 @@ export {
   popupPlaceName,
   popupPlaceLink,
   places,
+  cardTemplate,
   profileFormButton,
   placeFormButton,
   avatarFormButton,

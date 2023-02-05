@@ -1,85 +1,81 @@
-import { photoView, photo, photoTitle } from "../utils/constants.js";
-
-/*
-
-Поработайте с функциональностью работы карточек и валидации форм. 
-Всю валидацию форм вы до этого писали в отдельном файле, 
-а работу карточек — в другом. Теперь преобразуйте функции, 
-которые существовали ранее, в единое целое — классы Card и FormValidator. 
-В этом пункте задания поговорим про класс Card.
-Организуйте в классе Card код, который создаёт карточку с текстом и ссылкой 
-на изображение:
-принимает в конструктор её данные и селектор её template-элемента;
-содержит приватные методы, которые работают с разметкой, 
-устанавливают слушателей событий;
-содержит приватные методы для каждого обработчика;
-содержит один публичный метод, который возвращает полностью работоспособный 
-и наполненный данными элемент карточки.
-Для каждой карточки создайте экземпляр класса Card. 
-Когда дойдёте до реализации классов Popup, свяжите класс Card c попапом. 
-Сделайте так, чтобы Card принимал в конструктор функцию handleCardClick. 
-При клике на карточку эта функция должна открывать попап с картинкой.
-
-*/
-
-
-
 
 export default class Card {
-  constructor(card) {
-    this._text = card.name;
-    this._image = card.link;
-    this._like = card.likes.length;
+  constructor(card, user, template, {handleCardClick}, cardActions) {
+    this._card = card;
+    this._user = user;
+    this._template = template
+    this._handleCardClick = handleCardClick;
+    this._cardActions = cardActions;
   }
 
   _getElement() {
-    const cardTemplate = document.querySelector('#place-card').content;
-    const placeCard = cardTemplate.querySelector('.place').cloneNode(true);
+    const placeCard = this._template.querySelector('.place').cloneNode(true);
     return placeCard;
   }
 
   generate() {
     this._element = this._getElement();
-    this.#setEventListener(); //1. Необходимо навесить событие открытия popup фотокарточки
-    this._element.querySelector('.place__image').src = this._image;
-    this._element.querySelector('.place__image').alt = this._text;
-    this._element.querySelector('.place__title').textContent = this._text;
-    this._element.querySelector('.place__number').textContent = this._like;
 
-    // Необходимо добавить условия сравнения ID автора карточки и ID user'a 
-    this._element.querySelector('.place__delete'); //deleteBtn
+    this._setEventListener();
+
+    const image = this._element.querySelector('.place__image');
+    const title = this._element.querySelector('.place__title');
+    const likeNumber = this._element.querySelector('.place__number');
+    const deleteBtn = this._element.querySelector('.place__delete');
+    const likeBtn = this._element.querySelector('.place__button');
+
+    image.src = this._card.link;
+    image.alt = this._card.name;
+    title.textContent = this._card.name;
+    likeNumber.textContent = this._card.likes.length;
+
+  
+    if (this._card.owner._id !== this._user._id) {
+      deleteBtn.classList.add('place__delete_disable');
+    }
+
+    if (this._card.likes.length) {
+      this._card.likes.forEach(like => {
+        if (like._id == this._user._id) {
+          likeBtn.classList.add('place__button_active');
+        }
+      })
+    } else {
+      likeNumber.textContent = 0;
+    }
     
-    // Необходимо добавить условия сравнения ID лайка и ID user'a
-    this._element.querySelector('.place__button'); //likeButton
-
-
-      
-      //2. При нажатии на удаление навесить событие удаления
-      //3. При нажатии на лайк навесить событие лайка
-
     return this._element;
   }
 
 
-
-
-  #handlePopupOpened() {
-    // openPopup(photoView);
-    // photo.src = this._image;
-    // photo.alt = this._text;
-    // photoTitle.textContent = this._text;
-  }
-
-  #handlePopupClosed() {
-    // closePopup(photoView);
-    // photo.src = '';
-    // photo.alt = '';
-    // photoTitle.textContent = '';
-  }
-
-  #setEventListener() {
+  _setEventListener() {
     this._element.querySelector('.place__image').addEventListener('click', () => {
-      this.#handlePopupOpened;
+      this._handleCardClick();
+    })
+
+    this._element.querySelector('.place__delete').addEventListener('click', (evt) => {
+      try {
+        this._cardActions.deleteCardFunction(evt, this._card._id);
+      } catch (err) {
+        console.log(`Ошибка удаления карточки: ${err}`)
+      }
+      
+    })
+
+    this._element.querySelector('.place__button').addEventListener('click', (e) => {
+      if (e.target.classList.contains('place__button_active')) {
+        try {
+          this._cardActions.deleteLikeFunction(e, this._card._id, this._element.querySelector('.place__number'))
+        } catch (err) {
+          console.log(`Ошибка удаления лайка: ${err}`)
+        }
+      } else {
+        try {
+          this._cardActions.putLikeFunction(e, this._card._id, this._element.querySelector('.place__number'))
+        } catch (err) {
+          console.log(`Ошибка установки лайка: ${err}`)
+        }
+      }
     })
   }
 }

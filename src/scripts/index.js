@@ -7,7 +7,8 @@ import {
   profPicture, 
   popupPlaces, 
   placeButton,  
-  places, 
+  places,
+  cardTemplate, 
   profileButton, 
   popupProfile, 
   popupInputName, 
@@ -29,6 +30,7 @@ import FormValidator from '../components/FormValidator.js'
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
+import Card from '../components/Card.js'
 
 const api = new Api(config);
 
@@ -111,12 +113,12 @@ profileButton?.addEventListener('click', () => {
 })
 
 //появление кнопки редактирования аватарки
-avatar.addEventListener('mouseover', () => {
+avatar?.addEventListener('mouseover', () => {
   avatarEditor.classList.add('profile__avatar-overlay_enable');
 })
 
 //скрытие кнопки редактировния аватарки
-avatar.addEventListener('mouseout', () => {
+avatar?.addEventListener('mouseout', () => {
   avatarEditor.classList.remove('profile__avatar-overlay_enable');
 })
 
@@ -133,7 +135,17 @@ placeButton?.addEventListener('click', () => {
 Promise.all([api.getInitialCards(), api.getProfileInfo()])
 .then(([cards, user]) => {
   cards.forEach(card => {
-    addInitialCards(card, user, cardActions);
+    const eachCard = new Card(card, user, cardTemplate, {
+      handleCardClick: () => {
+        photoViewPopup.open(card.name, card.link)
+    }}, cardActions)
+
+    const singleCard = eachCard.generate();
+
+    places.prepend(singleCard);
+
+    // places.prepend(createCard(card, user, cardActions))
+    // addInitialCards(card, user, cardActions);
   })
   userInfo.setUserInfo(user);
 })
