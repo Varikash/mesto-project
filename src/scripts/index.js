@@ -79,7 +79,14 @@ const newPlacePopup = new PopupWithForm({
     placeFormButton.textContent = 'Сохранение...'
     api.pushCard(formData)
     .then(data => {
-      places.prepend(createCard(data, data.owner, cardActions));
+      const card = newCard(data, data.owner, cardTemplate, {
+        handleCardClick: () => {
+          photoViewPopup.open(data.name, data.link)
+      }}, cardActions)
+
+      const cardObject = card.generate();
+      places.prepend(cardObject);
+      // places.prepend(createCard(data, data.owner, cardActions));
       newPlacePopup.close()
       disableButton(placeFormButton);
     })
@@ -94,6 +101,9 @@ const newPlacePopup = new PopupWithForm({
 
 const photoViewPopup = new PopupWithImage(photoView);
 const userInfo = new UserInfo(profileName, profileTitle, profPicture);
+const newCard = (card, user, template, {handleCardClick}, cardActions) => {
+  return new Card(card, user, template, {handleCardClick}, cardActions)
+}
 
 profileForm.enableValidation();
 placeCardForm.enableValidation();
@@ -135,17 +145,14 @@ placeButton?.addEventListener('click', () => {
 Promise.all([api.getInitialCards(), api.getProfileInfo()])
 .then(([cards, user]) => {
   cards.forEach(card => {
-    const eachCard = new Card(card, user, cardTemplate, {
+    const eachCard = newCard(card, user, cardTemplate, {
       handleCardClick: () => {
         photoViewPopup.open(card.name, card.link)
     }}, cardActions)
 
     const singleCard = eachCard.generate();
+    places.append(singleCard);
 
-    places.prepend(singleCard);
-
-    // places.prepend(createCard(card, user, cardActions))
-    // addInitialCards(card, user, cardActions);
   })
   userInfo.setUserInfo(user);
 })
