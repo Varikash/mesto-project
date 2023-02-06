@@ -2,7 +2,7 @@
 export default class Card {
   constructor(card, user, template, {handleCardClick}, cardActions) {
     this._card = card;
-    this._user = user._id;
+    this._user = user;
     this._template = template
     this._handleCardClick = handleCardClick;
     this._cardActions = cardActions;
@@ -30,13 +30,13 @@ export default class Card {
     likeNumber.textContent = this._card.likes.length;
 
   
-    if (this._card.owner._id !== this._user) {
+    if (this._card.owner._id !== this._user._id) {
       deleteBtn.classList.add('place__delete_disable');
     }
 
     if (this._card.likes.length) {
       this._card.likes.forEach(like => {
-        if (like._id == this._user) {
+        if (like._id == this._user._id) {
           likeBtn.classList.add('place__button_active');
         }
       })

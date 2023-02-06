@@ -23,21 +23,21 @@ import {
   settings
 } from "../utils/constants.js";
 
-import { addInitialCards, createCard } from "./cards.js"
 import { disableButton } from "../utils/utils.js"
 import Api from "../components/Api.js"
 import FormValidator from '../components/FormValidator.js'
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
-import Card from '../components/Card.js'
+import Card from '../components/Card.js';
+import Section from '../components/Section.js'
+
+/* -------------------------- ОБЪЯВЛЕНИЕ ЭКЗЕМПЛЯРОВ КЛАССОВ -------------------------- */
 
 const api = new Api(config);
-
 const profileForm = new FormValidator(settings, document.querySelector('#profile-form'));
 const placeCardForm = new FormValidator(settings, document.querySelector('#place-cards'));
 const avatarForm = new FormValidator(settings, document.querySelector('#avatar-input'));
-
 const profilePopup = new PopupWithForm({
   popup: popupProfile,
   callback: (formData) => {
@@ -55,7 +55,6 @@ const profilePopup = new PopupWithForm({
     }) 
   }
 });
-
 const avatarPopup = new PopupWithForm({
   popup: popupAvatar,
   callback: (formData) => {
@@ -72,7 +71,6 @@ const avatarPopup = new PopupWithForm({
   })
   }
 });
-
 const newPlacePopup = new PopupWithForm({
   popup: popupPlaces,
   callback: (formData) => {
@@ -98,12 +96,18 @@ const newPlacePopup = new PopupWithForm({
     })
   }
 });
-
 const photoViewPopup = new PopupWithImage(photoView);
 const userInfo = new UserInfo(profileName, profileTitle, profPicture);
-const newCard = (card, user, template, {handleCardClick}, cardActions) => {
-  return new Card(card, user, template, {handleCardClick}, cardActions)
+const newCard = (card) => {
+  return new Card(card, userInfo.userID, cardTemplate, {
+    handleCardClick: () => {
+      photoViewPopup.open(card.name, card.link)
+  }}, cardActions)
 }
+
+
+
+/* -------------------------- ИНИЦИИРОВАНИЕ МЕТОДОВ КЛАССОВ -------------------------- */
 
 profileForm.enableValidation();
 placeCardForm.enableValidation();
@@ -113,6 +117,30 @@ profilePopup.setEventListeners();
 newPlacePopup.setEventListeners();
 photoViewPopup.setEventListeners();
 avatarPopup.setEventListeners();
+
+Promise.all([api.getInitialCards(), api.getProfileInfo()])
+.then(([cards, user]) => {
+
+
+  // cards.forEach(card => {
+    
+  //   const eachCard = newCard(card, user, cardTemplate, {
+  //     handleCardClick: () => {
+  //       photoViewPopup.open(card.name, card.link)
+  //   }}, cardActions)
+
+  //   const singleCard = eachCard.generate();
+  //   places.append(singleCard);
+    
+  // })
+
+  userInfo.setUserInfo(user);
+})
+.catch(err => {
+  console.log(`Ошибка: ${err}`)
+})
+
+/* -------------------------- УСТАНОВКА СЛУШАТЕЛЕЙ СОБЫТИЙ -------------------------- */
 
 //открываем модальное окно профиля
 profileButton?.addEventListener('click', () => {
@@ -142,26 +170,7 @@ placeButton?.addEventListener('click', () => {
   newPlacePopup.open();
 });
 
-Promise.all([api.getInitialCards(), api.getProfileInfo()])
-.then(([cards, user]) => {
-  cards.forEach(card => {
-    const eachCard = newCard(card, user, cardTemplate, {
-      handleCardClick: () => {
-        photoViewPopup.open(card.name, card.link)
-    }}, cardActions)
-
-    const singleCard = eachCard.generate();
-    places.append(singleCard);
-
-  })
-  userInfo.setUserInfo(user);
-})
-.catch(err => {
-  console.log(`Ошибка: ${err}`)
-})
-
-
-
+/* -------------------------- СЛОВАРИ -------------------------- */
 
 const cardActions = {
   deleteCardFunction: function (e, cardID) {
@@ -192,5 +201,8 @@ const cardActions = {
       .catch(err => {
         console.log(`Ошибка с постановкой лайка в модуле index: ${err}`)
       })
+  },
+  handleCardClick: function () {
+    photoViewPopup.open(card.name, card.link);
   }
 }
