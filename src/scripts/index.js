@@ -77,15 +77,9 @@ const newPlacePopup = new PopupWithForm({
     placeFormButton.textContent = 'Сохранение...'
     api.pushCard(formData)
     .then(data => {
-      const card = newCard(data, data.owner, cardTemplate, {
-        handleCardClick: () => {
-          photoViewPopup.open(data.name, data.link)
-      }}, cardActions)
-
-      const cardObject = card.generate();
-      places.prepend(cardObject);
-      // places.prepend(createCard(data, data.owner, cardActions));
-      newPlacePopup.close()
+      const card = addNewCard(data).generate();
+      setSection().addItem(card);
+      newPlacePopup.close();
       disableButton(placeFormButton);
     })
     .catch(err => {
@@ -98,13 +92,23 @@ const newPlacePopup = new PopupWithForm({
 });
 const photoViewPopup = new PopupWithImage(photoView);
 const userInfo = new UserInfo(profileName, profileTitle, profPicture);
-const newCard = (card) => {
+
+const addNewCard = (card) => {
   return new Card(card, userInfo.userID, cardTemplate, {
     handleCardClick: () => {
       photoViewPopup.open(card.name, card.link)
   }}, cardActions)
 }
 
+const setSection = (cards) => {
+  return new Section({
+    items: cards,
+    renderer: (card) => {
+      const newItem = addNewCard(card).generate();
+      return newItem;
+    }
+  }, places)
+}
 
 
 /* -------------------------- ИНИЦИИРОВАНИЕ МЕТОДОВ КЛАССОВ -------------------------- */
@@ -120,21 +124,8 @@ avatarPopup.setEventListeners();
 
 Promise.all([api.getInitialCards(), api.getProfileInfo()])
 .then(([cards, user]) => {
-
-
-  // cards.forEach(card => {
-    
-  //   const eachCard = newCard(card, user, cardTemplate, {
-  //     handleCardClick: () => {
-  //       photoViewPopup.open(card.name, card.link)
-  //   }}, cardActions)
-
-  //   const singleCard = eachCard.generate();
-  //   places.append(singleCard);
-    
-  // })
-
   userInfo.setUserInfo(user);
+  setSection(cards).renderItems();
 })
 .catch(err => {
   console.log(`Ошибка: ${err}`)
@@ -202,7 +193,4 @@ const cardActions = {
         console.log(`Ошибка с постановкой лайка в модуле index: ${err}`)
       })
   },
-  handleCardClick: function () {
-    photoViewPopup.open(card.name, card.link);
-  }
 }

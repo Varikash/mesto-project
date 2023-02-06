@@ -30,20 +30,20 @@ export default class Card {
     likeNumber.textContent = this._card.likes.length;
 
   
-    if (this._card.owner._id !== this._user._id) {
+    if (this._card.owner._id !== this._user) {
       deleteBtn.classList.add('place__delete_disable');
     }
 
     if (this._card.likes.length) {
       this._card.likes.forEach(like => {
-        if (like._id == this._user._id) {
+        if (like._id == this._user) {
           likeBtn.classList.add('place__button_active');
         }
       })
     } else {
       likeNumber.textContent = 0;
     }
-    
+  
     return this._element;
   }
 
