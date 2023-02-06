@@ -110,7 +110,6 @@ const setSection = (cards) => {
   }, places)
 }
 
-
 /* -------------------------- ИНИЦИИРОВАНИЕ МЕТОДОВ КЛАССОВ -------------------------- */
 
 profileForm.enableValidation();
