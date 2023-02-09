@@ -77,7 +77,7 @@ const newPlacePopup = new PopupWithForm({
     placeFormButton.textContent = 'Сохранение...'
     api.pushCard(formData)
     .then(data => {
-      const card = addNewCard(data);
+      const card = addNewCard(data).generate();
       setSection.addItem(card);
       newPlacePopup.close();
       disableButton(placeFormButton);
@@ -93,24 +93,16 @@ const newPlacePopup = new PopupWithForm({
 const photoViewPopup = new PopupWithImage(photoView);
 const userInfo = new UserInfo(profileName, profileTitle, profPicture);
 
-// const addNewCard = (card) => {
-//   return new Card(card, userInfo.userID, cardTemplate, {
-//     handleCardClick: () => {
-//       photoViewPopup.open(card.name, card.link)
-//   }}, cardActions)
-// }
-
 const addNewCard = (card) => {
-  const brandNewCard = new Card(card, userInfo.userID, cardTemplate, {
+  return new Card(card, userInfo.userID, cardTemplate, {
     handleCardClick: () => {
       photoViewPopup.open(card.name, card.link)
-    }}, cardActions)
-    return brandNewCard.generate()
+  }}, cardActions)
 }
 
 const setSection = new Section ({
   renderer: (card) => {
-    const newItem = addNewCard(card);
+    const newItem = addNewCard(card).generate();
     return newItem;
   }
 }, places)
