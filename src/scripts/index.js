@@ -77,7 +77,7 @@ const newPlacePopup = new PopupWithForm({
     placeFormButton.textContent = 'Сохранение...'
     api.pushCard(formData)
     .then(data => {
-      const card = addNewCard(data).generate();
+      const card = addNewCard(data);
       setSection.addItem(card);
       newPlacePopup.close();
       disableButton(placeFormButton);
@@ -94,15 +94,47 @@ const photoViewPopup = new PopupWithImage(photoView);
 const userInfo = new UserInfo(profileName, profileTitle, profPicture);
 
 const addNewCard = (card) => {
-  return new Card(card, userInfo.userID, cardTemplate, {
+  const brandNewCard = new Card(card, userInfo.userID, cardTemplate, {
     handleCardClick: () => {
       photoViewPopup.open(card.name, card.link)
-  }}, cardActions)
+    },
+    deleteCardFunction: function (e, cardID) {
+      api.deleteCard(cardID)
+        .then(() => {
+          e.target.closest('.place').remove()
+        })
+        .catch (err => {
+          console.log(`Ошибка удаления карточки в модуле index: ${err}`)
+        })
+    },
+    deleteLikeFunction: function (e, cardID, likeNumber) {
+      api.deleteLike(cardID)
+        .then((data) => {
+          // likeNumber.textContent = data.likes.length;
+          // e.target.classList.toggle('place__button_active');
+          brandNewCard.handleLike(e, data)
+        })
+        .catch(err => {
+          console.log(`Ошибка с удалением лайка в модуле index: ${err}`)
+        })
+    },
+    putLikeFunction: function (e, cardID, likeNumber) {
+      api.putLike(cardID)
+        .then((data) => {
+          likeNumber.textContent = data.likes.length;
+          e.target.classList.toggle('place__button_active');
+        })
+        .catch(err => {
+          console.log(`Ошибка с постановкой лайка в модуле index: ${err}`)
+        })
+    }})
+
+  return brandNewCard.generate();
 }
 
 const setSection = new Section ({
   renderer: (card) => {
-    const newItem = addNewCard(card).generate();
+    const newItem = addNewCard(card);
     return newItem;
   }
 }, places)
@@ -159,34 +191,34 @@ placeButton?.addEventListener('click', () => {
 
 /* -------------------------- СЛОВАРИ -------------------------- */
 
-const cardActions = {
-  deleteCardFunction: function (e, cardID) {
-    api.deleteCard(cardID)
-      .then(() => {
-        e.target.closest('.place').remove()
-      })
-      .catch (err => {
-        console.log(`Ошибка удаления карточки в модуле index: ${err}`)
-      })
-  },
-  deleteLikeFunction: function (e, cardID, likeNumber) {
-    api.deleteLike(cardID)
-      .then((data) => {
-        likeNumber.textContent = data.likes.length
-        e.target.classList.toggle('place__button_active');
-      })
-      .catch(err => {
-        console.log(`Ошибка с удалением лайка в модуле index: ${err}`)
-      })
-  },
-  putLikeFunction: function (e, cardID, likeNumber) {
-    api.putLike(cardID)
-      .then((data) => {
-        likeNumber.textContent = data.likes.length;
-        e.target.classList.toggle('place__button_active');
-      })
-      .catch(err => {
-        console.log(`Ошибка с постановкой лайка в модуле index: ${err}`)
-      })
-  },
-}
+// const cardActions = {
+//   deleteCardFunction: function (e, cardID) {
+//     api.deleteCard(cardID)
+//       .then(() => {
+//         e.target.closest('.place').remove()
+//       })
+//       .catch (err => {
+//         console.log(`Ошибка удаления карточки в модуле index: ${err}`)
+//       })
+//   },
+//   deleteLikeFunction: function (e, cardID, likeNumber) {
+//     api.deleteLike(cardID)
+//       .then((data) => {
+//         likeNumber.textContent = data.likes.length;
+//         e.target.classList.toggle('place__button_active');
+//       })
+//       .catch(err => {
+//         console.log(`Ошибка с удалением лайка в модуле index: ${err}`)
+//       })
+//   },
+//   putLikeFunction: function (e, cardID, likeNumber) {
+//     api.putLike(cardID)
+//       .then((data) => {
+//         likeNumber.textContent = data.likes.length;
+//         e.target.classList.toggle('place__button_active');
+//       })
+//       .catch(err => {
+//         console.log(`Ошибка с постановкой лайка в модуле index: ${err}`)
+//       })
+//   },
+// }

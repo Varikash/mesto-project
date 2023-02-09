@@ -1,11 +1,14 @@
 
 export default class Card {
-  constructor(card, user, template, {handleCardClick}, cardActions) {
+  constructor(card, user, template, {handleCardClick, deleteCardFunction, deleteLikeFunction, putLikeFunction}) {
     this._card = card;
     this._user = user;
     this._template = template
     this._handleCardClick = handleCardClick;
-    this._cardActions = cardActions;
+    this._deleteCardFunction = deleteCardFunction;
+    this._deleteLikeFunction = deleteLikeFunction;
+    this._putLikeFunction = putLikeFunction;
+    this.handleLike = this.handleLike.bind(this);
   }
 
   _getElement() {
@@ -49,7 +52,6 @@ export default class Card {
 
   handleLike(e, data, likeNumber) {
     if (data.likes.length) {
-      console.log(data.likes.length)
       likeNumber.textContent = data.likes.length;
       e.target.classList.toggle('place__button_active');
     }
@@ -63,7 +65,7 @@ export default class Card {
 
     this._element.querySelector('.place__delete').addEventListener('click', (evt) => {
       try {
-        this._cardActions.deleteCardFunction(evt, this._card._id);
+        this._deleteCardFunction(evt, this._card._id);
       } catch (err) {
         console.log(`Ошибка удаления карточки: ${err}`)
       }
@@ -73,13 +75,13 @@ export default class Card {
     this._element.querySelector('.place__button').addEventListener('click', (e) => {
       if (e.target.classList.contains('place__button_active')) {
         try {
-          this._cardActions.deleteLikeFunction(e, this._card._id, this._element.querySelector('.place__number'))
+          this._deleteLikeFunction(e, this._card._id, this._element.querySelector('.place__number'))
         } catch (err) {
           console.log(`Ошибка удаления лайка: ${err}`)
         }
       } else {
         try {
-          this._cardActions.putLikeFunction(e, this._card._id, this._element.querySelector('.place__number'))
+          this._putLikeFunction(e, this._card._id, this._element.querySelector('.place__number'))
         } catch (err) {
           console.log(`Ошибка установки лайка: ${err}`)
         }
