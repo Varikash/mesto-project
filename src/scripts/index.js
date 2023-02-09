@@ -107,22 +107,19 @@ const addNewCard = (card) => {
           console.log(`Ошибка удаления карточки в модуле index: ${err}`)
         })
     },
-    deleteLikeFunction: function (e, cardID, likeNumber) {
+    deleteLikeFunction: function (e, cardID) {
       api.deleteLike(cardID)
         .then((data) => {
-          // likeNumber.textContent = data.likes.length;
-          // e.target.classList.toggle('place__button_active');
-          brandNewCard.handleLike(e, data, likeNumber)
+          brandNewCard.handleLike(e, data);
         })
         .catch(err => {
           console.log(`Ошибка с удалением лайка в модуле index: ${err}`)
         })
     },
-    putLikeFunction: function (e, cardID, likeNumber) {
+    putLikeFunction: function (e, cardID) {
       api.putLike(cardID)
         .then((data) => {
-          likeNumber.textContent = data.likes.length;
-          e.target.classList.toggle('place__button_active');
+          brandNewCard.handleLike(e, data);
         })
         .catch(err => {
           console.log(`Ошибка с постановкой лайка в модуле index: ${err}`)

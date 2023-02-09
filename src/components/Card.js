@@ -51,11 +51,10 @@ export default class Card {
     return this._element;
   }
 
-  handleLike(e, data, likeNumber) {
-    if (data.likes.length) {
-      likeNumber.textContent = data.likes.length;
+  handleLike(e, data) {
+      this._element.querySelector('.place__number').textContent = data.likes.length;
       e.target.classList.toggle('place__button_active');
-    }
+    
   }
 
 
@@ -74,19 +73,20 @@ export default class Card {
     })
 
     this._element.querySelector('.place__button').addEventListener('click', (e) => {
-      this._handleButtonClick(e)})
+      this._handleButtonClick(e)
+    })
   }
 
   _handleButtonClick(e) {
     if (e.target.classList.contains('place__button_active')) {
       try {
-        this._deleteLikeFunction(e, this._card._id, this._element.querySelector('.place__number'))
+        this._deleteLikeFunction(e, this._card._id)
       } catch (err) {
         console.log(`Ошибка удаления лайка: ${err}`)
       }
     } else {
       try {
-        this._putLikeFunction(e, this._card._id, this._element.querySelector('.place__number'))
+        this._putLikeFunction(e, this._card._id)
       } catch (err) {
         console.log(`Ошибка установки лайка: ${err}`)
       }
