@@ -47,6 +47,13 @@ export default class Card {
     return this._element;
   }
 
+  handleLike(e, data) {
+    if (data.likes.length) {
+      this._element.querySelector('.place__number').textContent = data.likes.length;
+      e.target.classList.toggle('place__button_active');
+    }
+  }
+
 
   _setEventListener() {
     this._element.querySelector('.place__image').addEventListener('click', () => {

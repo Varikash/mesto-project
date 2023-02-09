@@ -77,8 +77,8 @@ const newPlacePopup = new PopupWithForm({
     placeFormButton.textContent = 'Сохранение...'
     api.pushCard(formData)
     .then(data => {
-      const card = addNewCard(data).generate();
-      setSection().addItem(card);
+      const card = addNewCard(data);
+      setSection.addItem(card);
       newPlacePopup.close();
       disableButton(placeFormButton);
     })
@@ -93,22 +93,27 @@ const newPlacePopup = new PopupWithForm({
 const photoViewPopup = new PopupWithImage(photoView);
 const userInfo = new UserInfo(profileName, profileTitle, profPicture);
 
+// const addNewCard = (card) => {
+//   return new Card(card, userInfo.userID, cardTemplate, {
+//     handleCardClick: () => {
+//       photoViewPopup.open(card.name, card.link)
+//   }}, cardActions)
+// }
+
 const addNewCard = (card) => {
-  return new Card(card, userInfo.userID, cardTemplate, {
+  const brandNewCard = new Card(card, userInfo.userID, cardTemplate, {
     handleCardClick: () => {
       photoViewPopup.open(card.name, card.link)
-  }}, cardActions)
+    }}, cardActions)
+    return brandNewCard.generate()
 }
 
-const setSection = (cards) => {
-  return new Section({
-    items: cards,
-    renderer: (card) => {
-      const newItem = addNewCard(card).generate();
-      return newItem;
-    }
-  }, places)
-}
+const setSection = new Section ({
+  renderer: (card) => {
+    const newItem = addNewCard(card);
+    return newItem;
+  }
+}, places)
 
 /* -------------------------- ИНИЦИИРОВАНИЕ МЕТОДОВ КЛАССОВ -------------------------- */
 
@@ -124,7 +129,7 @@ avatarPopup.setEventListeners();
 Promise.all([api.getInitialCards(), api.getProfileInfo()])
 .then(([cards, user]) => {
   userInfo.setUserInfo(user);
-  setSection(cards).renderItems();
+  setSection.renderItems(cards);
 })
 .catch(err => {
   console.log(`Ошибка: ${err}`)
