@@ -112,7 +112,7 @@ const addNewCard = (card) => {
         .then((data) => {
           // likeNumber.textContent = data.likes.length;
           // e.target.classList.toggle('place__button_active');
-          brandNewCard.handleLike(e, data)
+          brandNewCard.handleLike(e, data, likeNumber)
         })
         .catch(err => {
           console.log(`Ошибка с удалением лайка в модуле index: ${err}`)
