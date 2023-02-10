@@ -185,37 +185,3 @@ avatarPen?.addEventListener('click', () => {
 placeButton?.addEventListener('click', () => {
   newPlacePopup.open();
 });
-
-/* -------------------------- СЛОВАРИ -------------------------- */
-
-// const cardActions = {
-//   deleteCardFunction: function (e, cardID) {
-//     api.deleteCard(cardID)
-//       .then(() => {
-//         e.target.closest('.place').remove()
-//       })
-//       .catch (err => {
-//         console.log(`Ошибка удаления карточки в модуле index: ${err}`)
-//       })
-//   },
-//   deleteLikeFunction: function (e, cardID, likeNumber) {
-//     api.deleteLike(cardID)
-//       .then((data) => {
-//         likeNumber.textContent = data.likes.length;
-//         e.target.classList.toggle('place__button_active');
-//       })
-//       .catch(err => {
-//         console.log(`Ошибка с удалением лайка в модуле index: ${err}`)
-//       })
-//   },
-//   putLikeFunction: function (e, cardID, likeNumber) {
-//     api.putLike(cardID)
-//       .then((data) => {
-//         likeNumber.textContent = data.likes.length;
-//         e.target.classList.toggle('place__button_active');
-//       })
-//       .catch(err => {
-//         console.log(`Ошибка с постановкой лайка в модуле index: ${err}`)
-//       })
-//   },
-// }
