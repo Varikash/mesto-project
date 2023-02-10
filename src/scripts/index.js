@@ -101,7 +101,7 @@ const addNewCard = (card) => {
     deleteCardFunction: function (e, cardID) {
       api.deleteCard(cardID)
         .then(() => {
-          e.target.closest('.place').remove()
+          brandNewCard.handleDelete();
         })
         .catch (err => {
           console.log(`Ошибка удаления карточки в модуле index: ${err}`)
