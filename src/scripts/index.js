@@ -98,7 +98,7 @@ const addNewCard = (card) => {
     handleCardClick: () => {
       photoViewPopup.open(card.name, card.link)
     },
-    deleteCardFunction: function (e, cardID) {
+    deleteCardFunction: function (cardID) {
       api.deleteCard(cardID)
         .then(() => {
           brandNewCard.handleDelete();
