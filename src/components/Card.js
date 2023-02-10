@@ -64,10 +64,6 @@ export default class Card {
     this._element = null;
   }
 
-  _handleDeleteButton() {
-    this._deleteCardFunction(this._card._id);
-  }
-
   _setEventListener() {
     this._element.querySelector('.place__image').addEventListener('click', () => {
       this._handleCardClick();
@@ -88,5 +84,9 @@ export default class Card {
     } else {
       this._putLikeFunction(e, this._card._id)
     }
+  }
+
+  _handleDeleteButton() {
+    this._deleteCardFunction(this._card._id);
   }
 }
