@@ -4,107 +4,82 @@ import {
   avatarEditor, 
   avatarPen, 
   popupAvatar, 
-  formAvatar, 
-  avatarInput, 
   profPicture, 
   popupPlaces, 
-  placeButton, 
-  popupPlaceName, 
-  popupPlaceLink, 
-  places, 
+  placeButton,  
+  places,
+  cardTemplate, 
   profileButton, 
   popupProfile, 
   popupInputName, 
   popupInputTitle, 
   profileName, 
   profileTitle,
-  popups,
-  closeButtons, 
-  formPlace,
   profileFormButton,
   placeFormButton,
   avatarFormButton,
-  disableButton
-} from "./utils";
+  photoView,
+  config,
+  settings
+} from "../utils/constants.js";
 
-import { closePopup, openPopup } from './modal';
-import { enableValidation } from "./validate.js";
-import { addInitialCards, createCard } from "./cards.js"
-import { initialCards, fetchProfileInfo, refreshProfInfo, refreshAvatar, pushCard, deleteCard, deleteLike, putLike } from './api';
+import { disableButton } from "../utils/utils.js"
+import Api from "../components/Api.js"
+import FormValidator from '../components/FormValidator.js'
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
+import Card from '../components/Card.js';
+import Section from '../components/Section.js'
 
-//открываем модальное окно профиля
-profileButton?.addEventListener('click', () => {
-  openPopup(popupProfile);
-  popupInputName.value = profileName.textContent;
-  popupInputTitle.value = profileTitle.textContent;
-})
+/* -------------------------- ОБЪЯВЛЕНИЕ ЭКЗЕМПЛЯРОВ КЛАССОВ -------------------------- */
 
-// функция присвоения значений инпутов имени и титулу профиля на сайте.
-popupProfile?.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  profileFormButton.textContent = 'Сохранение...'
-    refreshProfInfo(popupInputName.value, popupInputTitle.value)
+const api = new Api(config);
+const profileForm = new FormValidator(settings, document.querySelector('#profile-form'));
+const placeCardForm = new FormValidator(settings, document.querySelector('#place-cards'));
+const avatarForm = new FormValidator(settings, document.querySelector('#avatar-input'));
+const profilePopup = new PopupWithForm({
+  popup: popupProfile,
+  callback: (formData) => {
+    profileFormButton.textContent = 'Сохранение...';
+    api.refreshProfileInfo(formData)
     .then(data => {
-      profileName.textContent = data.name;
-      profileTitle.textContent = data.about;
-      closePopup(popupProfile);
+      userInfo.setUserInfo(data);
+      profilePopup.close();
     })
     .catch (err => {
-      console.log(err);
+      console.log(err.message);
     })
     .finally(() => {
       profileFormButton.textContent = 'Сохранить'
     }) 
-})
-
-
-//появление кнопки редактирования аватарки
-avatar.addEventListener('mouseover', () => {
-  avatarEditor.classList.add('profile__avatar-overlay_enable');
-})
-
-//скрытие кнопки редактировния аватарки
-avatar.addEventListener('mouseout', () => {
-  avatarEditor.classList.remove('profile__avatar-overlay_enable');
-})
-
-//открываем модальное окно загрузки аватарки
-avatarPen?.addEventListener('click', () => {
-  openPopup(popupAvatar);
-})
-
-//функция смены аватарки
-formAvatar?.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  avatarFormButton.textContent = 'Сохранение...'
-  refreshAvatar(avatarInput.value)
+  }
+});
+const avatarPopup = new PopupWithForm({
+  popup: popupAvatar,
+  callback: (formData) => {
+    avatarFormButton.textContent = 'Сохранение...'
+    api.refreshAvatar(formData)
   .then(data => {
-    profPicture.src = data.avatar;
-    formAvatar.reset();
-    closePopup(popupAvatar);
+    userInfo.setUserInfo(data);
+    avatarPopup.close();
     disableButton(avatarFormButton);
   })
   .catch(err => console.log(err))
   .finally(() => {
     avatarFormButton.textContent = 'Сохранить';
   })
-})
-
-
-// Функция открытия модального окна загрузки новой карточки
-placeButton?.addEventListener('click', () => {
-  openPopup(popupPlaces);
+  }
 });
-
-// добавляем новую карточку
-popupPlaces.addEventListener('submit', (e) => {
-  e.preventDefault();
+const newPlacePopup = new PopupWithForm({
+  popup: popupPlaces,
+  callback: (formData) => {
     placeFormButton.textContent = 'Сохранение...'
-    pushCard(popupPlaceName.value, popupPlaceLink.value)
+    api.pushCard(formData)
     .then(data => {
-      places.prepend(createCard(data, data.owner, cardActions));
-      closePopup(popupPlaces);
-      formPlace.reset();
+      const card = addNewCard(data);
+      setSection.addItem(card);
+      newPlacePopup.close();
       disableButton(placeFormButton);
     })
     .catch(err => {
@@ -113,77 +88,100 @@ popupPlaces.addEventListener('submit', (e) => {
     .finally(() => {
       placeFormButton.textContent = 'Создать';
     })
+  }
 });
+const photoViewPopup = new PopupWithImage(photoView);
+const userInfo = new UserInfo(profileName, profileTitle, profPicture);
 
-//закрытие модального окна при нажатии не область вне модального окна
-popups.forEach(element => {
-  element.addEventListener('mousedown', (evt) => {
-    if (evt.target.classList.contains('popup')) {
-      closePopup(element);
-    }
-  })
-})
+const addNewCard = (card) => {
+  const brandNewCard = new Card(card, userInfo.userID, cardTemplate, {
+    handleCardClick: () => {
+      photoViewPopup.open(card.name, card.link)
+    },
+    deleteCardFunction: function (cardID) {
+      api.deleteCard(cardID)
+        .then(() => {
+          brandNewCard.handleDelete();
+        })
+        .catch (err => {
+          console.log(`Ошибка удаления карточки в модуле index: ${err}`)
+        })
+    },
+    deleteLikeFunction: function (e, cardID) {
+      api.deleteLike(cardID)
+        .then((data) => {
+          brandNewCard.handleLike(e, data);
+        })
+        .catch(err => {
+          console.log(`Ошибка с удалением лайка в модуле index: ${err}`)
+        })
+    },
+    putLikeFunction: function (e, cardID) {
+      api.putLike(cardID)
+        .then((data) => {
+          brandNewCard.handleLike(e, data);
+        })
+        .catch(err => {
+          console.log(`Ошибка с постановкой лайка в модуле index: ${err}`)
+        })
+    }})
 
-//закрытие модальных окон на крестик
-closeButtons.forEach((button) => {
-  const popup = button.closest('.popup');
-  button.addEventListener('click', () => {
-    closePopup(popup);
-  })
-})
+  return brandNewCard.generate();
+}
 
-enableValidation({
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__input-error_active',
-  inactiveButtonClass: 'popup__button_inactive',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  formSelector: '.popup__form',
-});
+const setSection = new Section ({
+  renderer: (card) => {
+    const newItem = addNewCard(card);
+    return newItem;
+  }
+}, places)
 
+/* -------------------------- ИНИЦИИРОВАНИЕ МЕТОДОВ КЛАССОВ -------------------------- */
 
-Promise.all([initialCards(), fetchProfileInfo()])
+profileForm.enableValidation();
+placeCardForm.enableValidation();
+avatarForm.enableValidation();
+
+profilePopup.setEventListeners();
+newPlacePopup.setEventListeners();
+photoViewPopup.setEventListeners();
+avatarPopup.setEventListeners();
+
+Promise.all([api.getInitialCards(), api.getProfileInfo()])
 .then(([cards, user]) => {
-  const userID = user._id;
-  cards.forEach(card => {
-    addInitialCards(card, user, cardActions);
-  })
-  profileName.textContent = user.name;
-  profileTitle.textContent = user.about;
-  profPicture.src = user.avatar;
+  userInfo.setUserInfo(user);
+  setSection.renderItems(cards);
 })
 .catch(err => {
   console.log(`Ошибка: ${err}`)
 })
 
-const cardActions = {
-  deleteCardFunction: function (e, cardID) {
-    deleteCard(cardID)
-      .then(() => {
-        e.target.closest('.place').remove()
-      })
-      .catch (err => {
-        console.log(`Ошибка удаления карточки в модуле index: ${err}`)
-      })
-  },
-  deleteLikeFunction: function (e, cardID, likeNumber) {
-    deleteLike(cardID)
-      .then((data) => {
-        likeNumber.textContent = data.likes.length
-        e.target.classList.toggle('place__button_active');
-      })
-      .catch(err => {
-        console.log(`Ошибка с удалением лайка в модуле index: ${err}`)
-      })
-  },
-  putLikeFunction: function (e, cardID, likeNumber) {
-    putLike(cardID)
-      .then((data) => {
-        likeNumber.textContent = data.likes.length;
-        e.target.classList.toggle('place__button_active');
-      })
-      .catch(err => {
-        console.log(`Ошибка с постановкой лайка в модуле index: ${err}`)
-      })
-  }
-}
+/* -------------------------- УСТАНОВКА СЛУШАТЕЛЕЙ СОБЫТИЙ -------------------------- */
+
+//открываем модальное окно профиля
+profileButton?.addEventListener('click', () => {
+  profilePopup.open();
+  const userData = userInfo.getUserInfo();
+  popupInputName.value = userData.name;
+  popupInputTitle.value = userData.about;
+})
+
+//появление кнопки редактирования аватарки
+avatar?.addEventListener('mouseover', () => {
+  avatarEditor.classList.add('profile__avatar-overlay_enable');
+})
+
+//скрытие кнопки редактировния аватарки
+avatar?.addEventListener('mouseout', () => {
+  avatarEditor.classList.remove('profile__avatar-overlay_enable');
+})
+
+//открываем модальное окно загрузки аватарки
+avatarPen?.addEventListener('click', () => {
+  avatarPopup.open();
+})
+
+// Функция открытия модального окна загрузки новой карточки
+placeButton?.addEventListener('click', () => {
+  newPlacePopup.open();
+});

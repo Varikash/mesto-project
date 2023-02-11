@@ -1,4 +1,3 @@
-//для модуля index
 const avatar = document.querySelector('.profile__avatar');
 const avatarEditor = document.querySelector('.profile__avatar-overlay');
 const avatarPen = document.querySelector('.profile__avatar-button'); //кнопка вызова модального окна для смены аватарки
@@ -23,7 +22,6 @@ const photoContainer = document.querySelector('.popup__photo-container');
 const profileFormButton = document.querySelector('#profileFormButton');
 const placeFormButton = document.querySelector('#placeFormButton');
 const avatarFormButton = document.querySelector('#avatarFormButton');
-
 //для модуля cards
 const photoView = document.querySelector('#photo-view'); //модальное окно, при нажатии на изображение
 const photo = document.querySelector('.photo');
@@ -31,12 +29,23 @@ const photoTitle = document.querySelector('.photo-title');
 
 //index, cards
 const places = document.querySelector('.places__cards-grid');
+const cardTemplate = document.querySelector('#place-card').content;
 
-function disableButton (button) {
-  button.disabled = true;
-  button.classList.add('popup__button_inactive');
+const config = {
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-17/',
+  headers: {
+    authorization: '4473f1fa-06d0-4bf8-9c17-4612fabec6aa',
+    'Content-Type': 'application/json'
+  }
 }
 
+const settings = {
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active',
+  inactiveButtonClass: 'popup__button_inactive',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+};
 
 export {
   popups,
@@ -64,8 +73,10 @@ export {
   popupPlaceName,
   popupPlaceLink,
   places,
+  cardTemplate,
   profileFormButton,
   placeFormButton,
   avatarFormButton,
-  disableButton
+  config,
+  settings,
 }
